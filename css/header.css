@@ -1,0 +1,51 @@
+.logo-empresa {
+  font-size: 56px;
+  font-family: Brush Script MT;
+}
+
+.boton-retroceder-titulo-pagina {
+  width: 60px;
+  height: 60px;
+  display: inline;
+  float: left;
+  top: 50%;
+  transform: translateY(-50%);
+  position: relative;
+  z-index: 1;
+}
+.contenedor-titulo-pagina {
+  margin: auto;
+  height: 300px;
+  padding: 0px;
+  overflow: hidden;
+}
+
+.fondo-titulo-pagina {
+  background-image: url("../img/fondoTitulosA.jpg");
+  background-position: center;
+  height: 110%;
+  width: 110%;
+  top: -5%;
+  left: -5%;
+  filter: blur(8px) brightness(0.5);
+  position: relative;
+  z-index: -1;
+}
+
+.contenido-titulo-pagina {
+  position: relative;
+  top: -110%;
+  padding: 0px;
+  height: 100%;
+
+}
+
+.texto-titulo-pagina {
+  font-size: 72px;
+  font-weight: bold;
+  text-align: center;
+  top: 50%;
+  transform: translateY(-50%);
+  position: relative;
+  color: #F8F8F8;
+}
