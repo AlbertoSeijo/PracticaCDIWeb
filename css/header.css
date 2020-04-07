@@ -15,7 +15,7 @@
 }
 .contenedor-titulo-pagina {
   margin: auto;
-  height: 300px;
+  height: 150px;
   padding: 0px;
   overflow: hidden;
 }
@@ -41,7 +41,7 @@
 }
 
 .texto-titulo-pagina {
-  font-size: 72px;
+  font-size: 56px;
   font-weight: bold;
   text-align: center;
   top: 50%;
