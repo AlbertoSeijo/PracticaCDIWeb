@@ -13,7 +13,7 @@
   <body>
     <div class="d-md-flex flex-column h-100">
       <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <a class="navbar-brand logo-empresa" href="#">
+        <a class="navbar-brand logo-empresa" href=".\">
           <img src="./img/LaVandería Logo.png" width="90" height="auto" class="d-inline-block align-top" alt="">
           La Vandería
         </a>
@@ -34,8 +34,19 @@
             </ul>
             <span class="navbar-text">
               <?php
+                session_start();
+                if(isset($_POST['cerrarSesión'])){
+                  session_destroy();
+                  header("Location: ./");
+                }
                 if(isset($_SESSION['sesionIniciada']) && $_SESSION['sesionIniciada'] == true){
-                  echo $_SESSION['nombreCuenta'] . " " . $_SESSION['apellidosCuenta'];
+                  echo $_SESSION['nombreSesión'] . " " . $_SESSION['apellidosSesión'];
+                  echo '
+                    <form method="POST">
+                      <button type="submit" name="cerrarSesión" value="true" class="btn btn-primary">Salir</button>
+                    </form>
+                  ';
+
                 } else {
                   echo '
                     <button type="button" class="btn btn-primary" onclick="location.href=\'./login\'">Iniciar sesión</button>
