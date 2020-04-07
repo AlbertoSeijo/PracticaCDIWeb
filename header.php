@@ -33,7 +33,16 @@
               </li>
             </ul>
             <span class="navbar-text">
-              Nombre Apellidos
+              <?php
+                if(isset($_SESSION['sesionIniciada']) && $_SESSION['sesionIniciada'] == true){
+                  echo $_SESSION['nombreCuenta'] . " " . $_SESSION['apellidosCuenta'];
+                } else {
+                  echo '
+                    <button type="button" class="btn btn-primary" onclick="location.href=\'./login\'">Iniciar sesión</button>
+                    <button type="button" class="btn btn-primary" onclick="location.href=\'./signup\'">Registrarse</button>
+                  ';
+                }
+              ?>
             </span>
           </div>
       </nav>
