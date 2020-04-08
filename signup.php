@@ -1,6 +1,10 @@
 <!-- TODO Falta la validación de todos los campos (longitud, caracteres etc.) tanto en el lado del cliente como en el del servidor. -->
 <?php
-include './header.php';?>
+include './header.php';
+if(isset($_SESSION['sesionIniciada'])){
+  header("Location: ./");
+}
+?>
 <form action="./signup" method="POST">
   <div class="form-row">
     <div class="form-group col-md-6">
@@ -74,8 +78,6 @@ if(isset($_POST['triedRegistro'])  && $_POST['triedRegistro'] == true){
   }
   $db->close();
 } else {
-  echo 'aaaa';
-  echo $_POST['triedRegistro'];
 }
 
 ?>

@@ -1,6 +1,10 @@
 <!-- TODO Falta la validación de todos los campos (longitud, caracteres etc.) tanto en el lado del cliente como en el del servidor. -->
 <?php
-include './header.php';?>
+include './header.php';
+if(isset($_SESSION['sesionIniciada'])){
+  header("Location: ./");
+}
+?>
 
 <form action="./login" method="POST">
   <div class="form-group">
