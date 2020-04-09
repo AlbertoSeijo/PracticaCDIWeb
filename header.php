@@ -1,3 +1,6 @@
+<?php
+  session_start();//Iniciamos la sesión para poder obtener datos de la sesión (o si está iniciada) tanto en este fichero como en aquellos que incluyan a éste.
+?>
 <!doctype html>
 <html lang="en">
   <head>
@@ -22,19 +25,65 @@
           </button>
           <div class="collapse navbar-collapse" id="navbarText">
             <ul class="navbar-nav mx-auto">
-              <li class="nav-item active">
-                <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">Features</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">Pricing</a>
-              </li>
+              <?php
+              if(!isset($_SESSION['sesionIniciada'])){//TODO Cambiar elementos navbar para que los enlaces, textos y menú actual seleccionado coincidan como tienen que coincidir
+                echo '
+                  <li class="nav-item active">
+                    <a class="nav-link" href="#">Elementos <span class="sr-only">(current)</span></a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="#">Sesión</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="#">No iniciada</a>
+                  </li>
+                ';
+              } else {
+                if($_SESSION['tipoCuentaSesión'] == "Cliente"){
+                  echo '
+                    <li class="nav-item active">
+                      <a class="nav-link" href="#">Menú<span class="sr-only">(current)</span></a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" href="#">Cliente</a>
+                    </li>
+                  ';
+                } else if ($_SESSION['tipoCuentaSesión'] == "Empleado"){
+                  echo '
+                    <li class="nav-item active">
+                      <a class="nav-link" href="#">Elementos<span class="sr-only">(current)</span></a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" href="#">Empleado</a>
+                    </li>
+                  ';
+                } else if ($_SESSION['tipoCuentaSesión'] == "Encargado"){
+                  echo '
+                    <li class="nav-item active">
+                      <a class="nav-link" href="#">Páginas<span class="sr-only">(current)</span></a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" href="#">Encarcardo</a>
+                    </li>
+                  ';
+                } else {//TODO Posiblemente sustituir por los mismos que una sesión iniciada, o alguno que cierre la sesión o similar.
+                  echo '
+                    <li class="nav-item active">
+                      <a class="nav-link" href="#">ERROR<span class="sr-only">(current)</span></a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" href="#">ERROR</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" href="#">ERROR</a>
+                    </li>
+                  ';
+                }
+              }
+              ?>
             </ul>
             <span class="navbar-text">
               <?php
-                session_start();
                 if(isset($_POST['cerrarSesión'])){
                   session_destroy();
                   header("Location: ./");

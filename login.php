@@ -49,6 +49,37 @@ if(isset($_POST['triedLogin']) && $_POST['triedLogin'] == true){
       		$_SESSION['nombreSesión'] = $nombreCuenta;
       		$_SESSION['apellidosSesión'] = $apellidosCuenta;
           $_SESSION['correoElectronicoSesión'] = $correoElectronicoCuenta;
+          //Ahora buscamos al usuario en las tablas de clientes y empleados para saber qué tipo de usuario es
+          if ($stmt2 = $db->prepare('SELECT esEncargado FROM Empleado WHERE Cuenta_idCuenta = ?')) {//Preparamos la consulta sql para evitar posibles ataques tipo SQL Injection
+          	$stmt2->bind_param('s', $idCuenta);//Bindeamos al '?' el correo electrónico que nos ha mandado el usuario a través del formulario. El parámetro 's' indica que es un string.
+          	$stmt2->execute();
+          	$stmt2->store_result();
+
+            if ($stmt2->num_rows > 0) {//Si hay más de 0 filas es que se ha encontrado que la cuenta es de Empleado
+            	$stmt2->bind_result($esEncargado);//Guardamos la fila actual en viariables.
+            	$stmt2->fetch();
+              if($esEncargado){
+                $_SESSION['tipoCuentaSesión'] = "Encargado";
+              } else {
+                $_SESSION['tipoCuentaSesión'] = "Empleado";
+              }
+            } else { //Si no se encuentra la id en la tabla empleados, entonces se trata de un usuario.
+              if ($stmt3 = $db->prepare('SELECT Cuenta_idCuenta FROM Cliente WHERE Cuenta_idCuenta = ?')) {//Preparamos la consulta sql para evitar posibles ataques tipo SQL Injection
+              	$stmt3->bind_param('s', $idCuenta);//Bindeamos al '?' el correo electrónico que nos ha mandado el usuario a través del formulario. El parámetro 's' indica que es un string.
+              	$stmt3->execute();
+              	$stmt3->store_result();
+                if ($stmt3->num_rows > 0) {//Si hay más de 0 filas es que se ha encontrado que la cuenta es de Cliente
+                	$stmt3->bind_result($idCuentaCliente);//Guardamos la fila actual en viariables.
+                	$stmt3->fetch();
+                  $_SESSION['tipoCuentaSesión'] = "Cliente";
+                } else {
+                  $_SESSION['tipoCuentaSesión'] = "ERROR"; //La cuenta no tiene un tipo asignado.
+                }
+                $stmt3->close();
+              }
+            }
+            $stmt2->close();
+          }
       		echo 'Welcome!';
           header("Location: ./");
       	} else {
@@ -57,8 +88,7 @@ if(isset($_POST['triedLogin']) && $_POST['triedLogin'] == true){
       } else {
       	echo 'Usuario no encontrado';//TODO Mostrar mensaje de que no se ha encontrado al usuario en la base de datos (no está registrado)
       }
-
-    	$stmt->close();
+      $stmt->close();
     }
   }
 }
