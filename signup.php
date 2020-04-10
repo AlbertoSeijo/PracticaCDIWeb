@@ -48,7 +48,6 @@ if(isset($_POST['triedRegistro'])  && $_POST['triedRegistro'] == true){
     define('NOMBRE_BD', 'tintoreria');
 
     $db = mysqli_connect(SERVIDOR_BD,USUARIO_BD,CONTRASENA_BD,NOMBRE_BD);
-    session_start();
 
     if ($stmt = $db->prepare('SELECT nombre FROM Cuenta WHERE correoElectronico = ?')) {
     	$stmt->bind_param('s', $_POST['correoElectronicoRegistro']);
@@ -59,12 +58,18 @@ if(isset($_POST['triedRegistro'])  && $_POST['triedRegistro'] == true){
     		// Username already exists
     		echo 'Este correo ya está en uso';
     	} else {
-        if ($stmt = $db->prepare('INSERT INTO Cuenta (nombre, apellidos, correoElectronico, contraseña, dni) VALUES (?, ?, ?, ?, ?)')) {
+        if ($stmt2 = $db->prepare('INSERT INTO Cuenta (nombre, apellidos, correoElectronico, contraseña, dni) VALUES (?, ?, ?, ?, ?)')) {
         	// We do not want to expose passwords in our database, so hash the password and use password_verify when a user logs in.
         	$hashContraseña = password_hash($_POST['contraseñaRegistro'], PASSWORD_DEFAULT);
-        	$stmt->bind_param('sssss', $_POST['nombreRegistro'], $_POST['apellidosRegistro'], $_POST['correoElectronicoRegistro'], $hashContraseña, $_POST['dniRegistro']);
-        	$stmt->execute();
+        	$stmt2->bind_param('sssss', $_POST['nombreRegistro'], $_POST['apellidosRegistro'], $_POST['correoElectronicoRegistro'], $hashContraseña, $_POST['dniRegistro']);
+        	$stmt2->execute();
+          $idCliente = mysqli_insert_id($db);
+          if ($stmt3 = $db->prepare('INSERT INTO Cliente (Cuenta_idCuenta) VALUES (?)')) {
+          	// We do not want to expose passwords in our database, so hash the password and use password_verify when a user logs in.
+          	$stmt3->bind_param('s', $idCliente);
+          	$stmt3->execute();
         	echo 'You have successfully registered, you can now login!';
+          }
         } else {
         	// Something is wrong with the sql statement, check to make sure accounts table exists with all 3 fields.
         	echo 'Could not prepare statement!';

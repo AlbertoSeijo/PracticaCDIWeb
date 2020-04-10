@@ -1,0 +1,16 @@
+.boton-menu-principal {
+  width:100%;
+  margin: 0px;
+  border-top-left-radius: 0px;
+  border-top-right-radius: 0px;
+  position: absolute;
+  bottom: 0px;
+  left: 0px;
+}
+
+.carta-menu-principal {
+  padding-bottom: 0px;
+  padding-left: 0px;
+  padding-right:0px;
+  min-height: 250px;
+}

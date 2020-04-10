@@ -3,6 +3,8 @@
   font-family: Brush Script MT;
 }
 
+/* cabeceraContenido */
+
 .boton-retroceder-titulo-pagina {
   width: 60px;
   height: 60px;
@@ -48,4 +50,13 @@
   transform: translateY(-50%);
   position: relative;
   color: #F8F8F8;
+}
+
+
+
+
+/* Layout de las páginas */
+
+.web-content {
+  min-height: 650px;
 }
