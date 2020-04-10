@@ -6,13 +6,13 @@
 /* cabeceraContenido */
 
 .boton-retroceder-titulo-pagina {
+   position:absolute;
   width: 60px;
   height: 60px;
   display: inline;
   float: left;
   top: 50%;
   transform: translateY(-50%);
-  position: relative;
   z-index: 1;
 }
 .contenedor-titulo-pagina {
@@ -50,6 +50,7 @@
   transform: translateY(-50%);
   position: relative;
   color: #F8F8F8;
+  line-height: 0px;
 }
 
 

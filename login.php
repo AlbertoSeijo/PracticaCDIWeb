@@ -5,19 +5,27 @@ if(isset($_SESSION['sesionIniciada'])){
   header("Location: ./");
 }
 ?>
-
-<form action="./login" method="POST">
-  <div class="form-group">
-    <label for="emailLogin">Correo electrónico</label>
-    <input type="email" class="form-control" name="emailLogin" id="emailLogin" aria-describedby="emailHelp">
+<div class="container-fluid" align="center">
+  <div class="row" align="center" style="height:250px;"></div>
+  <div class="row" align="center">
+    <div class="col-4"></div>
+    <div class="col-lg-4">
+      <form action="./login" method="POST">
+        <div class="form-group">
+          <label for="emailLogin">Correo electrónico</label>
+          <input type="email" class="form-control" name="emailLogin" id="emailLogin" aria-describedby="emailHelp">
+        </div>
+        <div class="form-group">
+          <label for="contraseñaLogin">Contraseña</label>
+          <input type="password" class="form-control" name="contraseñaLogin" id="contraseñaLogin">
+        </div>
+        <button type="submit" class="btn btn-primary">Iniciar sesión</button>
+        <input type="hidden" name="triedLogin" id="triedLogin" value="true">
+      </form>
+    </div>
+    <div class="col-3"></div>
   </div>
-  <div class="form-group">
-    <label for="contraseñaLogin">Contraseña</label>
-    <input type="password" class="form-control" name="contraseñaLogin" id="contraseñaLogin">
-  </div>
-  <button type="submit" class="btn btn-primary">Iniciar sesión</button>
-  <input type="hidden" name="triedLogin" id="triedLogin" value="true">
-</form>
+</div>
 <?php
 //Primero comprobamos si se han enviado datos desde el formulario para ver si se debe intentar insertar al cargar la página o no.
 if(isset($_POST['triedLogin']) && $_POST['triedLogin'] == true){
@@ -86,13 +94,26 @@ if(isset($_POST['triedLogin']) && $_POST['triedLogin'] == true){
       		echo 'Contraseña incorrecta';//TODO Mostrar mensaje de contraseña incorrecta
       	}
       } else {
-      	echo 'Usuario no encontrado';//TODO Mostrar mensaje de que no se ha encontrado al usuario en la base de datos (no está registrado)
+      	echo '
+          <div class="container-fluid" align="center">
+            <div class="row" align="center">
+              <div class="col-3"></div>
+              <div class="col-6 alert alert-danger alert-dismissible fade show" role="alert">
+                El usuario indicado no se encuentra registrado. Compruebe sus credenciales e inténtelo de nuevo.
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        ';
       }
       $stmt->close();
     }
   }
 }
 ?>
+
 <?php
 include './footer.php';
 ?>
