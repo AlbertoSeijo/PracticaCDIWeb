@@ -1,0 +1,11 @@
+body{
+  background-color: transparent !important;
+  min-height: 100%;
+  backdrop-filter: blur(5px) grayscale(70%) brightness(0.8);
+}
+
+html{
+  background: url("../img/backgroundImage1.jpg") no-repeat center center fixed;
+  background-size: cover;
+  height: 100%;
+}

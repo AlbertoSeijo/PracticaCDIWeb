@@ -2,7 +2,7 @@
 include './header.php';?>
 <link href="./css/index.css" rel="stylesheet">
 <?php
-$nombrePagina = "La Vandería<br><a style='font-size:16px; margin-top: 59px; display: inline-block;'>Tu lavandería de confianza</a>";
+$nombrePagina = "<a style='font-family: Brush Script MT; font-size: 64px;'>La Vandería</a><br><a style='font-size:16px; margin-top: 59px; display: inline-block;'>Tu lavandería de confianza</a>";
 include './cabeceraContenido.php';
 ?>
 <div class="web-content container-fluid">

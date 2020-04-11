@@ -13,7 +13,7 @@
     <link href="./css/header.css" rel="stylesheet">
     <title>La Vandería</title>
   </head>
-  <body class="bg-light">
+  <body class=""><!--TODO Cambiar esto para que funcione en los fondos de imagen bg-light -->
     <div class="page-container">
       <div class="page-container-element header">
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">

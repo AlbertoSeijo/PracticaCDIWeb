@@ -5,36 +5,55 @@ if(isset($_SESSION['sesionIniciada'])){
   header("Location: ./");
 }
 ?>
-<form action="./signup" method="POST">
-  <div class="form-row">
-    <div class="form-group col-md-6">
-      <label for="nombreRegistro">Nombre</label>
-      <input type="text" class="form-control" name="nombreRegistro" id="nombreRegistro">
+<link href="./css/signup.css" rel="stylesheet">
+<div class="container-fluid">
+  <div class="row" align="center" style="height:250px;">
+    <div class="col-12 my-auto" align="center"><h1 class="font-weight-bold text-white">Registro</h1></div>
+  </div>
+  <div class="row">
+    <div class="col-4"></div>
+    <div class="col-lg-4">
+      <div class="card bg-light">
+        <div class="card-body">
+
+          <form action="./signup" method="POST" id="formRegistro">
+            <div class="form-row">
+              <div class="form-group col-md-6">
+                <label for="nombreRegistro">Nombre</label>
+                <input type="text" class="form-control" name="nombreRegistro" id="nombreRegistro">
+              </div>
+              <div class="form-group col-md-6">
+                <label for="apellidosRegistro">Apellidos</label>
+                <input type="text" class="form-control" name="apellidosRegistro" id="apellidosRegistro">
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="dniRegistro">DNI</label>
+              <input type="text" class="form-control" name="dniRegistro" id="dniRegistro">
+            </div>
+            <div class="form-group">
+              <label for="correoElectronicoRegistro">Correo electrónico</label>
+              <input type="text" class="form-control" name="correoElectronicoRegistro" id="correoElectronicoRegistro">
+            </div>
+            <div class="form-group">
+              <label for="contraseñaRegistro">Contraseña</label>
+              <input type="password" class="form-control" name="contraseñaRegistro" id="contraseñaRegistro">
+            </div>
+            <div class="form-group">
+              <label for="confirmaciónContraseñaRegistro">Repetir contraseña</label>
+              <input type="password" class="form-control" name="confirmaciónContraseñaRegistro" id="confirmaciónContraseñaRegistro">
+            </div>
+            <input type="hidden" name="triedRegistro" id="triedRegistro" value="true">
+
+          </form>
+
+        </div>
+      </div>
+      <button type="submit" class="btn btn-primary btn-lg" style="width: 100%; margin-top: 24px;" form="formRegistro" >Registrarse</button>
     </div>
-    <div class="form-group col-md-6">
-      <label for="apellidosRegistro">Apellidos</label>
-      <input type="text" class="form-control" name="apellidosRegistro" id="apellidosRegistro">
-    </div>
+    <div class="col-4"></div>
   </div>
-  <div class="form-group">
-    <label for="dniRegistro">DNI</label>
-    <input type="text" class="form-control" name="dniRegistro" id="dniRegistro">
-  </div>
-  <div class="form-group">
-    <label for="correoElectronicoRegistro">Correo electrónico</label>
-    <input type="text" class="form-control" name="correoElectronicoRegistro" id="correoElectronicoRegistro">
-  </div>
-  <div class="form-group">
-    <label for="contraseñaRegistro">Contraseña</label>
-    <input type="password" class="form-control" name="contraseñaRegistro" id="contraseñaRegistro">
-  </div>
-  <div class="form-group">
-    <label for="confirmaciónContraseñaRegistro">Repetir contraseña</label>
-    <input type="password" class="form-control" name="confirmaciónContraseñaRegistro" id="confirmaciónContraseñaRegistro">
-  </div>
-  <input type="hidden" name="triedRegistro" id="triedRegistro" value="true">
-  <button type="submit" class="btn btn-primary">Registrarse</button>
-</form>
+</div>
 <?php
 //Primero comprobamos si se han enviado datos desde el formulario para ver si se debe intentar insertar al cargar la página o no.
 if(isset($_POST['triedRegistro'])  && $_POST['triedRegistro'] == true){

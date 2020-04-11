@@ -5,25 +5,34 @@ if(isset($_SESSION['sesionIniciada'])){
   header("Location: ./");
 }
 ?>
-<div class="container-fluid" align="center">
-  <div class="row" align="center" style="height:250px;"></div>
-  <div class="row" align="center">
+<link href="./css/login.css" rel="stylesheet">
+<div class="container-fluid">
+  <div class="row" align="center" style="height:250px;">
+    <div class="col-12 my-auto" align="center"><h1 class="font-weight-bold text-white">Inicio de sesión</h1></div>
+  </div>
+  <div class="row" >
     <div class="col-4"></div>
     <div class="col-lg-4">
-      <form action="./login" method="POST">
-        <div class="form-group">
-          <label for="emailLogin">Correo electrónico</label>
-          <input type="email" class="form-control" name="emailLogin" id="emailLogin" aria-describedby="emailHelp">
+      <div class="card bg-light">
+        <div class="card-body">
+
+          <form action="./login" method="POST" id="formLogin">
+            <div class="form-group">
+              <label for="emailLogin">Correo electrónico</label>
+              <input type="email" class="form-control" name="emailLogin" id="emailLogin" aria-describedby="emailHelp">
+            </div>
+            <div class="form-group">
+              <label for="contraseñaLogin">Contraseña</label>
+              <input type="password" class="form-control" name="contraseñaLogin" id="contraseñaLogin">
+            </div>
+            <input type="hidden" name="triedLogin" id="triedLogin" value="true">
+          </form>
+
         </div>
-        <div class="form-group">
-          <label for="contraseñaLogin">Contraseña</label>
-          <input type="password" class="form-control" name="contraseñaLogin" id="contraseñaLogin">
-        </div>
-        <button type="submit" class="btn btn-primary">Iniciar sesión</button>
-        <input type="hidden" name="triedLogin" id="triedLogin" value="true">
-      </form>
+      </div>
+      <button type="submit" class="btn btn-primary btn-lg" style="width: 100%; margin-top: 24px;" form="formLogin" >Iniciar sesión</button>
     </div>
-    <div class="col-3"></div>
+    <div class="col-4"></div>
   </div>
 </div>
 <?php
