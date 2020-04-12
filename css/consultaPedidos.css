@@ -1,0 +1,12 @@
+.etiquetaElementosFormulario {
+  margin-bottom: 0px;
+  margin-left: 10px;
+  padding-left: 5px;
+  padding-right: 5px;
+  background-color: white;
+  position: relative;
+}
+
+select {
+  margin-top: -10px;
+}

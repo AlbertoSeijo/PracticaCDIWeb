@@ -10,6 +10,8 @@
 
     <!-- Bootstrap CSS -->
     <link href="./css/bootstrap.min.css" rel="stylesheet">
+    <link href="./fontawesome/css/fontawesome.min.css" rel="stylesheet">
+    <link href="./fontawesome/css/all.min.css" rel="stylesheet">
     <link href="./css/header.css" rel="stylesheet">
     <title>La Vandería</title>
   </head>
