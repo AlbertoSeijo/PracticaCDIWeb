@@ -67,94 +67,602 @@ if($_SESSION['tipoCuentaSesión'] != "Encargado"){
       <div class="container-fluid card" style="height: 60vh; padding: 0px;">
         <div class="card-body" style="overflow-y: auto;">
           <!-- A partir de aquí comienza la tarjeta que hay que repetir según las consultas -->
-          <div class="container-fluid card bg-secondary" style="height: 250px; margin-bottom: 20px;">
+          <div class="container-fluid card bg-light" style="height: 250px; margin-bottom: 20px;">
             <div class="row" style="height: 100%;">
-              <div class="col-8 container-fluid" style="background-color: green; opacity: 0.3;">
-                <div class="row" style="height: 35%;">
-                  <div class="col-4" style="background-color: orange; opacity: 0.3;">Pedido express
+              <div class="col-8 container-fluid" style="">
+                <div class="row" style="height: 35%;"><!--
+                  <div class="col-4 my-auto text-center" style="font-size: 16px; font-weight: bold;">
+                    <i class="fas fa-star fa-2x" style="color:  #f1c40f "></i> Pedido expréss
+                  </div>-->
+                  <div class="col-4 my-auto text-center" style=" font-size: 16px; font-weight: bold; ">
+                    <i class="far fa-star fa-2x" style="color: #f1c40f"></i> Pedido normal
                   </div>
-                  <div class="col-4" style="background-color: yellow; opacity: 0.3;">Fecha de inicio: XX/XX/XXXX
+                  <div class="col-4" style="">
+                    <h5 style="margin-top: 8px;">Cliente</h5>
+                    <div>
+                      <img src="./img/avatar/avatarCliente.png" style="width: 36px; height: 36px; margin-left: 20px;"></img> Pepito Gómez
+                    </div>
                   </div>
-                  <div class="col-4" style="background-color: yellow; opacity: 0.3;">Fecha de fin: XX/XX/XXXX
+                  <div class="col-4" style="">
+                    <h5 style="margin-top: 8px;">Cronología:</h5>
+                    <div class="row" style="height: 100%;">
+                      <div class="col-6 text-left" style="height: 100%; white-space: nowrap;">
+                        <a style="display:block; margin-left: 20px; font-size: 14px;">Fecha de inicio:</a>
+                        <a style="display:block; margin-left: 20px; font-size: 14px;">Fecha de fin:</a>
+                      </div>
+                      <div class="col-6 text-right" style="height: 100%; white-space: nowrap;">
+                        <a style="display:block; margin-left: 20px; font-size: 14px;">16/03/2020</a>
+                        <a style="display:block; margin-left: 20px; font-size: 14px;">21/03/2020</a>
+                      </div>
+                    </div>
                   </div>
                 </div>
                 <div class="row" style="height: 65%;">
-                  <div class="col-6" style="background-color: orange; opacity: 0.3;">cccc
+                  <div class="col-6 " style=""><!-- TODO Esta fila puede ser col-6 o col-12 según haya factura o no -->
+                    <div class="row" style="height: 100%;">
+                      <div class="col-6 text-center" style="height: 100; padding-top: 25px;">
+                        <h5>Tipo de prenda</h5>
+                        <div class="card bg-white mx-auto" style="width: 75px; height: 75px;">Tipo prenda</div>
+                        <div class="text-center" style="position: absolute; width: 69px; background-color: white; height: 12px; left:0; right: 0; margin-left: auto; margin-right: auto; margin-top: -12px; line-height: 18px;">Nombre t. prenda</div>
+                      </div>
+                      <div class="col-6 text-center" style="height: 100; padding-top: 25px;">
+                        <h5>Tipo de servicio</h5>
+                        <div class="card bg-white mx-auto" style="width: 75px; height: 75px;">Servicio</div>
+                        <div class="text-center" style="position: absolute; width: 69px; background-color: white; height: 12px; left:0; right: 0; margin-left: auto; margin-right: auto; margin-top: -12px; line-height: 18px;">Nombre servicio</div>
+                      </div>
+                    </div>
                   </div>
-                  <div class="col-6" style="background-color: yellow; opacity: 0.3;">ddd
+                  <div class="col-6" style="">
+                    <h5 style="margin-top: 15px;">Total desglosado</h5>
+                    <div class="row" style="height: 100%;">
+                      <div class="col-6 text-left" style="height: 100%;">
+                        <a style="display:block; margin-left: 20px; font-size: 12px;">Servicio:</a>
+                        <a style="display:block; margin-left: 20px; font-size: 12px;">Arreglos solicitados:</a>
+                        <a style="display:block; margin-left: 20px; font-size: 12px;">Arreglos extras:</a>
+                        <a style="display:block; margin-left: 20px; font-size: 12px;">Descuento:</a>
+                        <a class="font-weight-bold" style="display:block; margin-left: 20px;">Total:</a>
+                      </div>
+                      <div class="col-6 text-right" style="height: 100%;">
+                        <a style="position: absolute; left: 10px; top: 20px; font-size: 20px;">+</a>
+                        <a style="display:block; margin-left: 20px; font-size: 12px;">12.34 €</a>
+                        <a style="display:block; margin-left: 20px; font-size: 12px;">56.78 €</a>
+                        <a style="display:block; margin-left: 20px; font-size: 12px;">90.12 €</a>
+                        <a style="display:block; margin-left: 20px; font-size: 12px;">-34.56 €</a>
+                        <hr style="margin: 0px; border-width: 2px;">
+                        <a class="font-weight-bold" style="display:block; margin-left: 20px;">78.90€</a>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
-              <div class="col-4 container-fluid" style="background-color: blue; opacity: 0.3;">bbbb</div>
+              <div class="col-4 container-fluid" style="">
+                <div class="container-fluid" style="height: 70%;">
+                  <h3 style="margin-top: 10px;">Etapas</h3>
+                  <div class="row" style="height: 65%;">
+                    <div class="col-4 my-auto" style="">
+                      <div class="card bg-white mx-auto" style="width: 75px; height: 75px;">Etapa A</div>
+                      <div class="text-center" style="position: absolute; width: 69px; background-color: white; height: 15px;  left:0; right: 0; margin-left: auto; margin-right: auto; margin-top: -15px;">Etapa 1</div>
+                    </div>
+                    <div class="col-4 my-auto" style="">
+                      <i class="fas fa-caret-right fa-4x" style="position: absolute; left: -15px; transform: translate(0%, 20%);"></i>
+                      <div class="card bg-white mx-auto" style="width: 90px; height: 90px;">Etapa B</div>
+                      <div class="text-center" style="position: absolute; width: 84px; background-color: white; height: 15px;  left:0; right: 0; margin-left: auto; margin-right: auto; margin-top: -15px;">Etapa 2</div>
+                    </div>
+                    <div class="col-4 my-auto" style="">
+                      <i class="fas fa-caret-right fa-4x" style="position: absolute; left: -7px; transform: translate(0%, 10%);"></i>
+                      <div class="card bg-white mx-auto" style="width: 75px; height: 75px;">Etapa C</div>
+                      <div class="text-center" style="position: absolute; width: 69px; background-color: white; height: 15px; left:0; right: 0; margin-left: auto; margin-right: auto; margin-top: -15px;">Etapa 3</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="container-fluid text-center" style="height: 30%;">
+                  <button class="btn btn-primary btn-lg">Detalles del pedido</button>
+                  <!--
+                  <button type="button" class="btn btn-danger btn-lg" style="width: 30%;">Cancelar pedido</button>
+                  <button type="button" class="btn btn-primary btn-lg" style="width: 60%;">Aceptar precio actualizado</button>
+                  -->
+                </div>
+              </div>
             </div>
           </div>
           <!-- A partir de aquí termina la tarjeta que hay que repetir según las consultas -->
           <!-- A partir de aquí comienza la tarjeta que hay que repetir según las consultas -->
-          <div class="container-fluid card bg-secondary" style="height: 250px; margin-bottom: 20px;">
+          <div class="container-fluid card bg-light" style="height: 250px; margin-bottom: 20px;">
             <div class="row" style="height: 100%;">
-              <div class="col-8 container-fluid" style="background-color: green; opacity: 0.3;">
+              <div class="col-8 container-fluid" style="">
                 <div class="row" style="height: 35%;">
-                  <div class="col-4" style="background-color: orange; opacity: 0.3;">Pedido express
+                  <div class="col-4 my-auto text-center" style="font-size: 16px; font-weight: bold;">
+                    <i class="fas fa-star fa-2x" style="color:  #f1c40f "></i> Pedido expréss
+                  </div><!--
+                  <div class="col-4 my-auto text-center" style=" font-size: 16px; font-weight: bold; ">
+                    <i class="far fa-star fa-2x" style="color: #f1c40f"></i> Pedido normal
+                  </div>-->
+                  <div class="col-4" style="">
+                    <h5 style="margin-top: 8px;">Cliente</h5>
+                    <div>
+                      <img src="./img/avatar/avatarCliente.png" style="width: 36px; height: 36px; margin-left: 20px;"></img> Pepito Gómez
+                    </div>
                   </div>
-                  <div class="col-4" style="background-color: yellow; opacity: 0.3;">Fecha de inicio: XX/XX/XXXX
-                  </div>
-                  <div class="col-4" style="background-color: yellow; opacity: 0.3;">Fecha de fin: XX/XX/XXXX
+                  <div class="col-4" style="">
+                    <h5 style="margin-top: 8px;">Cronología:</h5>
+                    <div class="row" style="height: 100%;">
+                      <div class="col-6 text-left" style="height: 100%; white-space: nowrap;">
+                        <a style="display:block; margin-left: 20px; font-size: 14px;">Fecha de inicio:</a>
+                        <a style="display:block; margin-left: 20px; font-size: 14px;">Fecha de fin:</a>
+                      </div>
+                      <div class="col-6 text-right" style="height: 100%; white-space: nowrap;">
+                        <a style="display:block; margin-left: 20px; font-size: 14px;">16/03/2020</a>
+                        <a style="display:block; margin-left: 20px; font-size: 14px;">21/03/2020</a>
+                      </div>
+                    </div>
                   </div>
                 </div>
                 <div class="row" style="height: 65%;">
-                  <div class="col-6" style="background-color: orange; opacity: 0.3;">cccc
+                  <div class="col-6 " style=""><!-- TODO Esta fila puede ser col-6 o col-12 según haya factura o no -->
+                    <div class="row" style="height: 100%;">
+                      <div class="col-6 text-center" style="height: 100; padding-top: 25px;">
+                        <h5>Tipo de prenda</h5>
+                        <div class="card bg-white mx-auto" style="width: 75px; height: 75px;">Tipo prenda</div>
+                        <div class="text-center" style="position: absolute; width: 69px; background-color: white; height: 12px; left:0; right: 0; margin-left: auto; margin-right: auto; margin-top: -12px; line-height: 18px;">Nombre t. prenda</div>
+                      </div>
+                      <div class="col-6 text-center" style="height: 100; padding-top: 25px;">
+                        <h5>Tipo de servicio</h5>
+                        <div class="card bg-white mx-auto" style="width: 75px; height: 75px;">Servicio</div>
+                        <div class="text-center" style="position: absolute; width: 69px; background-color: white; height: 12px; left:0; right: 0; margin-left: auto; margin-right: auto; margin-top: -12px; line-height: 18px;">Nombre servicio</div>
+                      </div>
+                    </div>
                   </div>
-                  <div class="col-6" style="background-color: yellow; opacity: 0.3;">ddd
+                  <div class="col-6" style="">
+                    <h5 style="margin-top: 15px;">Total desglosado</h5>
+                    <div class="row" style="height: 100%;">
+                      <div class="col-6 text-left" style="height: 100%;">
+                        <a style="display:block; margin-left: 20px; font-size: 12px;">Servicio:</a>
+                        <a style="display:block; margin-left: 20px; font-size: 12px;">Arreglos solicitados:</a>
+                        <a style="display:block; margin-left: 20px; font-size: 12px;">Arreglos extras:</a>
+                        <a style="display:block; margin-left: 20px; font-size: 12px;">Descuento:</a>
+                        <a class="font-weight-bold" style="display:block; margin-left: 20px;">Total:</a>
+                      </div>
+                      <div class="col-6 text-right" style="height: 100%;">
+                        <a style="position: absolute; left: 10px; top: 20px; font-size: 20px;">+</a>
+                        <a style="display:block; margin-left: 20px; font-size: 12px;">12.34 €</a>
+                        <a style="display:block; margin-left: 20px; font-size: 12px;">56.78 €</a>
+                        <a style="display:block; margin-left: 20px; font-size: 12px;">90.12 €</a>
+                        <a style="display:block; margin-left: 20px; font-size: 12px;">-34.56 €</a>
+                        <hr style="margin: 0px; border-width: 2px;">
+                        <a class="font-weight-bold" style="display:block; margin-left: 20px;">78.90€</a>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
-              <div class="col-4 container-fluid" style="background-color: blue; opacity: 0.3;">bbbb</div>
+              <div class="col-4 container-fluid" style="">
+                <div class="container-fluid" style="height: 70%;">
+                  <h3 style="margin-top: 10px;">Etapas</h3>
+                  <div class="row" style="height: 65%;">
+                    <div class="col-4 my-auto" style="">
+                      <div class="card bg-white mx-auto" style="width: 75px; height: 75px;">Etapa A</div>
+                      <div class="text-center" style="position: absolute; width: 69px; background-color: white; height: 15px;  left:0; right: 0; margin-left: auto; margin-right: auto; margin-top: -15px;">Etapa 1</div>
+                    </div>
+                    <div class="col-4 my-auto" style="">
+                      <i class="fas fa-caret-right fa-4x" style="position: absolute; left: -15px; transform: translate(0%, 20%);"></i>
+                      <div class="card bg-white mx-auto" style="width: 90px; height: 90px;">Etapa B</div>
+                      <div class="text-center" style="position: absolute; width: 84px; background-color: white; height: 15px;  left:0; right: 0; margin-left: auto; margin-right: auto; margin-top: -15px;">Etapa 2</div>
+                    </div>
+                    <div class="col-4 my-auto" style="">
+                      <i class="fas fa-caret-right fa-4x" style="position: absolute; left: -7px; transform: translate(0%, 10%);"></i>
+                      <div class="card bg-white mx-auto" style="width: 75px; height: 75px;">Etapa C</div>
+                      <div class="text-center" style="position: absolute; width: 69px; background-color: white; height: 15px; left:0; right: 0; margin-left: auto; margin-right: auto; margin-top: -15px;">Etapa 3</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="container-fluid text-center" style="height: 30%;">
+                  <button class="btn btn-primary btn-lg">Detalles del pedido</button>
+                  <!--
+                  <button type="button" class="btn btn-danger btn-lg" style="width: 30%;">Cancelar pedido</button>
+                  <button type="button" class="btn btn-primary btn-lg" style="width: 60%;">Aceptar precio actualizado</button>
+                  -->
+                </div>
+              </div>
             </div>
           </div>
           <!-- A partir de aquí termina la tarjeta que hay que repetir según las consultas -->
           <!-- A partir de aquí comienza la tarjeta que hay que repetir según las consultas -->
-          <div class="container-fluid card bg-secondary" style="height: 250px; margin-bottom: 20px;">
+          <div class="container-fluid card bg-light" style="height: 250px; margin-bottom: 20px;">
             <div class="row" style="height: 100%;">
-              <div class="col-8 container-fluid" style="background-color: green; opacity: 0.3;">
-                <div class="row" style="height: 35%;">
-                  <div class="col-4" style="background-color: orange; opacity: 0.3;">Pedido express
+              <div class="col-8 container-fluid" style="">
+                <div class="row" style="height: 35%;"><!--
+                  <div class="col-4 my-auto text-center" style="font-size: 16px; font-weight: bold;">
+                    <i class="fas fa-star fa-2x" style="color:  #f1c40f "></i> Pedido expréss
+                  </div>-->
+                  <div class="col-4 my-auto text-center" style=" font-size: 16px; font-weight: bold; ">
+                    <i class="far fa-star fa-2x" style="color: #f1c40f"></i> Pedido normal
                   </div>
-                  <div class="col-4" style="background-color: yellow; opacity: 0.3;">Fecha de inicio: XX/XX/XXXX
+                  <div class="col-4" style="">
+                    <h5 style="margin-top: 8px;">Cliente</h5>
+                    <div>
+                      <img src="./img/avatar/avatarCliente.png" style="width: 36px; height: 36px; margin-left: 20px;"></img> Pepito Gómez
+                    </div>
                   </div>
-                  <div class="col-4" style="background-color: yellow; opacity: 0.3;">Fecha de fin: XX/XX/XXXX
+                  <div class="col-4" style="">
+                    <h5 style="margin-top: 8px;">Cronología:</h5>
+                    <div class="row" style="height: 100%;">
+                      <div class="col-6 text-left" style="height: 100%; white-space: nowrap;">
+                        <a style="display:block; margin-left: 20px; font-size: 14px;">Fecha de inicio:</a>
+                        <a style="display:block; margin-left: 20px; font-size: 14px;">Fecha de fin:</a>
+                      </div>
+                      <div class="col-6 text-right" style="height: 100%; white-space: nowrap;">
+                        <a style="display:block; margin-left: 20px; font-size: 14px;">16/03/2020</a>
+                        <a style="display:block; margin-left: 20px; font-size: 14px;">21/03/2020</a>
+                      </div>
+                    </div>
                   </div>
                 </div>
                 <div class="row" style="height: 65%;">
-                  <div class="col-6" style="background-color: orange; opacity: 0.3;">cccc
+                  <div class="col-6 " style=""><!-- TODO Esta fila puede ser col-6 o col-12 según haya factura o no -->
+                    <div class="row" style="height: 100%;">
+                      <div class="col-6 text-center" style="height: 100; padding-top: 25px;">
+                        <h5>Tipo de prenda</h5>
+                        <div class="card bg-white mx-auto" style="width: 75px; height: 75px;">Tipo prenda</div>
+                        <div class="text-center" style="position: absolute; width: 69px; background-color: white; height: 12px; left:0; right: 0; margin-left: auto; margin-right: auto; margin-top: -12px; line-height: 18px;">Nombre t. prenda</div>
+                      </div>
+                      <div class="col-6 text-center" style="height: 100; padding-top: 25px;">
+                        <h5>Tipo de servicio</h5>
+                        <div class="card bg-white mx-auto" style="width: 75px; height: 75px;">Servicio</div>
+                        <div class="text-center" style="position: absolute; width: 69px; background-color: white; height: 12px; left:0; right: 0; margin-left: auto; margin-right: auto; margin-top: -12px; line-height: 18px;">Nombre servicio</div>
+                      </div>
+                    </div>
                   </div>
-                  <div class="col-6" style="background-color: yellow; opacity: 0.3;">ddd
+                  <div class="col-6" style="">
+                    <h5 style="margin-top: 15px;">Total desglosado</h5>
+                    <div class="row" style="height: 100%;">
+                      <div class="col-6 text-left" style="height: 100%;">
+                        <a style="display:block; margin-left: 20px; font-size: 12px;">Servicio:</a>
+                        <a style="display:block; margin-left: 20px; font-size: 12px;">Arreglos solicitados:</a>
+                        <a style="display:block; margin-left: 20px; font-size: 12px;">Arreglos extras:</a>
+                        <a style="display:block; margin-left: 20px; font-size: 12px;">Descuento:</a>
+                        <a class="font-weight-bold" style="display:block; margin-left: 20px;">Total:</a>
+                      </div>
+                      <div class="col-6 text-right" style="height: 100%;">
+                        <a style="position: absolute; left: 10px; top: 20px; font-size: 20px;">+</a>
+                        <a style="display:block; margin-left: 20px; font-size: 12px;">12.34 €</a>
+                        <a style="display:block; margin-left: 20px; font-size: 12px;">56.78 €</a>
+                        <a style="display:block; margin-left: 20px; font-size: 12px;">90.12 €</a>
+                        <a style="display:block; margin-left: 20px; font-size: 12px;">-34.56 €</a>
+                        <hr style="margin: 0px; border-width: 2px;">
+                        <a class="font-weight-bold" style="display:block; margin-left: 20px;">78.90€</a>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
-              <div class="col-4 container-fluid" style="background-color: blue; opacity: 0.3;">bbbb</div>
+              <div class="col-4 container-fluid" style="">
+                <div class="container-fluid" style="height: 70%;">
+                  <h3 style="margin-top: 10px;">Etapas</h3>
+                  <div class="row" style="height: 65%;">
+                    <div class="col-4 my-auto" style="">
+                      <div class="card bg-white mx-auto" style="width: 75px; height: 75px;">Etapa A</div>
+                      <div class="text-center" style="position: absolute; width: 69px; background-color: white; height: 15px;  left:0; right: 0; margin-left: auto; margin-right: auto; margin-top: -15px;">Etapa 1</div>
+                    </div>
+                    <div class="col-4 my-auto" style="">
+                      <i class="fas fa-caret-right fa-4x" style="position: absolute; left: -15px; transform: translate(0%, 20%);"></i>
+                      <div class="card bg-white mx-auto" style="width: 90px; height: 90px;">Etapa B</div>
+                      <div class="text-center" style="position: absolute; width: 84px; background-color: white; height: 15px;  left:0; right: 0; margin-left: auto; margin-right: auto; margin-top: -15px;">Etapa 2</div>
+                    </div>
+                    <div class="col-4 my-auto" style="">
+                      <i class="fas fa-caret-right fa-4x" style="position: absolute; left: -7px; transform: translate(0%, 10%);"></i>
+                      <div class="card bg-white mx-auto" style="width: 75px; height: 75px;">Etapa C</div>
+                      <div class="text-center" style="position: absolute; width: 69px; background-color: white; height: 15px; left:0; right: 0; margin-left: auto; margin-right: auto; margin-top: -15px;">Etapa 3</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="container-fluid text-center" style="height: 30%;">
+                  <button class="btn btn-primary btn-lg">Detalles del pedido</button>
+                  <!--
+                  <button type="button" class="btn btn-danger btn-lg" style="width: 30%;">Cancelar pedido</button>
+                  <button type="button" class="btn btn-primary btn-lg" style="width: 60%;">Aceptar precio actualizado</button>
+                  -->
+                </div>
+              </div>
             </div>
           </div>
           <!-- A partir de aquí termina la tarjeta que hay que repetir según las consultas -->
           <!-- A partir de aquí comienza la tarjeta que hay que repetir según las consultas -->
-          <div class="container-fluid card bg-secondary" style="height: 250px; margin-bottom: 20px;">
+          <div class="container-fluid card bg-light" style="height: 250px; margin-bottom: 20px;">
             <div class="row" style="height: 100%;">
-              <div class="col-8 container-fluid" style="background-color: green; opacity: 0.3;">
-                <div class="row" style="height: 35%;">
-                  <div class="col-4" style="background-color: orange; opacity: 0.3;">Pedido express
+              <div class="col-8 container-fluid" style="">
+                <div class="row" style="height: 35%;"><!--
+                  <div class="col-4 my-auto text-center" style="font-size: 16px; font-weight: bold;">
+                    <i class="fas fa-star fa-2x" style="color:  #f1c40f "></i> Pedido expréss
+                  </div>-->
+                  <div class="col-4 my-auto text-center" style=" font-size: 16px; font-weight: bold; ">
+                    <i class="far fa-star fa-2x" style="color: #f1c40f"></i> Pedido normal
                   </div>
-                  <div class="col-4" style="background-color: yellow; opacity: 0.3;">Fecha de inicio: XX/XX/XXXX
+                  <div class="col-4" style="">
+                    <h5 style="margin-top: 8px;">Cliente</h5>
+                    <div>
+                      <img src="./img/avatar/avatarCliente.png" style="width: 36px; height: 36px; margin-left: 20px;"></img> Pepito Gómez
+                    </div>
                   </div>
-                  <div class="col-4" style="background-color: yellow; opacity: 0.3;">Fecha de fin: XX/XX/XXXX
+                  <div class="col-4" style="">
+                    <h5 style="margin-top: 8px;">Cronología:</h5>
+                    <div class="row" style="height: 100%;">
+                      <div class="col-6 text-left" style="height: 100%; white-space: nowrap;">
+                        <a style="display:block; margin-left: 20px; font-size: 14px;">Fecha de inicio:</a>
+                        <a style="display:block; margin-left: 20px; font-size: 14px;">Fecha de fin:</a>
+                      </div>
+                      <div class="col-6 text-right" style="height: 100%; white-space: nowrap;">
+                        <a style="display:block; margin-left: 20px; font-size: 14px;">16/03/2020</a>
+                        <a style="display:block; margin-left: 20px; font-size: 14px;">21/03/2020</a>
+                      </div>
+                    </div>
                   </div>
                 </div>
                 <div class="row" style="height: 65%;">
-                  <div class="col-6" style="background-color: orange; opacity: 0.3;">cccc
+                  <div class="col-6 " style=""><!-- TODO Esta fila puede ser col-6 o col-12 según haya factura o no -->
+                    <div class="row" style="height: 100%;">
+                      <div class="col-6 text-center" style="height: 100; padding-top: 25px;">
+                        <h5>Tipo de prenda</h5>
+                        <div class="card bg-white mx-auto" style="width: 75px; height: 75px;">Tipo prenda</div>
+                        <div class="text-center" style="position: absolute; width: 69px; background-color: white; height: 12px; left:0; right: 0; margin-left: auto; margin-right: auto; margin-top: -12px; line-height: 18px;">Nombre t. prenda</div>
+                      </div>
+                      <div class="col-6 text-center" style="height: 100; padding-top: 25px;">
+                        <h5>Tipo de servicio</h5>
+                        <div class="card bg-white mx-auto" style="width: 75px; height: 75px;">Servicio</div>
+                        <div class="text-center" style="position: absolute; width: 69px; background-color: white; height: 12px; left:0; right: 0; margin-left: auto; margin-right: auto; margin-top: -12px; line-height: 18px;">Nombre servicio</div>
+                      </div>
+                    </div>
                   </div>
-                  <div class="col-6" style="background-color: yellow; opacity: 0.3;">ddd
+                  <div class="col-6" style="">
+                    <h5 style="margin-top: 15px;">Total desglosado</h5>
+                    <div class="row" style="height: 100%;">
+                      <div class="col-6 text-left" style="height: 100%;">
+                        <a style="display:block; margin-left: 20px; font-size: 12px;">Servicio:</a>
+                        <a style="display:block; margin-left: 20px; font-size: 12px;">Arreglos solicitados:</a>
+                        <a style="display:block; margin-left: 20px; font-size: 12px;">Arreglos extras:</a>
+                        <a style="display:block; margin-left: 20px; font-size: 12px;">Descuento:</a>
+                        <a class="font-weight-bold" style="display:block; margin-left: 20px;">Total:</a>
+                      </div>
+                      <div class="col-6 text-right" style="height: 100%;">
+                        <a style="position: absolute; left: 10px; top: 20px; font-size: 20px;">+</a>
+                        <a style="display:block; margin-left: 20px; font-size: 12px;">12.34 €</a>
+                        <a style="display:block; margin-left: 20px; font-size: 12px;">56.78 €</a>
+                        <a style="display:block; margin-left: 20px; font-size: 12px;">90.12 €</a>
+                        <a style="display:block; margin-left: 20px; font-size: 12px;">-34.56 €</a>
+                        <hr style="margin: 0px; border-width: 2px;">
+                        <a class="font-weight-bold" style="display:block; margin-left: 20px;">78.90€</a>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
-              <div class="col-4 container-fluid" style="background-color: blue; opacity: 0.3;">bbbb</div>
+              <div class="col-4 container-fluid" style="">
+                <div class="container-fluid" style="height: 70%;">
+                  <h3 style="margin-top: 10px;">Etapas</h3>
+                  <div class="row" style="height: 65%;">
+                    <div class="col-4 my-auto" style="">
+                      <div class="card bg-white mx-auto" style="width: 75px; height: 75px;">Etapa A</div>
+                      <div class="text-center" style="position: absolute; width: 69px; background-color: white; height: 15px;  left:0; right: 0; margin-left: auto; margin-right: auto; margin-top: -15px;">Etapa 1</div>
+                    </div>
+                    <div class="col-4 my-auto" style="">
+                      <i class="fas fa-caret-right fa-4x" style="position: absolute; left: -15px; transform: translate(0%, 20%);"></i>
+                      <div class="card bg-white mx-auto" style="width: 90px; height: 90px;">Etapa B</div>
+                      <div class="text-center" style="position: absolute; width: 84px; background-color: white; height: 15px;  left:0; right: 0; margin-left: auto; margin-right: auto; margin-top: -15px;">Etapa 2</div>
+                    </div>
+                    <div class="col-4 my-auto" style="">
+                      <i class="fas fa-caret-right fa-4x" style="position: absolute; left: -7px; transform: translate(0%, 10%);"></i>
+                      <div class="card bg-white mx-auto" style="width: 75px; height: 75px;">Etapa C</div>
+                      <div class="text-center" style="position: absolute; width: 69px; background-color: white; height: 15px; left:0; right: 0; margin-left: auto; margin-right: auto; margin-top: -15px;">Etapa 3</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="container-fluid text-center" style="height: 30%;">
+                  <button class="btn btn-primary btn-lg">Detalles del pedido</button>
+                  <!--
+                  <button type="button" class="btn btn-danger btn-lg" style="width: 30%;">Cancelar pedido</button>
+                  <button type="button" class="btn btn-primary btn-lg" style="width: 60%;">Aceptar precio actualizado</button>
+                  -->
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- A partir de aquí termina la tarjeta que hay que repetir según las consultas -->
+          <!-- A partir de aquí comienza la tarjeta que hay que repetir según las consultas -->
+          <div class="container-fluid card bg-light" style="height: 250px; margin-bottom: 20px;">
+            <div class="row" style="height: 100%;">
+              <div class="col-8 container-fluid" style="">
+                <div class="row" style="height: 35%;"><!--
+                  <div class="col-4 my-auto text-center" style="font-size: 16px; font-weight: bold;">
+                    <i class="fas fa-star fa-2x" style="color:  #f1c40f "></i> Pedido expréss
+                  </div>-->
+                  <div class="col-4 my-auto text-center" style=" font-size: 16px; font-weight: bold; ">
+                    <i class="far fa-star fa-2x" style="color: #f1c40f"></i> Pedido normal
+                  </div>
+                  <div class="col-4" style="">
+                    <h5 style="margin-top: 8px;">Cliente</h5>
+                    <div>
+                      <img src="./img/avatar/avatarCliente.png" style="width: 36px; height: 36px; margin-left: 20px;"></img> Pepito Gómez
+                    </div>
+                  </div>
+                  <div class="col-4" style="">
+                    <h5 style="margin-top: 8px;">Cronología:</h5>
+                    <div class="row" style="height: 100%;">
+                      <div class="col-6 text-left" style="height: 100%; white-space: nowrap;">
+                        <a style="display:block; margin-left: 20px; font-size: 14px;">Fecha de inicio:</a>
+                        <a style="display:block; margin-left: 20px; font-size: 14px;">Fecha de fin:</a>
+                      </div>
+                      <div class="col-6 text-right" style="height: 100%; white-space: nowrap;">
+                        <a style="display:block; margin-left: 20px; font-size: 14px;">16/03/2020</a>
+                        <a style="display:block; margin-left: 20px; font-size: 14px;">21/03/2020</a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row" style="height: 65%;">
+                  <div class="col-6 " style=""><!-- TODO Esta fila puede ser col-6 o col-12 según haya factura o no -->
+                    <div class="row" style="height: 100%;">
+                      <div class="col-6 text-center" style="height: 100; padding-top: 25px;">
+                        <h5>Tipo de prenda</h5>
+                        <div class="card bg-white mx-auto" style="width: 75px; height: 75px;">Tipo prenda</div>
+                        <div class="text-center" style="position: absolute; width: 69px; background-color: white; height: 12px; left:0; right: 0; margin-left: auto; margin-right: auto; margin-top: -12px; line-height: 18px;">Nombre t. prenda</div>
+                      </div>
+                      <div class="col-6 text-center" style="height: 100; padding-top: 25px;">
+                        <h5>Tipo de servicio</h5>
+                        <div class="card bg-white mx-auto" style="width: 75px; height: 75px;">Servicio</div>
+                        <div class="text-center" style="position: absolute; width: 69px; background-color: white; height: 12px; left:0; right: 0; margin-left: auto; margin-right: auto; margin-top: -12px; line-height: 18px;">Nombre servicio</div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-6" style="">
+                    <h5 style="margin-top: 15px;">Total desglosado</h5>
+                    <div class="row" style="height: 100%;">
+                      <div class="col-6 text-left" style="height: 100%;">
+                        <a style="display:block; margin-left: 20px; font-size: 12px;">Servicio:</a>
+                        <a style="display:block; margin-left: 20px; font-size: 12px;">Arreglos solicitados:</a>
+                        <a style="display:block; margin-left: 20px; font-size: 12px;">Arreglos extras:</a>
+                        <a style="display:block; margin-left: 20px; font-size: 12px;">Descuento:</a>
+                        <a class="font-weight-bold" style="display:block; margin-left: 20px;">Total:</a>
+                      </div>
+                      <div class="col-6 text-right" style="height: 100%;">
+                        <a style="position: absolute; left: 10px; top: 20px; font-size: 20px;">+</a>
+                        <a style="display:block; margin-left: 20px; font-size: 12px;">12.34 €</a>
+                        <a style="display:block; margin-left: 20px; font-size: 12px;">56.78 €</a>
+                        <a style="display:block; margin-left: 20px; font-size: 12px;">90.12 €</a>
+                        <a style="display:block; margin-left: 20px; font-size: 12px;">-34.56 €</a>
+                        <hr style="margin: 0px; border-width: 2px;">
+                        <a class="font-weight-bold" style="display:block; margin-left: 20px;">78.90€</a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-4 container-fluid" style="">
+                <div class="container-fluid" style="height: 70%;">
+                  <h3 style="margin-top: 10px;">Etapas</h3>
+                  <div class="row" style="height: 65%;">
+                    <div class="col-4 my-auto" style="">
+                      <div class="card bg-white mx-auto" style="width: 75px; height: 75px;">Etapa A</div>
+                      <div class="text-center" style="position: absolute; width: 69px; background-color: white; height: 15px;  left:0; right: 0; margin-left: auto; margin-right: auto; margin-top: -15px;">Etapa 1</div>
+                    </div>
+                    <div class="col-4 my-auto" style="">
+                      <i class="fas fa-caret-right fa-4x" style="position: absolute; left: -15px; transform: translate(0%, 20%);"></i>
+                      <div class="card bg-white mx-auto" style="width: 90px; height: 90px;">Etapa B</div>
+                      <div class="text-center" style="position: absolute; width: 84px; background-color: white; height: 15px;  left:0; right: 0; margin-left: auto; margin-right: auto; margin-top: -15px;">Etapa 2</div>
+                    </div>
+                    <div class="col-4 my-auto" style="">
+                      <i class="fas fa-caret-right fa-4x" style="position: absolute; left: -7px; transform: translate(0%, 10%);"></i>
+                      <div class="card bg-white mx-auto" style="width: 75px; height: 75px;">Etapa C</div>
+                      <div class="text-center" style="position: absolute; width: 69px; background-color: white; height: 15px; left:0; right: 0; margin-left: auto; margin-right: auto; margin-top: -15px;">Etapa 3</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="container-fluid text-center" style="height: 30%;">
+                  <button class="btn btn-primary btn-lg">Detalles del pedido</button>
+                  <!--
+                  <button type="button" class="btn btn-danger btn-lg" style="width: 30%;">Cancelar pedido</button>
+                  <button type="button" class="btn btn-primary btn-lg" style="width: 60%;">Aceptar precio actualizado</button>
+                  -->
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- A partir de aquí termina la tarjeta que hay que repetir según las consultas -->
+          <!-- A partir de aquí comienza la tarjeta que hay que repetir según las consultas -->
+          <div class="container-fluid card bg-light" style="height: 250px; margin-bottom: 20px;">
+            <div class="row" style="height: 100%;">
+              <div class="col-8 container-fluid" style="">
+                <div class="row" style="height: 35%;"><!--
+                  <div class="col-4 my-auto text-center" style="font-size: 16px; font-weight: bold;">
+                    <i class="fas fa-star fa-2x" style="color:  #f1c40f "></i> Pedido expréss
+                  </div>-->
+                  <div class="col-4 my-auto text-center" style=" font-size: 16px; font-weight: bold; ">
+                    <i class="far fa-star fa-2x" style="color: #f1c40f"></i> Pedido normal
+                  </div>
+                  <div class="col-4" style="">
+                    <h5 style="margin-top: 8px;">Cliente</h5>
+                    <div>
+                      <img src="./img/avatar/avatarCliente.png" style="width: 36px; height: 36px; margin-left: 20px;"></img> Pepito Gómez
+                    </div>
+                  </div>
+                  <div class="col-4" style="">
+                    <h5 style="margin-top: 8px;">Cronología:</h5>
+                    <div class="row" style="height: 100%;">
+                      <div class="col-6 text-left" style="height: 100%; white-space: nowrap;">
+                        <a style="display:block; margin-left: 20px; font-size: 14px;">Fecha de inicio:</a>
+                        <a style="display:block; margin-left: 20px; font-size: 14px;">Fecha de fin:</a>
+                      </div>
+                      <div class="col-6 text-right" style="height: 100%; white-space: nowrap;">
+                        <a style="display:block; margin-left: 20px; font-size: 14px;">16/03/2020</a>
+                        <a style="display:block; margin-left: 20px; font-size: 14px;">21/03/2020</a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row" style="height: 65%;">
+                  <div class="col-6 " style=""><!-- TODO Esta fila puede ser col-6 o col-12 según haya factura o no -->
+                    <div class="row" style="height: 100%;">
+                      <div class="col-6 text-center" style="height: 100; padding-top: 25px;">
+                        <h5>Tipo de prenda</h5>
+                        <div class="card bg-white mx-auto" style="width: 75px; height: 75px;">Tipo prenda</div>
+                        <div class="text-center" style="position: absolute; width: 69px; background-color: white; height: 12px; left:0; right: 0; margin-left: auto; margin-right: auto; margin-top: -12px; line-height: 18px;">Nombre t. prenda</div>
+                      </div>
+                      <div class="col-6 text-center" style="height: 100; padding-top: 25px;">
+                        <h5>Tipo de servicio</h5>
+                        <div class="card bg-white mx-auto" style="width: 75px; height: 75px;">Servicio</div>
+                        <div class="text-center" style="position: absolute; width: 69px; background-color: white; height: 12px; left:0; right: 0; margin-left: auto; margin-right: auto; margin-top: -12px; line-height: 18px;">Nombre servicio</div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-6" style="">
+                    <h5 style="margin-top: 15px;">Total desglosado</h5>
+                    <div class="row" style="height: 100%;">
+                      <div class="col-6 text-left" style="height: 100%;">
+                        <a style="display:block; margin-left: 20px; font-size: 12px;">Servicio:</a>
+                        <a style="display:block; margin-left: 20px; font-size: 12px;">Arreglos solicitados:</a>
+                        <a style="display:block; margin-left: 20px; font-size: 12px;">Arreglos extras:</a>
+                        <a style="display:block; margin-left: 20px; font-size: 12px;">Descuento:</a>
+                        <a class="font-weight-bold" style="display:block; margin-left: 20px;">Total:</a>
+                      </div>
+                      <div class="col-6 text-right" style="height: 100%;">
+                        <a style="position: absolute; left: 10px; top: 20px; font-size: 20px;">+</a>
+                        <a style="display:block; margin-left: 20px; font-size: 12px;">12.34 €</a>
+                        <a style="display:block; margin-left: 20px; font-size: 12px;">56.78 €</a>
+                        <a style="display:block; margin-left: 20px; font-size: 12px;">90.12 €</a>
+                        <a style="display:block; margin-left: 20px; font-size: 12px;">-34.56 €</a>
+                        <hr style="margin: 0px; border-width: 2px;">
+                        <a class="font-weight-bold" style="display:block; margin-left: 20px;">78.90€</a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-4 container-fluid" style="">
+                <div class="container-fluid" style="height: 70%;">
+                  <h3 style="margin-top: 10px;">Etapas</h3>
+                  <div class="row" style="height: 65%;">
+                    <div class="col-4 my-auto" style="">
+                      <div class="card bg-white mx-auto" style="width: 75px; height: 75px;">Etapa A</div>
+                      <div class="text-center" style="position: absolute; width: 69px; background-color: white; height: 15px;  left:0; right: 0; margin-left: auto; margin-right: auto; margin-top: -15px;">Etapa 1</div>
+                    </div>
+                    <div class="col-4 my-auto" style="">
+                      <i class="fas fa-caret-right fa-4x" style="position: absolute; left: -15px; transform: translate(0%, 20%);"></i>
+                      <div class="card bg-white mx-auto" style="width: 90px; height: 90px;">Etapa B</div>
+                      <div class="text-center" style="position: absolute; width: 84px; background-color: white; height: 15px;  left:0; right: 0; margin-left: auto; margin-right: auto; margin-top: -15px;">Etapa 2</div>
+                    </div>
+                    <div class="col-4 my-auto" style="">
+                      <i class="fas fa-caret-right fa-4x" style="position: absolute; left: -7px; transform: translate(0%, 10%);"></i>
+                      <div class="card bg-white mx-auto" style="width: 75px; height: 75px;">Etapa C</div>
+                      <div class="text-center" style="position: absolute; width: 69px; background-color: white; height: 15px; left:0; right: 0; margin-left: auto; margin-right: auto; margin-top: -15px;">Etapa 3</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="container-fluid text-center" style="height: 30%;">
+                  <button class="btn btn-primary btn-lg">Detalles del pedido</button>
+                  <!--
+                  <button type="button" class="btn btn-danger btn-lg" style="width: 30%;">Cancelar pedido</button>
+                  <button type="button" class="btn btn-primary btn-lg" style="width: 60%;">Aceptar precio actualizado</button>
+                  -->
+                </div>
+              </div>
             </div>
           </div>
           <!-- A partir de aquí termina la tarjeta que hay que repetir según las consultas -->
