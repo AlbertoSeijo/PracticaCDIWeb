@@ -1,0 +1,47 @@
+
+.contenedor-titulo {
+  margin-top: 48px;
+}
+
+#imagen-tarjeta {
+  width: 320px;
+  user-select: none;
+  user-drag: none;
+}
+
+.contenedor-imagen-tarjeta {
+  margin-top: 24px;
+  margin-bottom: 48px;
+}
+
+.separador-numTarjeta-izquierdo{
+  position: absolute;
+  left: -30px;
+  top: -32px;
+}
+
+.separador-numTarjeta-derecho{
+  position: absolute;
+  right: -30px;
+  top: -32px;
+}
+
+.btn-sin-tarjeta {
+  position: absolute;
+  right: 48px;
+}
+
+.contenedor-botones-continuar {
+  margin-top: 48px;
+}
+
+.contenedor-entradaTarjeta-central {
+  margin-left: 40px;
+  margin-right: 40px;
+  font-size: 48px;
+  font-weight: bold;
+}
+
+.input-tarjetaCliente {
+   user-select: none;
+}

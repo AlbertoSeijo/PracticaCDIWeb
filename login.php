@@ -7,7 +7,7 @@ if(isset($_SESSION['sesionIniciada'])){
 ?>
 <link href="./css/login.css" rel="stylesheet">
 <div class="container-fluid">
-  <div class="row" align="center" style="height:250px;">
+  <div class="row margen-superior" align="center">
     <div class="col-12 my-auto" align="center"><h1 class="font-weight-bold text-white">Inicio de sesión</h1></div>
   </div>
   <div class="row" >
@@ -15,7 +15,6 @@ if(isset($_SESSION['sesionIniciada'])){
     <div class="col-lg-4">
       <div class="card bg-light">
         <div class="card-body">
-
           <form action="./login" method="POST" id="formLogin">
             <div class="form-group">
               <label for="emailLogin">Correo electrónico</label>
@@ -27,10 +26,9 @@ if(isset($_SESSION['sesionIniciada'])){
             </div>
             <input type="hidden" name="triedLogin" id="triedLogin" value="true">
           </form>
-
         </div>
       </div>
-      <button type="submit" class="btn btn-primary btn-lg" style="width: 100%; margin-top: 24px;" form="formLogin" >Iniciar sesión</button>
+      <button type="submit" class="btn btn-primary btn-lg btn-login"  form="formLogin" >Iniciar sesión</button>
     </div>
     <div class="col-4"></div>
   </div>
@@ -48,7 +46,6 @@ if(isset($_POST['triedLogin']) && $_POST['triedLogin'] == true){
     define('NOMBRE_BD', 'tintoreria');
 
     $db = mysqli_connect(SERVIDOR_BD,USUARIO_BD,CONTRASENA_BD,NOMBRE_BD);
-    //session_start(); TODO Ya se inicia en el header
 
     if ($stmt = $db->prepare('SELECT idCuenta, nombre, apellidos, correoElectronico, contraseña FROM cuenta WHERE correoElectronico = ?')) {//Preparamos la consulta sql para evitar posibles ataques tipo SQL Injection
     	$stmt->bind_param('s', $_POST['emailLogin']);//Bindeamos al '?' el correo electrónico que nos ha mandado el usuario a través del formulario. El parámetro 's' indica que es un string.

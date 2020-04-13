@@ -9,3 +9,11 @@ html{
   background-size: cover;
   height: 100%;
 }
+
+.margen-superior {
+  height:250px;
+}
+
+.btn-registrarse {
+  width: 100%; margin-top: 24px;
+}

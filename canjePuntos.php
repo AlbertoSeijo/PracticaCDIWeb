@@ -1,17 +1,18 @@
 <?php
 include './header.php';?>
+<link href="./css/canjePuntos.css" rel="stylesheet">
 <?php
 $nombrePagina = "Canje de puntos";
 include './cabeceraContenido.php';
 ?>
 
 <div class="container-fluid">
-  <div class="row" style="margin-top: 48px;">
-    <div class="col-12 text-center" ><h2>Introduce la tarjeta de puntos del cliente</h2></div>
+  <div class="row contenedor-titulo">
+    <div class="col-12 text-center"><h2>Introduce la tarjeta de puntos del cliente</h2></div>
   </div>
-  <div class="row text-center" style="margin-top: 24px; margin-bottom: 48px;">
+  <div class="row text-center contenedor-imagen-tarjeta">
     <div class="col">
-      <img src="" style="width: 480px; height: 240px;"></img>
+      <img draggable="false" id="imagen-tarjeta" src="./img/tarjetaPuntos.svg"></img>
     </div>
   </div>
   <div class="row">
@@ -20,29 +21,29 @@ include './cabeceraContenido.php';
       <form>
         <div class="form-row">
           <div class="col">
-            <input type="text" class="form-control text-center" placeholder="First name">
+            <input type="text" class="form-control text-center input-tarjetaCliente" id="tarjetaInput1" placeholder="XXXX" maxlength="4">
           </div>
-          <div class="col" style="margin-left: 40px; margin-right: 40px; font-size: 48px; font-weight: bold;">
-            <a style="position: absolute; left: -30px; top: -32px;">-</a>
-            <input type="text" class="form-control text-center" placeholder="Last name" >
-            <a style="position: absolute; right: -30px; top: -32px;">-</a>
+          <div class="col contenedor-entradaTarjeta-central">
+            <a class="separador-numTarjeta-izquierdo">-</a>
+            <input type="text" class="form-control text-center input-tarjetaCliente" id="tarjetaInput2"  placeholder="XXXX" maxlength="4">
+            <a class="separador-numTarjeta-derecho">-</a>
           </div>
           <div class="col">
-            <input type="text" class="form-control text-center" placeholder="Last name">
+            <input type="text" class="form-control text-center input-tarjetaCliente" id="tarjetaInput3" placeholder="XXXX" maxlength="4">
           </div>
         </div>
       </form>
     </div>
     <div class="col-4"></div>
   </div>
-  <div class="row text-center" style="margin-top: 48px;">
+  <div class="row text-center contenedor-botones-continuar">
     <div class="col-12 text-center">
       <button class="btn btn-primary btn-lg">Continuar</button>
-      <button class="btn btn-primary btn-lg" style="position: absolute; right: 48px;">Tramitar pedido sin aplicar descuentos</button>
+      <button class="btn btn-primary btn-lg btn-sin-tarjeta">Tramitar pedido sin aplicar descuentos</button>
     </div>
   </div>
 </div>
-
+<script src="./js/canjePuntos.js"></script>
 <?php
 include './footer.php';
 ?>

@@ -7,7 +7,7 @@ if(isset($_SESSION['sesionIniciada'])){
 ?>
 <link href="./css/signup.css" rel="stylesheet">
 <div class="container-fluid">
-  <div class="row" align="center" style="height:250px;">
+  <div class="row margen-superior" align="center">
     <div class="col-12 my-auto" align="center"><h1 class="font-weight-bold text-white">Registro</h1></div>
   </div>
   <div class="row">
@@ -15,7 +15,6 @@ if(isset($_SESSION['sesionIniciada'])){
     <div class="col-lg-4">
       <div class="card bg-light">
         <div class="card-body">
-
           <form action="./signup" method="POST" id="formRegistro">
             <div class="form-row">
               <div class="form-group col-md-6">
@@ -44,12 +43,10 @@ if(isset($_SESSION['sesionIniciada'])){
               <input type="password" class="form-control" name="confirmaciónContraseñaRegistro" id="confirmaciónContraseñaRegistro">
             </div>
             <input type="hidden" name="triedRegistro" id="triedRegistro" value="true">
-
           </form>
-
         </div>
       </div>
-      <button type="submit" class="btn btn-primary btn-lg" style="width: 100%; margin-top: 24px;" form="formRegistro" >Registrarse</button>
+      <button type="submit" class="btn btn-primary btn-lg btn-registrarse" form="formRegistro" >Registrarse</button>
     </div>
     <div class="col-4"></div>
   </div>

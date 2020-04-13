@@ -14,3 +14,20 @@
   padding-right:0px;
   min-height: 225px;
 }
+
+.welcome-title {
+  margin-top: 40px;
+}
+
+.welcome-description {
+  margin-top: 20px;
+  margin-bottom: 50px;
+}
+
+.index-action-card{
+  width: 18rem;
+}
+.cabeceraContenido-title {
+  font-family: Brush Script MT;
+  font-size: 64px;
+}

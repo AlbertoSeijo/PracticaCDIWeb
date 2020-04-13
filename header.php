@@ -16,6 +16,9 @@
     <link href="./fontawesome/css/fontawesome.min.css" rel="stylesheet">
     <link href="./fontawesome/css/all.min.css" rel="stylesheet">
     <link href="./css/header.css" rel="stylesheet">
+    <script src="./js/jquery-3.4.1.min.js"></script>
+    <script src="./js/bootstrap.bundle.min.js"></script>
+    <script src="./js/common.js"></script>
     <title>La Vandería</title>
   </head>
   <body class=""><!--TODO Cambiar esto para que funcione en los fondos de imagen bg-light -->
