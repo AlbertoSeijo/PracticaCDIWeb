@@ -45,3 +45,8 @@
 .input-tarjetaCliente {
    user-select: none;
 }
+
+.espacios-descuentos {
+  margin-top: 12px;
+  margin-bottom: 12px;
+}

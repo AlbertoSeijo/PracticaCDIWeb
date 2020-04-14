@@ -9,8 +9,8 @@ $nombrePagina = "Canjeo de regalos y descuentos";
 include './cabeceraContenido.php';
 ?>
 
-<link rel=stylesheet type="text/css" href="canjePuntos.css">
-<script src="canjePuntos.js" language="javascript" type="text/javascript"></script>
+<link rel=stylesheet type="text/css" href="./css/canjePuntos.css">
+<script src="./js/canjePuntos.js" language="javascript" type="text/javascript"></script>
 
 
 
@@ -37,29 +37,29 @@ include './cabeceraContenido.php';
 
     <div class="col">
       <h3>DESCUENTOS</h3>
-      <div class="card bg-primary text-white">
+      <div class="card bg-primary text-black">
         <div class="card-body">
-      <div class="card">
-        <div class="card-body">
-          <img src="./img/tarjetaPuntos.svg" width="50" height="auto" alt="" class="rounded">33% de descuento
-        </div>
-      </div>
-      <div class="card">
+      <div class="card espacios-descuentos">
         <div class="card-body">
           <img src="./img/tarjetaPuntos.svg" width="50" height="auto" alt="" class="rounded">33% de descuento
         </div>
       </div>
-      <div class="card">
+      <div class="card espacios-descuentos">
         <div class="card-body">
           <img src="./img/tarjetaPuntos.svg" width="50" height="auto" alt="" class="rounded">33% de descuento
         </div>
       </div>
-      <div class="card">
+      <div class="card espacios-descuentos">
         <div class="card-body">
           <img src="./img/tarjetaPuntos.svg" width="50" height="auto" alt="" class="rounded">33% de descuento
         </div>
       </div>
-      <div class="card">
+      <div class="card espacios-descuentos">
+        <div class="card-body">
+          <img src="./img/tarjetaPuntos.svg" width="50" height="auto" alt="" class="rounded">33% de descuento
+        </div>
+      </div>
+      <div class="card espacios-descuentos">
         <div class="card-body">
           <img src="./img/tarjetaPuntos.svg" width="50" height="auto" alt="" class="rounded">33% de descuento
         </div>
@@ -71,7 +71,7 @@ include './cabeceraContenido.php';
 
     <div class="col">
       <h3>REGALOS</h3>
-      <div class="card bg-primary text-white">
+      <div class="card bg-primary text-black">
         <div class="card-body">
       <div class="card">
         <div class="card-body">
