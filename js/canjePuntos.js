@@ -7,26 +7,6 @@ $('.input-tarjetaCliente').on('keydown change', function(event){
   var tNext = null;
   var tPrevious = null;
 
-  function setCaretPosition(elemId, caretPos) {
-      var elem = document.getElementById(elemId);
-
-      if(elem != null) {
-          if(elem.createTextRange) {
-              var range = elem.createTextRange();
-              range.move('character', caretPos);
-              range.select();
-          }
-          else {
-              if(elem.selectionStart) {
-                  elem.focus();
-                  elem.setSelectionRange(caretPos, caretPos);
-              }
-              else
-                  elem.focus();
-          }
-      }
-  }
-
   if(t.is(t1)){
     tNext = t2;
     tPrevious = null;
@@ -76,8 +56,6 @@ $('.input-tarjetaCliente').on('keydown change', function(event){
       }
     }
   }
-  console.log(event.target.selectionStart);
-
 });
 
 

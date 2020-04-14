@@ -46,7 +46,29 @@
    user-select: none;
 }
 
+/*CANJEPUNTOS2*/
+
 .espacios-descuentos {
   margin-top: 12px;
   margin-bottom: 12px;
+}
+
+.contenedor-descuentos {
+  overflow-y: auto;
+  height: 60vh;
+  padding-top: -10px;
+}
+
+.btn-continuarPedido{
+  width: 60%;
+}
+
+.margen-superior-col1{
+  margin-top: 80px;
+}
+
+.margen-puntos{
+  margin-bottom: 20px;
+  margin-top: 45px;
+  text-align: center;
 }
