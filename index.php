@@ -84,7 +84,7 @@ if(!isset($_SESSION['sesionIniciada'])){
             <div class="card-body carta-menu-principal">
               <h5 class="card-title">Petición de limpieza</h5>
               <p class="card-text m-3">Realiza desde aquí una nueva petición de limpieza para un cliente.</p>
-              <a href="#" class="btn btn-primary boton-menu-principal" onclick="location.href=\'./peticionDeLimpieza\'">Realizar una petición de limpieza</a>
+              <a href="#" class="btn btn-primary boton-menu-principal" onclick="location.href=\'./peticionLimpieza\'">Realizar una petición de limpieza</a>
             </div>
           </div>
         </div>
