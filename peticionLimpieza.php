@@ -9,33 +9,43 @@ if(!isset($_SESSION['sesionIniciada']) || $_SESSION['tipoCuentaSesión'] != "Enc
 $nombrePagina = "Petición de limpieza";
 include './cabeceraContenido.php';
 ?>
+
+
 <div class="container-fluid" style="height:60vh; margin-top: 40px;">
-  <div class="row" style="height: 100%; ">
-    <div class="col-2" style="height: 100%;">
-      <div class="card bg-light">
-        <div class="card-body">
-          <div class="row" style="">
-            <div class="col-12 text-center" style="height: 100%;">
-              <button type="button" class="btn btn-primary seleccion-tipo-prenda" onclick="holaMundo()">Lana</button>
-              <button type="button" class="btn btn-primary seleccion-tipo-prenda" onclick="holaMundo()">Seda</button>
+  <div class="row" style="height: 100%;">
+    <div class="col-2" style="height: 100%; width:100%;">
+      <div class="card bg-light" style="height: 91%; width:100%;">
+        <div class="card-body" style="height: 91%; width:100%;">
+          <div class="row" style="height: 25%; width:200px;">
+            <div class="col" style="height: 100%; width:90px;">
+              <button type="button" class="btn btn-primary seleccion-tipo-prenda" style="height: 80%; width:90px;" onclick="holaMundo()">Lana</button>
+            </div>
+            <div class="col" style="height: 100%; width:90px;">
+              <button type="button" class="btn btn-primary seleccion-tipo-prenda" style="height: 80%; width:90px;" onclick="holaMundo()">Seda</button>
             </div>
           </div>
-          <div class="row" style="">
-            <div class="col-12 text-center" style="height: 100%;">
-              <button type="button" class="btn btn-primary seleccion-tipo-prenda" onclick="holaMundo()">Cuero</button>
-              <button type="button" class="btn btn-primary seleccion-tipo-prenda" onclick="holaMundo()">Bambú</button>
+          <div class="row" style="height: 25%; width:200px;">
+            <div class="col" style="height: 100%; width:90px;">
+              <button type="button" class="btn btn-primary seleccion-tipo-prenda" style="height: 80%; width:90px;" onclick="holaMundo()">Cuero</button>
+            </div>
+            <div class="col" style="height: 100%; width:90px;">
+              <button type="button" class="btn btn-primary seleccion-tipo-prenda" style="height: 80%; width:90px;" onclick="holaMundo()">Bambú</button>
             </div>
           </div>
-          <div class="row" style="">
-            <div class="col-12 text-center" style="height: 100%;">
-              <button type="button" class="btn btn-primary seleccion-tipo-prenda" onclick="holaMundo()">Algodón</button>
-              <button type="button" class="btn btn-primary seleccion-tipo-prenda" onclick="holaMundo()">Nailon</button>
+          <div class="row" style="height: 25%; width:200px;">
+            <div class="col" style="height: 100%; width:90px;">
+              <button type="button" class="btn btn-primary seleccion-tipo-prenda" style="height: 80%; width:90px;" onclick="holaMundo()">Algodón</button>
+            </div>
+            <div class="col" style="height: 100%; width:90px;">
+              <button type="button" class="btn btn-primary seleccion-tipo-prenda" style="height: 80%; width:90px;" onclick="holaMundo()">Nailon</button>
             </div>
           </div>
-          <div class="row" style="">
-            <div class="col-12 text-center" style="height: 100%;">
-              <button type="button" class="btn btn-primary seleccion-tipo-prenda" onclick="holaMundo()">Trajes</button>
-              <button type="button" class="btn btn-primary seleccion-tipo-prenda" onclick="holaMundo()">Vestidos</button>
+          <div class="row" style="height: 25%; width:200px;">
+            <div class="col" style="height: 100%; width:90px;">
+              <button type="button" class="btn btn-primary seleccion-tipo-prenda" style="height: 80%; width:90px;" onclick="holaMundo()">Trajes</button>
+            </div>
+            <div class="col" style="height: 100%; width:90px;">
+              <button type="button" class="btn btn-primary seleccion-tipo-prenda" style="height: 80%; width:90px;" onclick="holaMundo()">Vestidos</button>
             </div>
           </div>
         </div>
@@ -84,9 +94,11 @@ include './cabeceraContenido.php';
         </div>
       </div>
       <div class="row" style="height: 22%;">
-        <div class="col-12" style="">
-          <button type="button" class="btn btn-primary seleccion-tipo-prenda" onclick="holaMundo()" style="width: 65%;">Pedido normal</button>
-          <button type="button" class="btn btn-primary seleccion-tipo-prenda" onclick="holaMundo()" style="width: 30%;">Pedido express</button>
+        <div class="col-8" style="height: 100%">
+          <button type="button" class="btn btn-info seleccion-tipo-prenda" onclick="./index" style="width: 100%; height: 60%;"><b>Pedido normal</b></button>
+        </div>
+        <div class="col-4" style="height: 100%">
+          <button type="button" class="btn btn-warning seleccion-tipo-prenda" onclick="./index" style="width: 100%; height: 60%;"><b>Pedido express</b></button>
         </div>
       </div>
     </div>

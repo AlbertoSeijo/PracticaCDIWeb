@@ -19,15 +19,15 @@ if(!isset($_SESSION['sesionIniciada'])){
     </ul>
 
     <!-- The slideshow -->
-    <div class="carousel-inner">
+    <div class="carousel-inner" style="height: 400px;">
       <div class="carousel-item active">
-        <img src="./img/backgroundImage0.jpg" width=100% height=700px alt="">
+        <img src="./img/backgroundImage0.jpg" width=100% alt="">
       </div>
       <div class="carousel-item">
-        <img src="./img/backgroundImage1.jpg" width=100% height=700px alt="">
+        <img src="./img/backgroundImage1.jpg" width=100% alt="">
       </div>
       <div class="carousel-item">
-        <img src="./img/backgroundImage2.jpg" width=100% height=700px alt="">
+        <img src="./img/backgroundImage2.jpg" width=100% alt="">
       </div>
     </div>
 

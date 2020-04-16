@@ -673,6 +673,9 @@ if($_SESSION['tipoCuentaSesión'] != "Encargado"){
 </div>
 <!--
 /* CLIENTES
+
+POR REALIZAR
+
 SELECT idTipoPedido, tipoPrenda, esPedidoExpress, fechaIni, fechaFin
 FROM pedidos p INNER JOIN etapa e ON p.idPedido = e.idPedido
 WHERE idEtapa = 1 AND fechaIni = 'null' AND clientepedido = ?;
