@@ -1,4 +1,5 @@
 <?php
+echo 'aaaaa';
 /* POST VARIABLES */
 function mostrarPedido($tipoCuenta, $esPedidoExpress, $tipoPrenda, $tipoServicio, $etapaAnterior, $etapaActual, $etapaSiguiente){
 
@@ -11,6 +12,36 @@ function mostrarPedidoCliente($tipoCuenta, $esPedidoExpress, $tipoPrenda, $tipoS
 
 
 function consultaSQL($consulta, $tiposParametros, $listaParametros, $resultadoParametros, $funcionAnidada){
+
+  $resultado;
+  $contador = 0;
+
+  define('SERVIDOR_BD', 'localhost:3306');
+  define('USUARIO_BD', 'webtintoreria');
+  define('CONTRASENA_BD', 'lavanderia');
+  define('NOMBRE_BD', 'tintoreria');
+
+  $db = mysqli_connect(SERVIDOR_BD,USUARIO_BD,CONTRASENA_BD,NOMBRE_BD);
+
+  if ($stmt = $db->prepare($consulta)) {//Preparamos la consulta sql para evitar posibles ataques tipo SQL Injection
+    $stmt->bind_param($tiposParametros, $listaParametros);//Bindeamos al '?' el correo electrónico que nos ha mandado el usuario a través del formulario. El parámetro 's' indica que es un string.
+    $stmt->execute();
+    $stmt->store_result();
+
+    if ($stmt->num_rows > 0) {//Si hay más de 0 filas es que se ha encontrado una cuenta con ese correo electrónico.
+      $stmt->bind_result($idCuenta, $nombreCuenta, $apellidosCuenta, $correoElectronicoCuenta, $contraseñaCuenta);//TODO A VER COMO HAGO ESTO
+      $stmt->fetch();
+    }
+  }
+}
+
+function cSQLOrdenarPor($consulta, $ordenarPor){
+  if($ordenarPor == 'A'){
+    return $consulta + 'ORDER BY';
+  }
+}
+
+function cSQLBusqueda($consulta, $nombreColumna, $texto){
 
 }
 
@@ -28,6 +59,12 @@ define('NOMBRE_BD', 'tintoreria');
 
 $db = mysqli_connect(SERVIDOR_BD,USUARIO_BD,CONTRASENA_BD,NOMBRE_BD);
 if($_SESSION['tipoCuentaSesión'] == "Cliente"){
+  consultaSQL(cSQLOrdenadaPor(cSQLBusqueda('SELECT BLABLABLA', $buscarPor, $entradaBusqueda), $ordenarPor), 'i', array("foo", "bar", "hello", "world"))//Obtenemos
+
+
+
+
+
   if ($stmt = $db->prepare('SELECT p.idPedido, d.valor, p.tipoPrenda, p.esPedidoExpress, tpedido.nombreTipoPedido, tpedido.precio  FROM Pedido p, Descuento d, TipoPedido tpedido WHERE ClientePedido = ? AND p.TipoPedido_idTipoPedido = tpedido.idTipoPedido AND p.Descuentos_idDescuentos  = d.idDescuentos')) {//Preparamos la consulta sql para evitar posibles ataques tipo SQL Injection
     $stmt->bind_param('i', $_SESSION['idCuentaSesión']);//Bindeamos al '?' el correo electrónico que nos ha mandado el usuario a través del formulario. El parámetro 's' indica que es un string.
     $stmt->execute();

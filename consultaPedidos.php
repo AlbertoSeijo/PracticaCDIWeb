@@ -21,13 +21,14 @@ if($_SESSION['tipoCuentaSesión'] != "Encargado"){
 }
 
  ?>
+<form id="consultaPedidosForm"></form>
 <div class="container-fluid">
   <div class="row" style="margin-top:16px;">
     <div class="col-2"></div>
     <div class="col-2">
       <div class="form-group">
         <label class="etiquetaElementosFormulario" for="aaaa">Mostrar:</label>
-        <select class="custom-select" id="aaaa">
+        <select id="seMuestra" class="custom-select" id="aaaa" form="consultaPedidosForm" onchange="actualizarConsultaPedidos()">
           <option selected>Por realizar</option>
           <option value="1">Finalizado</option>
           <option value="2">En proceso</option>
@@ -38,7 +39,7 @@ if($_SESSION['tipoCuentaSesión'] != "Encargado"){
     <link href="./fontawesome/css/all.css" rel="stylesheet"> <!--load all styles -->
     <div class="col-2">
       <label class="etiquetaElementosFormulario" for="aaaa">Ordenar por:</label>
-      <select class="custom-select">
+      <select id="ordenarPor"class="custom-select" form="consultaPedidosForm" onchange="actualizarConsultaPedidos()">
         <option selected>Express</option>
         <option value="1">Fecha de toma de pedido (ascendente)</option>
         <option value="2">Fecha de toma de pedido (descendente)</option>
@@ -49,13 +50,13 @@ if($_SESSION['tipoCuentaSesión'] != "Encargado"){
     <div class="col-4">
       <div class="input-group" style="margin-top: 25px;">
         <div class="input-group-prepend">
-          <select class="custom-select btn bg-light">
+          <select id="buscarPor" class="custom-select btn bg-light" form="consultaPedidosForm" onchange="actualizarConsultaPedidos()">
             <option selected>Nombre de cliente</option>
             <option value="1">Fecha de pedido</option>
             <option value="2">Tipo de prenda</option>
           </select>
         </div>
-        <input type="text" class="form-control" placeholder="Búsqueda..." style="border-bottom-right-radius: 0.25rem; border-top-right-radius: 0.25rem; ">
+        <input type="text" id="entradaBusqueda" class="form-control" placeholder="Búsqueda..." form="consultaPedidosForm" oninput="actualizarConsultaPedidos()" style="border-bottom-right-radius: 0.25rem; border-top-right-radius: 0.25rem; ">
         <button type="submit" class="btn btn-primary" style="margin-left: 16px; margin-top: -10px;" form="" ><i class="fas fa-search"></i></button>
       </div>
     </div>
@@ -65,7 +66,7 @@ if($_SESSION['tipoCuentaSesión'] != "Encargado"){
     <div class="col-2"></div>
     <div class="col-8" style=" ">
       <div class="container-fluid card" style="height: 60vh; padding: 0px;">
-        <div class="card-body" style="overflow-y: auto;">
+        <div class="card-body" id="contenedorResumenesPedidos" style="overflow-y: auto;">
           <!-- A partir de aquí comienza la tarjeta que hay que repetir según las consultas -->
           <div class="container-fluid card bg-light" style="height: 250px; margin-bottom: 20px;">
             <div class="row" style="height: 100%;">
@@ -671,6 +672,7 @@ if($_SESSION['tipoCuentaSesión'] != "Encargado"){
     <div class="col-2"></div>
   </div>
 </div>
+<script src="./js/consultaPedidos.js"></script>
 <!--
 /* CLIENTES
 
