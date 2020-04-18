@@ -8,38 +8,43 @@ include './cabeceraContenido.php';
 <div class="web-content container-fluid">
 <?php
 if(!isset($_SESSION['sesionIniciada'])){
-  echo '
-  <div id="demo" class="carousel slide" data-ride="carousel">
-
-    <!-- Indicators -->
-    <ul class="carousel-indicators">
-      <li data-target="#demo" data-slide-to="0" class="active"></li>
-      <li data-target="#demo" data-slide-to="1"></li>
-      <li data-target="#demo" data-slide-to="2"></li>
-    </ul>
-
-    <!-- The slideshow -->
-    <div class="carousel-inner" style="height: 400px;">
-      <div class="carousel-item active">
-        <img src="./img/backgroundImage0.jpg" width=100% alt="">
-      </div>
-      <div class="carousel-item">
-        <img src="./img/backgroundImage1.jpg" width=100% alt="">
-      </div>
-      <div class="carousel-item">
-        <img src="./img/backgroundImage2.jpg" width=100% alt="">
+  echo'
+  <div id="demo" class="carousel slide carousel-tamanio" data-ride="carousel">
+  <ul class="carousel-indicators">
+    <li data-target="#demo" data-slide-to="0" class="active"></li>
+    <li data-target="#demo" data-slide-to="1"></li>
+    <li data-target="#demo" data-slide-to="2"></li>
+  </ul>
+  <div class="carousel-inner">
+    <div class="carousel-item active" style="height:677px;">
+      <img src="./img/laundry1.jpg" style="width:100%;" alt="">
+      <div class="carousel-caption">
+        <h3>Tintoreria La Vanderia</h3>
+        <p>Satisfaciendo a nuestros clientes desde hace ya más de 20 años!!</p>
       </div>
     </div>
-
-    <!-- Left and right controls -->
-    <a class="carousel-control-prev" href="#demo" data-slide="prev">
-      <span class="carousel-control-prev-icon"></span>
-    </a>
-    <a class="carousel-control-next" href="#demo" data-slide="next">
-      <span class="carousel-control-next-icon"></span>
-    </a>
-
+    <div class="carousel-item" style="height:677px;">
+      <img src="./img/backgroundImage1.jpg" style="width:100%;" alt="">
+      <div class="carousel-caption">
+        <h3>Distintos Tipos de Prendas</h3>
+        <p>En La Vanderia trabajamos hasta con ocho tipo de prendas para poder abarcar el mayor rango de prendas a lavar para nuestros clientes.</p>
+      </div>
+    </div>
+    <div class="carousel-item" style="height:677px;">
+      <img src="./img/laundryreception1.jpg" style="width:100%;" alt="">
+      <div class="carousel-caption">
+        <h3>Distintos Servicios</h3>
+        <p>En nuestra tintoreria disponemos de hasta 3 tipos de servicios, para un mayor abanico de posibilidades a elegir a nuestros usuarios.</p>
+      </div>
+    </div>
   </div>
+  <a class="carousel-control-prev" href="#demo" data-slide="prev">
+    <span class="carousel-control-prev-icon"></span>
+  </a>
+  <a class="carousel-control-next" href="#demo" data-slide="next">
+    <span class="carousel-control-next-icon"></span>
+  </a>
+</div>
   ';
 } else {
   if($_SESSION['tipoCuentaSesión'] == "Cliente"){

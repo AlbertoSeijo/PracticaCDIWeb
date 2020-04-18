@@ -32,3 +32,10 @@
   font-family: Brush Script MT;
   font-size: 64px;
 }
+
+.carousel-tamanio {
+  height:677px;
+  width:1920hv;
+  margin-left:-15px;
+  margin-right:-15px;
+}
