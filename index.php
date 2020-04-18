@@ -32,9 +32,13 @@ if(!isset($_SESSION['sesionIniciada'])){
     </div>
     <div class="carousel-item" style="height:677px;">
       <img src="./img/laundryreception1.jpg" style="width:100%;" alt="">
-      <div class="carousel-caption">
-        <h3>Distintos Servicios</h3>
-        <p>En nuestra tintoreria disponemos de hasta 3 tipos de servicios, para un mayor abanico de posibilidades a elegir a nuestros usuarios.</p>
+      <div class="carousel-caption text-center" >
+        <div class="card" style="filter: opacity(0.5); background-color: black; position: absolute; top: 0px; width: 100%; height: 300px; "><!--TODO Aquí falta arreglar esto -->
+        </div>
+        <div class="" style="filter: opacity(1) !important; color: white;">
+          <h3>Distintos Servicios</h3>
+          <p>En nuestra tintoreria disponemos de hasta 3 tipos de servicios, para un mayor abanico de posibilidades a elegir a nuestros usuarios.</p>
+        </div>
       </div>
     </div>
   </div>

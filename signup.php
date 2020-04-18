@@ -80,7 +80,7 @@ if(isset($_POST['triedRegistro'])  && $_POST['triedRegistro'] == true){
         	$stmt2->bind_param('sssss', $_POST['nombreRegistro'], $_POST['apellidosRegistro'], $_POST['correoElectronicoRegistro'], $hashContraseña, $_POST['dniRegistro']);
         	$stmt2->execute();
           $idCliente = mysqli_insert_id($db);
-          if ($stmt3 = $db->prepare('INSERT INTO Cliente (Cuenta_idCuenta) VALUES (?)')) {
+          if ($stmt3 = $db->prepare('INSERT INTO Cliente (idCuenta) VALUES (?)')) {
           	// We do not want to expose passwords in our database, so hash the password and use password_verify when a user logs in.
           	$stmt3->bind_param('s', $idCliente);
           	$stmt3->execute();
