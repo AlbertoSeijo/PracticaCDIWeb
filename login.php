@@ -63,8 +63,9 @@ if(isset($_POST['triedLogin']) && $_POST['triedLogin'] == true){
       		$_SESSION['nombreSesión'] = $nombreCuenta;
       		$_SESSION['apellidosSesión'] = $apellidosCuenta;
           $_SESSION['correoElectronicoSesión'] = $correoElectronicoCuenta;
+          $_SESSION['tipoCuentaSesión'] = "ERROR";
           //Ahora buscamos al usuario en las tablas de clientes y empleados para saber qué tipo de usuario es
-          if ($stmt2 = $db->prepare('SELECT esEncargado FROM Empleado WHERE Cuenta_idCuenta = ?')) {//Preparamos la consulta sql para evitar posibles ataques tipo SQL Injection
+          if ($stmt2 = $db->prepare('SELECT esEncargado FROM Empleado WHERE idCuenta = ?')) {//Preparamos la consulta sql para evitar posibles ataques tipo SQL Injection
           	$stmt2->bind_param('s', $idCuenta);//Bindeamos al '?' el correo electrónico que nos ha mandado el usuario a través del formulario. El parámetro 's' indica que es un string.
           	$stmt2->execute();
           	$stmt2->store_result();
@@ -78,7 +79,7 @@ if(isset($_POST['triedLogin']) && $_POST['triedLogin'] == true){
                 $_SESSION['tipoCuentaSesión'] = "Empleado";
               }
             } else { //Si no se encuentra la id en la tabla empleados, entonces se trata de un usuario.
-              if ($stmt3 = $db->prepare('SELECT Cuenta_idCuenta FROM Cliente WHERE Cuenta_idCuenta = ?')) {//Preparamos la consulta sql para evitar posibles ataques tipo SQL Injection
+              if ($stmt3 = $db->prepare('SELECT idCuenta FROM Cliente WHERE idCuenta = ?')) {//Preparamos la consulta sql para evitar posibles ataques tipo SQL Injection
               	$stmt3->bind_param('s', $idCuenta);//Bindeamos al '?' el correo electrónico que nos ha mandado el usuario a través del formulario. El parámetro 's' indica que es un string.
               	$stmt3->execute();
               	$stmt3->store_result();

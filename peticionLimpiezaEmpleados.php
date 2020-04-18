@@ -9,18 +9,19 @@
 
   $db = mysqli_connect(SERVIDOR_BD,USUARIO_BD,CONTRASENA_BD,NOMBRE_BD);
 
-  if ($stmt = $db->prepare('SELECT tEPTP.ordenEtapa, tEPTP.TipoEtapa_idEtapa, tE.nombre FROM tipoEtapasPorTipoPedido tEPTP, tipoetapa tE WHERE tE.idEtapa = tEPTP.TipoEtapa_idEtapa AND tEPTP.TipoPedido_idTipoPedido = ?')) {
-    $stmt->bind_param('s', $idTipoPedido);
+  if ($stmt = $db->prepare('SELECT tEPTP.ordenEtapa, tEPTP.idEtapa, tE.nombre FROM tipoEtapasPorTipoPedido tEPTP, tipoetapa tE WHERE tE.idEtapa = tEPTP.idEtapa AND tEPTP.idTipoPedido = ?')) {
+    $stmt->bind_param('s', );//TODO
     $stmt->execute();
     $stmt->store_result();
     if ($stmt->num_rows > 0) {
       //esto se repite por cada empleado
-      if ($stmt2 = $db->prepare('SELECT tEPTP.ordenEtapa, tEPTP.TipoEtapa_idEtapa, tE.nombre FROM tipoEtapasPorTipoPedido tEPTP, tipoetapa tE WHERE tE.idEtapa = tEPTP.TipoEtapa_idEtapa AND tEPTP.TipoPedido_idTipoPedido = ?')) {
-        $stmt2->bind_param('s', $idTipoPedido);
+      if ($stmt2 = $db->prepare('SELECT tE.nombre, c.nombre FROM Cuenta c, empleadoPuedeRealizarTipoEtapa ePRTE, tipoetapa tE WHERE tE.idEtapa = ? AND c.idCuenta = ePRTE.idCuenta AND tE.idEtapa = tEPTE.idEtapa')) {
+        $stmt2->bind_param('s', );//TODO 
         $stmt2->execute();
         $stmt2->store_result();
+        if ($stmt2->num_rows > 0) {
 
-        
+        }
       }
     }
   }

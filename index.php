@@ -5,7 +5,7 @@ include './header.php';?>
 $nombrePagina = "<a class='cabeceraContenido-title'>La Vandería</a><br><a style='font-size:16px; margin-top: 59px; display: inline-block;'>Tu lavandería de confianza</a>";
 include './cabeceraContenido.php';
 ?>
-<div class="web-content container-fluid">
+<div class="web-content container-fluid" style="height: 72vh;">
 <?php
 if(!isset($_SESSION['sesionIniciada'])){
   echo'
@@ -88,10 +88,10 @@ if(!isset($_SESSION['sesionIniciada'])){
   } else if ($_SESSION['tipoCuentaSesión'] == "Empleado"){
     echo '
       <div class="row" align="center">
-        <div class="col-sm-12"><h1 class="welcome-title>Bienvenido, ' .$_SESSION['nombreSesión']. '</h1></div>
+        <div class="col-sm-12"><h1 class="welcome-title">Bienvenido, ' .$_SESSION['nombreSesión']. '</h1></div>
       </div>
       <div class="row" align="center">
-        <div class="col-sm-12"><h6 class="welcome-description>Accede a la consulta de pedidos para ver aquellos que tienes asignados.</h6></div>
+        <div class="col-sm-12"><h6 class="welcome-description">Accede a la consulta de pedidos para ver aquellos que tienes asignados.</h6></div>
       </div>
       <div class="row" align="center">
         <div class="col-sm-4"></div>
