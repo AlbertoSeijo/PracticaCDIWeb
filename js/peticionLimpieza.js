@@ -22,7 +22,7 @@ function limpiezacompleta(){
 
   document.getElementById("pednormalbot").disabled = false;
   document.getElementById("pedexpressbot").disabled = false;
-
+  document.getElementById("idTipoPedido").value = "2";
   actualizarEmpleadosLimpieza();
 }
 
@@ -30,7 +30,7 @@ function limpiezaseco(){
 
   document.getElementById("pednormalbot").disabled = false;
   document.getElementById("pedexpressbot").disabled = false;
-
+  document.getElementById("idTipoPedido").value = "1";
   actualizarEmpleadosLimpieza();
 }
 
@@ -38,6 +38,6 @@ function limpiezatintado(){
 
   document.getElementById("pednormalbot").disabled = false;
   document.getElementById("pedexpressbot").disabled = false;
-
+  document.getElementById("idTipoPedido").value = "3";
   actualizarEmpleadosLimpieza();
 }

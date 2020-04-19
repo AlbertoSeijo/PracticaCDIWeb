@@ -8,7 +8,10 @@ if(!isset($_SESSION['sesionIniciada']) || $_SESSION['tipoCuentaSesión'] != "Enc
 <?php
 $nombrePagina = "Petición de limpieza";
 include './cabeceraContenido.php';
-?><form id="peticionLimpiezaForm"></form>
+?>
+<form id="peticionLimpiezaForm">
+  <input type="hidden" id="idTipoPedido" name="idTipoPedido" value="">
+</form>
 
 
 <div class="container-fluid" style="height:60vh; margin-top: 40px;">
