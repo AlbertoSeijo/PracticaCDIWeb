@@ -18,16 +18,24 @@ if(!isset($_SESSION['sesionIniciada'])){
   <div class="carousel-inner">
     <div class="carousel-item active" style="height:677px;">
       <img src="./img/laundry1.jpg" style="width:100%;" alt="">
-      <div class="carousel-caption">
+      <div class="carousel-caption text-center" >
+        <div class="card" style="filter: opacity(0.5); background-color: black; position: absolute; top: 0px; width: 100%; height: 300px; "><!--TODO Aquí falta arreglar esto -->
+        </div>
+        <div class="" style="filter: opacity(1) !important; color: white;">
         <h3>Tintoreria La Vanderia</h3>
         <p>Satisfaciendo a nuestros clientes desde hace ya más de 20 años!!</p>
+        </div>
       </div>
     </div>
     <div class="carousel-item" style="height:677px;">
       <img src="./img/backgroundImage1.jpg" style="width:100%;" alt="">
-      <div class="carousel-caption">
+      <div class="carousel-caption text-center" >
+        <div class="card" style="filter: opacity(0.5); background-color: black; position: absolute; top: 0px; width: 100%; height: 300px; "><!--TODO Aquí falta arreglar esto -->
+        </div>
+        <div class="" style="filter: opacity(1) !important; color: white;">
         <h3>Distintos Tipos de Prendas</h3>
         <p>En La Vanderia trabajamos hasta con ocho tipo de prendas para poder abarcar el mayor rango de prendas a lavar para nuestros clientes.</p>
+        </div>
       </div>
     </div>
     <div class="carousel-item" style="height:677px;">
@@ -101,7 +109,7 @@ if(!isset($_SESSION['sesionIniciada'])){
             <div class="card-body carta-menu-principal">
               <h5 class="card-title">Consulta de pedidos</h5>
               <p class="card-text m-3">Accede al panel de consulta de pedidos para ver los pedidos de los clientes.</p>
-              <a href="#" class="btn btn-primary boton-menu-principal" onclick="location.href=\'./tarjetaPuntos\'">Consultar pedidos</a>//TODO Cambiar enlace
+              <a href="#" class="btn btn-primary boton-menu-principal" onclick="location.href=\'./consultaPedidos\'">Consultar pedidos</a>
             </div>
           </div>
         </div>
@@ -135,7 +143,7 @@ if(!isset($_SESSION['sesionIniciada'])){
             <div class="card-body carta-menu-principal">
               <h5 class="card-title">Consulta de pedidos</h5>
               <p class="card-text m-3">Accede al panel de consulta de pedidos para ver los pedidos de los clientes.</p>
-              <a href="#" class="btn btn-primary boton-menu-principal" onclick="location.href=\'./tarjetaPuntos\'">Consultar pedidos</a>//TODO Cambiar enlace
+              <a href="#" class="btn btn-primary boton-menu-principal" onclick="location.href=\'./consultaPedidos\'">Consultar pedidos</a>
             </div>
           </div>
         </div>
