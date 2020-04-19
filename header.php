@@ -72,7 +72,7 @@
                         <a class="nav-link" href="#">Páginas<span class="sr-only">(current)</span></a>
                       </li>
                       <li class="nav-item">
-                        <a class="nav-link" href="#">Encarcardo</a>
+                        <a class="nav-link" href="#">Encargado</a>
                       </li>
                     ';
                   } else {//TODO Posiblemente sustituir por los mismos que una sesión iniciada, o alguno que cierre la sesión o similar.
