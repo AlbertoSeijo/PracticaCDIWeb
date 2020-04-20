@@ -1,52 +1,75 @@
 <?php
-echo 'aaaaa';
+session_start();
 /* POST VARIABLES */
 function mostrarPedido($tipoCuenta, $esPedidoExpress, $tipoPrenda, $tipoServicio, $etapaAnterior, $etapaActual, $etapaSiguiente){
 
 }
 
 
-function mostrarPedidoCliente($tipoCuenta, $esPedidoExpress, $tipoPrenda, $tipoServicio, $etapaAnterior, $etapaActual, $etapaSiguiente){
+function mostrarPedidoCliente($parametros){
 
 }
 
 
-function consultaSQL($consulta, $tiposParametros, $listaParametros, $resultadoParametros, $funcionAnidada){
+function consultaSQLCliente($consulta, $tiposParametros, $listaParametros){
 
   $resultado;
   $contador = 0;
 
-  define('SERVIDOR_BD', 'localhost:3306');
-  define('USUARIO_BD', 'webtintoreria');
-  define('CONTRASENA_BD', 'lavanderia');
-  define('NOMBRE_BD', 'tintoreria');
 
   $db = mysqli_connect(SERVIDOR_BD,USUARIO_BD,CONTRASENA_BD,NOMBRE_BD);
-
-  if ($stmt = $db->prepare($consulta)) {//Preparamos la consulta sql para evitar posibles ataques tipo SQL Injection
-    $stmt->bind_param($tiposParametros, $listaParametros);//Bindeamos al '?' el correo electrónico que nos ha mandado el usuario a través del formulario. El parámetro 's' indica que es un string.
+  echo $consulta;
+  if ($stmt = $db->prepare($consulta)) {
+    $stmt->bind_param($tiposParametros, $listaParametros[0]);
     $stmt->execute();
     $stmt->store_result();
-
-    if ($stmt->num_rows > 0) {//Si hay más de 0 filas es que se ha encontrado una cuenta con ese correo electrónico.
-      $stmt->bind_result($idCuenta, $nombreCuenta, $apellidosCuenta, $correoElectronicoCuenta, $contraseñaCuenta);//TODO A VER COMO HAGO ESTO
-      $stmt->fetch();
+    $stmt->bind_result($idPedido, $tipoPrenda, $nombreTipoPedido, $esPedidoExpress, $nombreCliente, $apellidosCliente, $precioBasePedido, $precioDesperfectos,$precioServiciosAdicionales,$porcentajeDescuento,$inicioPedido,$finPedido);
+    while ($stmt->fetch()) {
+      echo $idPedido . ' , ' . $tipoPrenda . ' , ' . $nombreTipoPedido . ' , ' . $esPedidoExpress . ' , ' . $nombreCliente . ' , ' . $apellidosCliente . ' , ' . $precioBasePedido . ' , ' . $precioDesperfectos . ' , ' . $precioServiciosAdicionales . ' , ' . $porcentajeDescuento . ' , ' . $inicioPedido . ' , ' . $finPedido;
     }
   }
 }
 
-function cSQLOrdenarPor($consulta, $ordenarPor){
-  if($ordenarPor == 'A'){
-    return $consulta + 'ORDER BY';
+function cSQLOrdenarPor($consulta, $ordenarPor){//TODO En la consulta principal hay que hacer que fechaIni y fechaFin sean las del pedido y no las de las etapas
+  if($ordenarPor == 'tipoPrenda'){
+    return $consulta . ' ORDER BY p.tipoPrenda ASC';
+  } else if($ordenarPor == 'fechaIniAsc'){
+    return $consulta . ' ORDER BY actualEtapa.fechaIni ASC';
+  } else if($ordenarPor == 'fechaIniDesc'){
+    return $consulta . ' ORDER BY actualEtapa.fechaIni DESC';
+  } else if($ordenarPor == 'fechaFinAsc'){
+    return $consulta . ' ORDER BY actualEtapa.fechaFin ASC';
+  } else if($ordenarPor == 'fechaFinDesc'){
+    return $consulta . ' ORDER BY actualEtapa.fechaFin DESC';
+  } else if($ordenarPor == 'express'){
+    return $consulta . ' ORDER BY p.esPedidoExpress ASC';
+  } else {
+    return $consulta;
   }
 }
 
 function cSQLBusqueda($consulta, $nombreColumna, $texto){
-
+  if(isset($texto) && !is_null($texto) && !empty($texto)) {
+    return $consulta . ' AND ' . $nombreColumna . ' LIKE "^' . $texto .'"';
+  } else {
+    return $consulta;
+  }
 }
 
-
+function cSQLMostrarUnicamente($consulta, $mostrar){
+  if($mostrar == "todo"){
+    return $consulta;
+  } else if($mostrar == "porRealizar") {
+    return $consulta . ' And actualEtapa.idTipoEtapa = 1';
+  } else if($mostrar == "enProceso") {
+    return $consulta . ' And (actualEtapa.idTipoEtapa != 1 OR !(actualEtapa.idTipoEtapa = 7 AND actualEtapa.fechaFin != null)';
+  } else if($mostrar == "finalizado") {
+    return $consulta . ' And actualEtapa.idTipoEtapa = 7 AND actualEtapa.fechaFin != null';
+  } else {
+    return $consulta;
+  }
 }
+
 $seMuestra = $_POST["seMuestra"];
 $ordenarPor = $_POST["ordenarPor"];
 $buscarPor = $_POST["buscarPor"];
@@ -58,20 +81,69 @@ define('CONTRASENA_BD', 'lavanderia');
 define('NOMBRE_BD', 'tintoreria');
 
 $db = mysqli_connect(SERVIDOR_BD,USUARIO_BD,CONTRASENA_BD,NOMBRE_BD);
-if($_SESSION['tipoCuentaSesión'] == "Cliente"){
-  consultaSQL(cSQLOrdenadaPor(cSQLBusqueda('SELECT BLABLABLA', $buscarPor, $entradaBusqueda), $ordenarPor), 'i', array("foo", "bar", "hello", "world"))//Obtenemos
+
+if($_SESSION['tipoCuentaSesión'] == "Cliente"){//TODO A LA CONSULTA LE FALTAN LAS ETAPAS
+  $consultaPrincipalCliente = "
+  SELECT
+	p.idPedido idPedido,
+	p.tipoPrenda tipoPrenda,
+	tpedido.nombreTipoPedido,
+	p.esPedidoExpress,
+	c.nombre nombreCliente,
+	c.apellidos apellidosCliente,
+	tpedido.precio precioBasePedido,
+	desperfectos.coste precioDesperfectos,
+	serviciosAdicionales.coste precioServiciosAdicionales,
+	d.valor porcentajeDescuento,
+	primeraEtapa.fechaIni inicioPedido,
+	ultimaEtapa.fechaFin finPedido
+FROM
+	TipoPedido tpedido,
+	Cuenta c,
+	Etapa primeraEtapa,
+	Pedido p
+LEFT JOIN Descuento d
+	ON p.idDescuentos = d.idDescuentos
+LEFT JOIN (SELECT aD.idPedido, aD.idTipoPedido, aD.ClientePedido, aD.coste
+		FROM Arreglos aD
+		WHERE aD.tipoArreglo = 'Desperfecto') desperfectos
+	ON desperfectos.idPedido = p.idPedido AND desperfectos.idTipoPedido = p.idTipoPedido AND desperfectos.ClientePedido = p.ClientePedido
+LEFT JOIN (SELECT aSA.idPedido, aSA.idTipoPedido, aSA.ClientePedido, aSA.coste
+		FROM Arreglos aSA
+		WHERE aSA.tipoArreglo = 'Servicio adicional') serviciosAdicionales
+	ON serviciosAdicionales.idPedido = p.idPedido AND serviciosAdicionales.idTipoPedido = p.idTipoPedido AND serviciosAdicionales.ClientePedido = p.ClientePedido
+LEFT JOIN (SELECT * FROM Etapa uE WHERE uE.idTipoEtapa = '7' AND uE.fechaFin IS NOT NULL) ultimaEtapa
+	ON ultimaEtapa.idPedido = p.idPedido
+WHERE
+	p.ClientePedido = 20
+		AND
+	p.idTipoPedido = tpedido.idTipoPedido
+		AND
+	p.ClientePedido = c.idCuenta
+		AND
+	primeraEtapa.idPedido = p.idPedido
+		AND
+	primeraEtapa.idTipoEtapa = '1'
 
 
 
+  ";
+  $tiposParametrosCliente = 's';
+  $parametrosCliente = array($_SESSION['idCuentaSesión']);
+  consultaSQLCliente(cSQLOrdenarPor(cSQLBusqueda(cSQLMostrarUnicamente($consultaPrincipalCliente, $seMuestra), $buscarPor, $entradaBusqueda), $ordenarPor),$tiposParametrosCliente,$parametrosCliente);
+  /*consultaSQL(cSQLOrdenarPor(cSQLBusqueda(cSQLMostrarUnicamente($consultaPrincipal, $seMuestra), $buscarPor, $entradaBusqueda), $ordenarPor), 'i', array("foo", "bar", "hello", "world"), $funcionAnid);//Obtenemos
+
+*/
 
 
+/*
   if ($stmt = $db->prepare('SELECT p.idPedido, d.valor, p.tipoPrenda, p.esPedidoExpress, tpedido.nombreTipoPedido, tpedido.precio  FROM Pedido p, Descuento d, TipoPedido tpedido WHERE ClientePedido = ? AND p.TipoPedido_idTipoPedido = tpedido.idTipoPedido AND p.Descuentos_idDescuentos  = d.idDescuentos')) {//Preparamos la consulta sql para evitar posibles ataques tipo SQL Injection
     $stmt->bind_param('i', $_SESSION['idCuentaSesión']);//Bindeamos al '?' el correo electrónico que nos ha mandado el usuario a través del formulario. El parámetro 's' indica que es un string.
     $stmt->execute();
     $stmt->store_result();
     if ($stmt->num_rows > 0) {//Si hay más de 0 filas es que se ha encontrado una cuenta con ese correo electrónico.
       $stmt->bind_result($puntos, $numtarjeta);//Guardamos la fila actual en viariables.
-      $stmt->fetch();
+      $stmt->fetch();*/
       echo '
         <!-- A partir de aquí comienza la tarjeta que hay que repetir según las consultas -->
         <div class="container-fluid card bg-light" style="height: 250px; margin-bottom: 20px;">
@@ -168,7 +240,7 @@ if($_SESSION['tipoCuentaSesión'] == "Cliente"){
         </div>
         <!-- A partir de aquí termina la tarjeta que hay que repetir según las consultas -->
       ';
-  else if ($_SESSION['tipoCuentaSesión'] == "Empleado") {
+  } else if ($_SESSION['tipoCuentaSesión'] == "Empleado") {
 
 
 
@@ -177,6 +249,6 @@ if($_SESSION['tipoCuentaSesión'] == "Cliente"){
 
 
   } else {
-    echo 'ERROR: Tipo de cuenta no definido.'
+    echo 'ERROR: Tipo de cuenta no definido.';
   }
 ?>

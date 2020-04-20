@@ -28,35 +28,35 @@ if($_SESSION['tipoCuentaSesión'] != "Encargado"){
     <div class="col-2">
       <div class="form-group">
         <label class="etiquetaElementosFormulario" for="aaaa">Mostrar:</label>
-        <select id="seMuestra" class="custom-select" id="aaaa" form="consultaPedidosForm" onchange="actualizarConsultaPedidos()">
-          <option selected>Por realizar</option>
-          <option value="1">Finalizado</option>
-          <option value="2">En proceso</option>
-          <option value="3">Todo</option>
+        <select id="seMuestra" name="seMuestra" class="custom-select" id="aaaa" form="consultaPedidosForm" onchange="actualizarConsultaPedidos()">
+          <option selected value="porRealizar">Por realizar</option>
+          <option value="finalizado">Finalizado</option>
+          <option value="enProceso">En proceso</option>
+          <option value="todo">Todo</option>
         </select>
       </div>
     </div>
     <link href="./fontawesome/css/all.css" rel="stylesheet"> <!--load all styles -->
     <div class="col-2">
       <label class="etiquetaElementosFormulario" for="aaaa">Ordenar por:</label>
-      <select id="ordenarPor"class="custom-select" form="consultaPedidosForm" onchange="actualizarConsultaPedidos()">
-        <option selected>Express</option>
-        <option value="1">Fecha de toma de pedido (ascendente)</option>
-        <option value="2">Fecha de toma de pedido (descendente)</option>
-        <option value="2">Fecha de fin de pedido (descendente)</option>
-        <option value="2">Fecha de fin de pedido (descendente)</option>
+      <select id="ordenarPor" name="ordenarPor" class="custom-select" form="consultaPedidosForm" onchange="actualizarConsultaPedidos()">
+        <option selected value="express">Express</option>
+        <option value="fechaIniAsc">Fecha de toma de pedido (ascendente)</option>
+        <option value="fechaIniDesc">Fecha de toma de pedido (descendente)</option>
+        <option value="fechaFinAsc">Fecha de fin de pedido (descendente)</option>
+        <option value="fechaFinDesc">Fecha de fin de pedido (descendente)</option>
       </select>
     </div>
     <div class="col-4">
       <div class="input-group" style="margin-top: 25px;">
         <div class="input-group-prepend">
-          <select id="buscarPor" class="custom-select btn bg-light" form="consultaPedidosForm" onchange="actualizarConsultaPedidos()">
-            <option selected>Nombre de cliente</option>
-            <option value="1">Fecha de pedido</option>
-            <option value="2">Tipo de prenda</option>
+          <select id="buscarPor" name="buscarPor" class="custom-select btn bg-light" form="consultaPedidosForm" onchange="actualizarConsultaPedidos()">
+            <option selected value="c.nombre">Nombre de cliente</option>
+            <option value="e.fechaIni">Fecha de pedido</option>
+            <option value="p.tipoPrenda">Tipo de prenda</option>
           </select>
         </div>
-        <input type="text" id="entradaBusqueda" class="form-control" placeholder="Búsqueda..." form="consultaPedidosForm" oninput="actualizarConsultaPedidos()" style="border-bottom-right-radius: 0.25rem; border-top-right-radius: 0.25rem; ">
+        <input type="text" id="entradaBusqueda" name="entradaBusqueda" class="form-control" placeholder="Búsqueda..." form="consultaPedidosForm" oninput="actualizarConsultaPedidos()" style="border-bottom-right-radius: 0.25rem; border-top-right-radius: 0.25rem; ">
         <button type="submit" class="btn btn-primary" style="margin-left: 16px; margin-top: -10px;" form="" ><i class="fas fa-search"></i></button>
       </div>
     </div>
