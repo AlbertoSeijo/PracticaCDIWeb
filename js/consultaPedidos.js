@@ -16,3 +16,5 @@ function actualizarConsultaPedidos() {
   xmlhttp.open("POST", "../consultaPedidosConsulta.php");
   xmlhttp.send(new FormData(formElement));
 }
+
+actualizarConsultaPedidos();
