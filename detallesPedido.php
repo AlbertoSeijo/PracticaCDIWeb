@@ -216,19 +216,39 @@ if($_SESSION['tipoCuentaSesión'] == "Cliente"){
             </div>
           </div>
         </div>
-        <div class="row justify-content-md-center" style="margin-top:65px;">
+        <div class="row justify-content-md-center" style="margin-top:30px;">
               <div class="col-5">
                 <div class="form-group">
                   <label for="ServiciosAdic">Servicios adicionales</label>
-                  <textarea disabled class="form-control" id="ServiciosAdic" rows="6" style="resize: none;"></textarea>
+                  <textarea disabled class="form-control" id="ServiciosAdic" rows="4" style="resize: none;"></textarea>
                 </div>
               </div>
               <div class="col-5">
                 <div class="form-group">
                   <label for="Desperfectos">Desperfectos</label>
-                  <textarea disabled class="form-control" id="Desperfectos" rows="6" style="resize: none;"></textarea>
+                  <textarea disabled class="form-control" id="Desperfectos" rows="4" style="resize: none;"></textarea>
                 </div>
               </div>
+        </div>
+        <div class="row justify-content-md-center">
+          <div class="col-5">
+            <label for="Asignar_coste1">Asignar coste</label>
+            <div class="input-group mb-3">
+              <input type="text" class="form-control" style="margin-top:0px;">
+              <div class="input-group-append">
+                <span class="input-group-text">€</span>
+              </div>
+            </div>
+          </div>
+          <div class="col-5">
+            <label for="Asignar_coste1">Asignar coste</label>
+            <div class="input-group mb-3">
+              <input type="text" class="form-control" style="margin-top:0px;">
+              <div class="input-group-append">
+                <span class="input-group-text">€</span>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
       <div id="col3" class="col-3" style="margin-top:20px;">
@@ -248,27 +268,18 @@ if($_SESSION['tipoCuentaSesión'] == "Cliente"){
             </div>
           </div>
         </div>
-        <div id="precio" class="row justify-content-md-center">
-          <div class="col-6" style="margin-top:20vh;">
-            <h5 style="margin-top: 15px;">Total desglosado</h5>
-            <div class="row" style="height: 100%;">
-              <div class="col-6 text-left" style="height: 100%;">
-                <a style="display:block; margin-left: 20px; font-size: 12px;">Servicio:</a>
-                <a style="display:block; margin-left: 20px; font-size: 12px;">Arreglos solicitados:</a>
-                <a style="display:block; margin-left: 20px; font-size: 12px;">Arreglos extras:</a>
-                <a style="display:block; margin-left: 20px; font-size: 12px;">Descuento:</a>
-                <a class="font-weight-bold" style="display:block; margin-left: 20px;">Total:</a>
-              </div>
-              <div class="col-6 text-right" style="height: 100%;">
-                <a style="position: absolute; left: 10px; top: 20px; font-size: 20px;">+</a>
-                <a style="display:block; margin-left: 20px; font-size: 12px;">12.34 €</a>
-                <a style="display:block; margin-left: 20px; font-size: 12px;">56.78 €</a>
-                <a style="display:block; margin-left: 20px; font-size: 12px;">90.12 €</a>
-                <a style="display:block; margin-left: 20px; font-size: 12px;">-34.56 €</a>
-                <hr style="margin: 0px; border-width: 2px;">
-                <a class="font-weight-bold" style="display:block; margin-left: 20px;">78.90€</a>
-              </div>
+        <div class="row justify-content-md-center" style="margin-top:40px;">
+          <div class="col-8">
+            <div class="form-group">
+              <label for="empleadoasignado">Empleado asignado:</label>
+              <textarea disabled class="form-control" id="empleadoasignado" rows="1" style="resize: none;"></textarea>
             </div>
+          </div>
+        </div>
+        <div class="separador-fba"></div>
+        <div id="botones" class="row">
+          <div class="col-12 text-center">
+            <button type="button" class="btn btn-info" style="width:15vw; height:10vh;"><b>Enviar a la siguiente etapa</b></button>
           </div>
         </div>
       </div>
