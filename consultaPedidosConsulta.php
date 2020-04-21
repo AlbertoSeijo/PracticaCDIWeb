@@ -75,9 +75,9 @@ function consultaSQLCliente($consulta, $tiposParametros, $listaParametros){
 
       echo '
         <!-- A partir de aquí comienza la tarjeta que hay que repetir según las consultas -->
-        <div class="container-fluid card bg-light" style="height: 250px; margin-bottom: 20px;">
-          <div class="row" style="height: 100%;">
-            <div class="col-8 container-fluid" style="">
+        <div class="container-fluid card bg-light" style="min-height: 250px; margin-bottom: 20px;">
+          <div class="container-fluid" style="height: 100%;">
+            <div class="contenedorDeLoDemas" style="">
               <div class="row" style="height: 35%;">
       ';
       if($esPedidoExpress){
@@ -151,27 +151,29 @@ function consultaSQLCliente($consulta, $tiposParametros, $listaParametros){
                 </div>
               </div>
             </div>
-            <div class="col-4 container-fluid" style="">
-              <div class="container-fluid" style="height: 70%;">
+            <div class="contenedorEtapas" style="">
+              <div class="container-fluid" style="">
                 <h3 style="margin-top: 10px;">Etapas</h3>
-                <div class="row" style="height: 65%;">
-                  <div class="col-4 my-auto" style="">
-                    <div class="card bg-white mx-auto" style="width: 75px; height: 75px;">Etapa A</div>
+                <div class="row mt-3 justify-content-center" style="height: 125px;">
+                  <div style="width:100%; position: absolute; top: 0; left: 0;">
+                  <img class="fas fa-caret-right fa-4x" style="position: relative;left: calc(33.33% - 25px); top:calc(50% - 50px); margin: auto; width: 50px;height: 50px;"></img>
+                  <img class="fas fa-caret-right fa-4x" style="position: relative;left: calc(66.66% - 25px); top:calc(50% - 50px); margin: auto; width: 50px;height: 50px;"></img>
+                  </div>
+                  <div class="col-4 mx-auto my-auto" style="">
+                    <div class="card bg-white mx-auto" style="width: 75px; height: 75px; position: absolute; left: 0; right: 0; top: 50%; transform: translateY(-50%);">Etapa A</div>
                     <div class="text-center" style="position: absolute; width: 69px; background-color: white; height: 15px;  left:0; right: 0; margin-left: auto; margin-right: auto; margin-top: -15px;">Etapa 1</div>
                   </div>
-                  <div class="col-4 my-auto" style="">
-                    <i class="fas fa-caret-right fa-4x" style="position: absolute; left: -15px; transform: translate(0%, 20%);"></i>
-                    <div class="card bg-white mx-auto" style="width: 90px; height: 90px;">Etapa B</div>
+                  <div class="col-4 mx-auto my-auto" style="">
+                    <div class="card bg-white mx-auto etapaActual" style=" ">Etapa B</div>
                     <div class="text-center" style="position: absolute; width: 84px; background-color: white; height: 15px;  left:0; right: 0; margin-left: auto; margin-right: auto; margin-top: -15px;">Etapa 2</div>
                   </div>
-                  <div class="col-4 my-auto" style="">
-                    <i class="fas fa-caret-right fa-4x" style="position: absolute; left: -7px; transform: translate(0%, 10%);"></i>
-                    <div class="card bg-white mx-auto" style="width: 75px; height: 75px;">Etapa C</div>
+                  <div class="col-4 mx-auto my-auto" style="">
+                    <div class="card bg-white mx-auto otrasEtapas" style="">Etapa C</div>
                     <div class="text-center" style="position: absolute; width: 69px; background-color: white; height: 15px; left:0; right: 0; margin-left: auto; margin-right: auto; margin-top: -15px;">Etapa 3</div>
                   </div>
                 </div>
               </div>
-              <div class="container-fluid text-center" style="height: 30%;">
+              <div class="container-fluid text-center mt-5 mb-2" style="height: 30%;">
   ';
   if($precioAceptado){
     echo '

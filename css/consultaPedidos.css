@@ -40,6 +40,56 @@
   margin-bottom: 0px;
 }
 
+.myClass {
+  background-color: blue;
+}
+
+.otrasEtapas {
+  width: 75px;
+  height: 75px;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.etapaActual {
+  width: 90px;
+  height: 90px;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.contenedorEtapas {
+  width: 30%;
+
+}
+
+.contenedorDeLoDemas {
+  width: 70%;
+}
+
+@media screen and (max-width: 1700px) {
+  .myClass {
+    background-color: red;
+  }
+  .contenedorEtapas {
+    width: 100%;
+
+  }
+
+  .contenedorDeLoDemas {
+    width: 100%;
+
+  }
+}
+
+
+
 select {
   margin-top: -10px;
 }
