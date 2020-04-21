@@ -35,7 +35,7 @@ echo '
 
 <div class="container-fluid">
   <div class="row">
-    <div class="col margen-superior-col1">
+    <div class="col-xl-4 col-lg-12 margen-superior-col1">
       <div class="text-center">
         <img src="./img/tarjetaPuntos.svg" width="350" height="auto" alt="" class="rounded">
         <h4><b>'. $numtarjeta .'</b></h4>
@@ -55,7 +55,7 @@ echo '
 }
 
 echo '
-   <div class="col-4">
+   <div class="col-xl-4 col-lg-6">
       <h3><b>Descuentos</b></h3>
       <div class="card bg-primary text-black contenedor-descuentos">
         <div class="card-body">
@@ -154,7 +154,7 @@ echo '
     </div>
 
 
-    <div class="col-4">
+    <div class="col-xl-4 col-lg-6">
       <h3><b>Regalos</b></h3>
       <div class="card bg-primary text-black contenedor-descuentos">
         <div class="card-body">

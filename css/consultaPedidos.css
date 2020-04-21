@@ -7,6 +7,39 @@
   position: relative;
 }
 
+.contenedorBusqueda {
+  margin-top: 25px;
+}
+
+#entradaBusqueda {
+  margin-top: -10px;
+  border-bottom-right-radius: 0.25rem;
+  border-top-right-radius: 0.25rem;
+}
+
+.botonBusqueda {
+  margin-left: 16px;
+  margin-top: -10px;
+}
+
+.contElementoContenedorResPed {
+  height: 60vh;
+  padding: 0px;
+  margin-top: 16px;
+}
+
+.contenedorFiltros {
+  margin-top:16px;
+}
+
+#contenedorResumenesPedidos {
+  overflow-y: auto;
+}
+
+.form-group {
+  margin-bottom: 0px;
+}
+
 select {
   margin-top: -10px;
 }

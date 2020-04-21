@@ -10,9 +10,8 @@ if(isset($_SESSION['sesionIniciada'])){
   <div class="row margen-superior" align="center">
     <div class="col-12 my-auto" align="center"><h1 class="font-weight-bold text-white">Inicio de sesión</h1></div>
   </div>
-  <div class="row" >
-    <div class="col-4"></div>
-    <div class="col-lg-4">
+  <div class="row justify-content-center">
+    <div class="col-lg-8 col-xl-4">
       <div class="card bg-light">
         <div class="card-body">
           <form action="./login" method="POST" id="formLogin">
@@ -28,9 +27,8 @@ if(isset($_SESSION['sesionIniciada'])){
           </form>
         </div>
       </div>
-      <button type="submit" class="btn btn-primary btn-lg btn-login"  form="formLogin" >Iniciar sesión</button>
+      <button type="submit" class="btn btn-primary btn-lg btn-login" form="formLogin">Iniciar sesión</button>
     </div>
-    <div class="col-4"></div>
   </div>
 </div>
 <?php
@@ -95,21 +93,34 @@ if(isset($_POST['triedLogin']) && $_POST['triedLogin'] == true){
             }
             $stmt2->close();
           }
-      		echo 'Welcome!';
           header("Location: ./");
       	} else {
-      		echo 'Contraseña incorrecta';//TODO Mostrar mensaje de contraseña incorrecta
+          echo '
+            <div class="container-fluid" align="center">
+              <div class="row justify-content-center" align="center">
+                <div class="col-lg-8 col-xl-4">
+                  <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    La contraseña introducida es incorrecta. Comprueba tus credenciales e inténtalo de nuevo.
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          ';
       	}
       } else {
       	echo '
           <div class="container-fluid" align="center">
-            <div class="row" align="center">
-              <div class="col-3"></div>
-              <div class="col-6 alert alert-danger alert-dismissible fade show" role="alert">
-                El usuario indicado no se encuentra registrado. Compruebe sus credenciales e inténtelo de nuevo.
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-                </button>
+            <div class="row justify-content-center" align="center">
+              <div class="col-lg-8 col-xl-4">
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                  El usuario indicado no se encuentra registrado. Comprueba tus credenciales e inténtalo de nuevo o <a href="./signup">crea una nueva cuenta.</a>
+                  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
               </div>
             </div>
           </div>

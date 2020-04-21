@@ -175,15 +175,18 @@ function consultaSQLCliente($consulta, $tiposParametros, $listaParametros){
   ';
   if($precioAceptado){
     echo '
-                <button class="btn btn-primary btn-lg">Detalles del pedido</button>
+                <form action="./detallesPedido" method="POST">
+                  <input type="submit" class="btn btn-primary btn-lg" value="Detalles del pedido">
+                  <input type="hidden" name="idPedido" value="'.$idPedido.'">
+                </form>
     ';
   } else {
     echo '
-                <button type="button" class="btn btn-danger btn-lg" style="width: 30%;">Cancelar pedido</button>
+                <button type="button" onclick="cancelarPedido("'.$idPedido.'")" class="btn btn-danger btn-lg" style="width: 30%;">Cancelar pedido</button>
                 <button type="button" class="btn btn-primary btn-lg" style="width: 60%;">Aceptar precio actualizado</button>
     ';
   }
-  echo'
+    echo'
               </div>
             </div>
           </div>
@@ -196,7 +199,7 @@ function consultaSQLCliente($consulta, $tiposParametros, $listaParametros){
 
 function cSQLOrdenarPor($consulta, $ordenarPor){//TODO En la consulta principal hay que hacer que fechaIni y fechaFin sean las del pedido y no las de las etapas
   if($ordenarPor == 'tipoPrenda'){
-    return $consulta . ' ORDER BY p.tipoPrenda ASC';
+    return $consulta . ' ORDER BY p.tipoPrenda DESC';
   } else if($ordenarPor == 'fechaIniAsc'){
     return $consulta . ' ORDER BY actualEtapa.fechaIni ASC';
   } else if($ordenarPor == 'fechaIniDesc'){
@@ -206,7 +209,7 @@ function cSQLOrdenarPor($consulta, $ordenarPor){//TODO En la consulta principal 
   } else if($ordenarPor == 'fechaFinDesc'){
     return $consulta . ' ORDER BY actualEtapa.fechaFin DESC';
   } else if($ordenarPor == 'express'){
-    return $consulta . ' ORDER BY p.esPedidoExpress ASC';
+    return $consulta . ' ORDER BY p.esPedidoExpress DESC';
   } else {
     return $consulta;
   }

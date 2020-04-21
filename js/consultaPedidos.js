@@ -18,3 +18,8 @@ function actualizarConsultaPedidos() {
 }
 
 actualizarConsultaPedidos();
+
+
+function cancelarPedido(idPedido){
+  $.redirect('detallesPedido.php', {'idPedido': idPedido});
+}

@@ -67,9 +67,8 @@ if(!isset($_SESSION['sesionIniciada'])){
       <div class="row" align="center">
         <div class="col-sm-12"><h6 class="welcome-description">Desde aquí puedes realizar distintas operaciones sobre tu cuenta. Consulta tu historial de pedidos o tus descuentos y puntos de tarjeta.</h6></div>
       </div>
-      <div class="row" align="center">
-        <div class="col-sm-2"></div>
-        <div class="col-sm-4">
+      <div class="row justify-content-md-center" align="center">
+        <div class="col-lg-4 col-md-12">
           <div class="card index-action-card">
             <img src="./img/index/cardPedidosCliente.jpg" class="card-img-top" alt="...">
             <div class="card-body carta-menu-principal">
@@ -79,7 +78,7 @@ if(!isset($_SESSION['sesionIniciada'])){
             </div>
           </div>
         </div>
-        <div class="col-sm-4">
+        <div class="col-lg-4 col-md-12">
           <div class="card index-action-card">
             <img src="./img/index/cardTarjetaPuntos.jpg" class="card-img-top" alt="...">
             <div class="card-body carta-menu-principal">
@@ -89,7 +88,6 @@ if(!isset($_SESSION['sesionIniciada'])){
             </div>
           </div>
         </div>
-        <div class="col-sm-2"></div>
       </div>
     </div>
     ';//TODO Cambiar el mensaje por la página que se debe mostrar (en html y/o php)
@@ -101,9 +99,8 @@ if(!isset($_SESSION['sesionIniciada'])){
       <div class="row" align="center">
         <div class="col-sm-12"><h6 class="welcome-description">Accede a la consulta de pedidos para ver aquellos que tienes asignados.</h6></div>
       </div>
-      <div class="row" align="center">
-        <div class="col-sm-4"></div>
-        <div class="col-sm-4">
+      <div class="row justify-content-md-center" align="center">
+        <div class="col-12">
           <div class="card index-action-card">
             <img src="./img/index/cardPedidosEncargado.jpg" class="card-img-top" alt="...">
             <div class="card-body carta-menu-principal">
@@ -113,7 +110,6 @@ if(!isset($_SESSION['sesionIniciada'])){
             </div>
           </div>
         </div>
-        <div class="col-sm-4"></div>
       </div>
     </div>
     ';
@@ -125,9 +121,8 @@ if(!isset($_SESSION['sesionIniciada'])){
       <div class="row" align="center">
         <div class="col-sm-12"><h6 class="welcome-description">Desde aquí puedes realizar distintas tareas administrativas. Realiza una petición de limpieza o consulta los pedidos de los clientes.</h6></div>
       </div>
-      <div class="row" align="center">
-        <div class="col-sm-2"></div>
-        <div class="col-sm-4">
+      <div class="row justify-content-md-center" align="center">
+        <div class="col-lg-4 col-md-12">
           <div class="card index-action-card">
             <img src="./img/index/cardPeticionLimpieza.png" class="card-img-top" alt="...">
             <div class="card-body carta-menu-principal">
@@ -137,7 +132,7 @@ if(!isset($_SESSION['sesionIniciada'])){
             </div>
           </div>
         </div>
-        <div class="col-sm-4">
+        <div class="col-lg-4 col-md-12">
           <div class="card index-action-card">
             <img src="./img/index/cardPedidosEncargado.jpg" class="card-img-top" alt="...">
             <div class="card-body carta-menu-principal">
@@ -147,7 +142,6 @@ if(!isset($_SESSION['sesionIniciada'])){
             </div>
           </div>
         </div>
-        <div class="col-sm-2"></div>
       </div>
     </div>
     ';

@@ -101,7 +101,7 @@
                     echo $_SESSION['nombreSesión'] . " " . $_SESSION['apellidosSesión'];
                     echo '
                       <form method="POST">
-                        <button type="submit" name="cerrarSesión" value="true" class="btn btn-primary">Salir</button>
+                        <button type="submit" name="cerrarSesión" value="true" class="btn btn-primary" style="background-color: transparent; border-color: transparent;"><img src="./img/logout.svg" style="width: 36px;"></img></button>
                       </form>
                     ';
 

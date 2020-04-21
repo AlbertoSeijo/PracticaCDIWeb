@@ -10,9 +10,8 @@ if(isset($_SESSION['sesionIniciada'])){
   <div class="row margen-superior" align="center">
     <div class="col-12 my-auto" align="center"><h1 class="font-weight-bold text-white">Registro</h1></div>
   </div>
-  <div class="row">
-    <div class="col-4"></div>
-    <div class="col-lg-4">
+  <div class="row justify-content-center">
+    <div class="col-lg-8 col-xl-4">
       <div class="card bg-light">
         <div class="card-body">
           <form action="./signup" method="POST" id="formRegistro">
@@ -48,7 +47,6 @@ if(isset($_SESSION['sesionIniciada'])){
       </div>
       <button type="submit" class="btn btn-primary btn-lg btn-registrarse" form="formRegistro" >Registrarse</button>
     </div>
-    <div class="col-4"></div>
   </div>
 </div>
 <?php
@@ -72,7 +70,20 @@ if(isset($_POST['triedRegistro'])  && $_POST['triedRegistro'] == true){
     	// Store the result so we can check if the account exists in the database.
     	if ($stmt->num_rows > 0) {
     		// Username already exists
-    		echo 'Este correo ya está en uso';
+        echo '
+          <div class="container-fluid" align="center">
+            <div class="row justify-content-center" align="center">
+              <div class="col-lg-8 col-xl-4">
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                  Este correo electrónico ya está en uso. Utiliza otro o <a href="./login">inicia sesión.</a>
+                  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        ';
     	} else {
         if ($stmt2 = $db->prepare('INSERT INTO Cuenta (nombre, apellidos, correoElectronico, contraseña, dni) VALUES (?, ?, ?, ?, ?)')) {
         	// We do not want to expose passwords in our database, so hash the password and use password_verify when a user logs in.
@@ -84,17 +95,56 @@ if(isset($_POST['triedRegistro'])  && $_POST['triedRegistro'] == true){
           	// We do not want to expose passwords in our database, so hash the password and use password_verify when a user logs in.
           	$stmt3->bind_param('s', $idCliente);
           	$stmt3->execute();
-        	echo 'You have successfully registered, you can now login!';
+            echo '
+              <div class="container-fluid" align="center">
+                <div class="row justify-content-center" align="center">
+                  <div class="col-lg-8 col-xl-4">
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                      ¡El registro ha sido completado satisfactoriamente! Ahora puedes <a href="./login">iniciar sesión.</a>
+                      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ';
           }
         } else {
         	// Something is wrong with the sql statement, check to make sure accounts table exists with all 3 fields.
-        	echo 'Could not prepare statement!';
+          echo '
+            <div class="container-fluid" align="center">
+              <div class="row justify-content-center" align="center">
+                <div class="col-lg-8 col-xl-4">
+                  <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    Ha ocurrido un error y no se ha podido completar el registro.
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          ';
         }
     	}
     	$stmt->close();
     } else {
     	// Something is wrong with the sql statement, check to make sure accounts table exists with all 3 fields.
-    	echo 'Could not prepare statement!';
+      echo '
+        <div class="container-fluid" align="center">
+          <div class="row justify-content-center" align="center">
+            <div class="col-lg-8 col-xl-4">
+              <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                Ha ocurrido un error y no se ha podido completar el registro.
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      ';
     }
   }
   $db->close();
