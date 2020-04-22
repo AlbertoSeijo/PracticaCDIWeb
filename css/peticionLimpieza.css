@@ -1,11 +1,15 @@
 .seleccion-tipo-limpieza {
+<<<<<<< HEAD
   display: inline;
+=======
+>>>>>>> f89ca9378d92db09cd5b57a32de21ec3b2922280
   width: 175px;
   height: 175px;
   margin-left: 40px;
   margin-right: 40px;
 }
 
+<<<<<<< HEAD
 .seleccion-tipo-prenda {
   margin: 12px;
   height: 100px;
@@ -16,6 +20,8 @@
   width: 50%;
 }
 
+=======
+>>>>>>> f89ca9378d92db09cd5b57a32de21ec3b2922280
 .etiquetaSubapartados {
   position: absolute;
   top: 15px;
@@ -23,6 +29,7 @@
   margin-top: -30px;
   height: 25px;
 }
+<<<<<<< HEAD
 
 .botonConfirmarPedido {
   height: 80px;
@@ -50,4 +57,12 @@
 // Extra large devices (large desktops, 1200px and up)
 @media (min-width: 1200px) {
 
+=======
+/*#rcorners1 {
+  border-radius: 25px;
+  background: #73AD21;
+  padding: 20px;
+  width: 200px;
+  height: 150px;
+>>>>>>> f89ca9378d92db09cd5b57a32de21ec3b2922280
 }
