@@ -9,6 +9,42 @@ if(!isset($_SESSION['sesionIniciada'])){
 
 <?php
 
+
+function calcularPrecioTotal($precioBasePedido, $precioDesperfectos, $precioServiciosAdicionales, $porcentajeDescuento){
+  $calculoPrecioTotal = $precioBasePedido;
+  if(isset($precioDesperfectos) && !is_null($precioDesperfectos)){
+    $calculoPrecioTotal += $precioDesperfectos;
+  }
+  if(isset($precioServiciosAdicionales) && !is_null($precioServiciosAdicionales)){
+    $calculoPrecioTotal += $precioServiciosAdicionales;
+  }
+  if(isset($porcentajeDescuento) && !is_null($porcentajeDescuento)){
+    $calculoPrecioTotal *= 1 - ($porcentajeDescuento / 100.0);
+  }
+  $calculoPrecioTotal = round($calculoPrecioTotal,2);
+  return $calculoPrecioTotal;
+}
+
+function calcularTotalDescuento($precioBasePedido, $precioDesperfectos, $precioServiciosAdicionales, $porcentajeDescuento){
+  $calculoTotalDescuento = $precioBasePedido;
+  if(isset($precioDesperfectos) && !is_null($precioDesperfectos)){
+    $calculoTotalDescuento += $precioDesperfectos;
+  }
+  if(isset($precioServiciosAdicionales) && !is_null($precioServiciosAdicionales)){
+    $calculoTotalDescuento += $precioServiciosAdicionales;
+  }
+  if(isset($porcentajeDescuento) && !is_null($porcentajeDescuento)){
+    $calculoTotalDescuento *= ($porcentajeDescuento / 100.0);
+  } else {
+    return 0.00;
+  }
+  $calculoTotalDescuento = round($calculoTotalDescuento,2);
+  return $calculoTotalDescuento;
+}
+
+
+
+
 define('SERVIDOR_BD', 'localhost:3306');
 define('USUARIO_BD', 'webtintoreria');
 define('CONTRASENA_BD', 'lavanderia');
@@ -83,6 +119,28 @@ WHERE
     $stmt->bind_result($nombreTipoEtapa, $tipoPrenda, $tipoServicio, $esExpress, $precioBasePedido, $precioDesperfectos,$precioServiciosAdicionales,$porcentajeDescuento,$inicioPedido,$inicioEtapa,$finEtapa,$descArreglos,$descServAdic,$empleadoAsignado,$ordenActual);
     while ($stmt->fetch()) {
 
+      $calculoPrecioTotal = calcularPrecioTotal($precioBasePedido, $precioDesperfectos, $precioServiciosAdicionales, $porcentajeDescuento);
+
+      /* ETAPA ANTERIOR Y POSTERIOR */
+      if ($ordenActual == 1){
+        $etapaAnterior = null;
+        $etapaPosterior = $ordenActual +1;
+      } else if ($ordenActual == 4){
+        $etapaPosterior = $ordenActual +1;
+        if ($descArreglos != null || $descServAdic !=null){
+          $etapaAnterior = "3";
+        } else {
+          $etapaAnterior = "1";
+        }
+      } else if ($ordenActual == 7) {
+        $etapaAnterior = $ordenActual -1;
+        $etapaPosterior = null;
+      } else {
+        $etapaAnterior = $ordenActual -1;
+        $etapaPosterior = $ordenActual +1;
+      }
+
+
     $nombrePagina = $nombreTipoEtapa;
     include './cabeceraContenido.php';
 
@@ -111,8 +169,8 @@ if($_SESSION['tipoCuentaSesión'] == "Cliente"){
           <div class="col-4 card bg-light text-center" style="margin-top:80px; width: 8vw; height:8vw;">
             <p>Tipo de Prenda</p>
             <div class="card-body text-center" style="margin-top:-20px;">
-              <img src="./img/LaVandería Logo.png" style="width:4vw; height:8vh;" class="rounded" alt="">
-              <p>Lana</p>
+              <img src="./img/tipoPrenda/'.$tipoPrenda.'.svg" style="width:4vw; height:8vh;" class="rounded" alt="">
+              <p style="margin-top:10px;">'.$tipoPrenda.'</p>
             </div>
           </div>
         </div>
@@ -120,8 +178,8 @@ if($_SESSION['tipoCuentaSesión'] == "Cliente"){
           <div class="col-4 card bg-light text-center" style="margin-top:40px; width: 8vw; height:8vw;">
             <p>Tipo de Servicio</p>
             <div class="card-body text-center" style="margin-top:-20px;">
-              <img src="./img/LaVandería Logo.png" style="width:4vw; height:8vh;" class="rounded" alt="">
-              <p>Tintado</p>
+              <img src="./img/tipoPedido/'.normalizarTexto($tipoServicio).'.svg" style="width:4vw; height:8vh;" class="rounded" alt="">
+              <p style="margin-top:10px;">'.$tipoServicio.'</p>
             </div>
           </div>
         </div>
@@ -132,8 +190,8 @@ if($_SESSION['tipoCuentaSesión'] == "Cliente"){
             <div class="row justify-content-md-center">
               <div class="card bg-light text-center" style="margin-top:120px; width: 10vw; height:10vw;">
                 <div class="card-body text-center" style="margin-top:-20px;">
-                  <img src="./img/LaVandería Logo.png" style="width:6vw; height:12vh; margin-top:30px;" class="rounded" alt="">
-                  <a style=""></a>
+                  <img src="./img/etapas/'.normalizarTexto($nombreTipoEtapa).'.svg" style="width:6vw; height:12vh; margin-top:30px;" class="rounded" alt="">
+                  <p style="margin-top:20px;">'.$nombreTipoEtapa.'</p>
                 </div>
               </div>
             </div>
@@ -147,8 +205,8 @@ if($_SESSION['tipoCuentaSesión'] == "Cliente"){
             <div class="row justify-content-md-center">
               <div class="card bg-light text-center" style="margin-top:80px; width: 14vw; height:14vw;">
                 <div class="card-body text-center" style="margin-top:-20px;">
-                  <img src="./img/LaVandería Logo.png" style="width:8vw; height:16vh; margin-top:50px;" class="rounded" alt="">
-                  <a style=""></a>
+                  <img src="./img/etapas/'.normalizarTexto($nombreTipoEtapa).'.svg" style="width:8vw; height:16vh; margin-top:50px;" class="rounded" alt="">
+                  <p style="margin-top:20px;">'.$nombreTipoEtapa.'</p>
                 </div>
               </div>
             </div>
@@ -162,8 +220,8 @@ if($_SESSION['tipoCuentaSesión'] == "Cliente"){
             <div class="row justify-content-md-center">
               <div class="card bg-light text-center" style="margin-top:120px; width: 10vw; height:10vw;">
                 <div class="card-body text-center" style="margin-top:-20px;">
-                  <img src="./img/LaVandería Logo.png" style="width:6vw; height:12vh; margin-top:30px;" class="rounded" alt="">
-                  <a style=""></a>
+                  <img src="./img/etapas/'.normalizarTexto($nombreTipoEtapa).'.svg" style="width:6vw; height:12vh; margin-top:30px;" class="rounded" alt="">
+                  <p style="margin-top:20px;">'.$nombreTipoEtapa.'</p>
                 </div>
               </div>
             </div>
@@ -191,13 +249,13 @@ if($_SESSION['tipoCuentaSesión'] == "Cliente"){
               <img src="./img/calendar.svg" style="width:3vw; height:3vh; position:absolute; left: 20%;" alt="">
             </div>
             <div class="fechas text-center" style="margin-top:30px;">
-              <a style="font-weight:bold; font-style:italic; text-decoration-line:underline;">Inicio pedido:</a> dd-mm-aaaa
+              <a style="font-weight:bold; font-style:italic; text-decoration-line:underline;">Inicio pedido:</a> '.$inicioPedido.'
             </div>
             <div class="fechas text-center">
-              <a style="font-weight:bold; font-style:italic; text-decoration-line:underline;">Inicio etapa:</a> dd-mm-aaaa
+              <a style="font-weight:bold; font-style:italic; text-decoration-line:underline;">Inicio etapa:</a> '.$inicioEtapa.'
             </div>
             <div class="fechas text-center">
-              <a style="font-weight:bold; font-style:italic; text-decoration-line:underline;">Fin etapa:</a> dd-mm-aaaa
+              <a style="font-weight:bold; font-style:italic; text-decoration-line:underline;">Fin etapa:</a> '.$finEtapa.'
             </div>
           </div>
         </div>
@@ -212,14 +270,14 @@ if($_SESSION['tipoCuentaSesión'] == "Cliente"){
                 <a style="display:block; margin-left: 20px; font-size: 12px;">Descuento:</a>
                 <a class="font-weight-bold" style="display:block; margin-left: 20px;">Total:</a>
               </div>
-              <div class="col-6 text-right" style="height: 100%;">
+              <div class="col-6 text-right h-100">
                 <a style="position: absolute; left: 10px; top: 20px; font-size: 20px;">+</a>
-                <a style="display:block; margin-left: 20px; font-size: 12px;">12.34 €</a>
-                <a style="display:block; margin-left: 20px; font-size: 12px;">56.78 €</a>
-                <a style="display:block; margin-left: 20px; font-size: 12px;">90.12 €</a>
-                <a style="display:block; margin-left: 20px; font-size: 12px;">-34.56 €</a>
-                <hr style="margin: 0px; border-width: 2px;">
-                <a class="font-weight-bold" style="display:block; margin-left: 20px;">78.90€</a>
+                <a class="textoPrecio">'.$precioBasePedido.' €</a>
+                <a class="textoPrecio">'.$precioDesperfectos.' €</a>
+                <a class="textoPrecio">'.$precioServiciosAdicionales.' €</a>
+                <a class="textoPrecio">(-'.$porcentajeDescuento.'%) -'.number_format(calcularTotalDescuento($precioBasePedido, $precioDesperfectos, $precioServiciosAdicionales, $porcentajeDescuento), 2, ',', '.').' €</a>
+                <hr class="separadorPrecio">
+                <a class="font-weight-bold totalPrecio">'.$calculoPrecioTotal.'</a>
               </div>
             </div>
           </div>
@@ -244,8 +302,8 @@ if($_SESSION['tipoCuentaSesión'] == "Cliente"){
           <div class="col-4 card bg-light text-center" style="margin-top:50px; width: 8vw; height:8vw;">
             <p>Tipo de Prenda</p>
             <div class="card-body text-center" style="margin-top:-20px;">
-              <img src="./img/LaVandería Logo.png" style="width:4vw; height:8vh;" class="rounded" alt="">
-              <p>Lana</p>
+              <img src="./img/tipoPrenda/'.$tipoPrenda.'.svg" style="width:4vw; height:8vh;" class="rounded" alt="">
+              <p>'.$tipoPrenda.'</p>
             </div>
           </div>
         </div>
@@ -253,12 +311,12 @@ if($_SESSION['tipoCuentaSesión'] == "Cliente"){
           <div class="col-4 card bg-light text-center" style="margin-top:40px; width: 8vw; height:8vw;">
             <p>Tipo de Servicio</p>
             <div class="card-body text-center" style="margin-top:-20px;">
-              <img src="./img/LaVandería Logo.png" style="width:4vw; height:8vh;" class="rounded" alt="">
-              <p>Tintado</p>
+              <img src="./img/tipoPedido/'.normalizarTexto($tipoServicio).'.svg" style="width:4vw; height:8vh;" class="rounded" alt="">
+              <p>'.$tipoServicio.'</p>
             </div>
           </div>
         </div>
-  '; if ("Secadoyrevision" == "no"){
+  '; if ("Secadoyrevision" == normalizarTexto($nombreTipoEtapa)){
         echo'
         <div class="row" style="margin-top:65px;">
           <div class="col-12 text-center">
@@ -274,7 +332,7 @@ if($_SESSION['tipoCuentaSesión'] == "Cliente"){
             <div class="row justify-content-md-center">
               <div class="card bg-light text-center" style="margin-top:120px; width: 10vw; height:10vw;">
                 <div class="card-body text-center" style="margin-top:-20px;">
-                  <img src="./img/LaVandería Logo.png" style="width:6vw; height:12vh; margin-top:30px;" class="rounded" alt="">
+                  <img src="./img/etapas/'.normalizarTexto($nombreTipoEtapa).'.svg" style="width:6vw; height:12vh; margin-top:30px;" class="rounded" alt="">
                   <a style=""></a>
                 </div>
               </div>
@@ -472,8 +530,8 @@ if($_SESSION['tipoCuentaSesión'] == "Cliente"){
           <div class="col-4 card bg-light text-center" style="margin-top:50px; width: 8vw; height:8vw;">
             <p>Tipo de Prenda</p>
             <div class="card-body text-center" style="margin-top:-20px;">
-              <img src="./img/LaVandería Logo.png" style="width:4vw; height:8vh;" class="rounded" alt="">
-              <p>Lana</p>
+              <img src="./img/tipoPrenda/'.$tipoPrenda.'.svg" style="width:4vw; height:8vh;" class="rounded" alt="">
+              <p>'.$tipoPrenda.'</p>
             </div>
           </div>
         </div>
@@ -481,8 +539,8 @@ if($_SESSION['tipoCuentaSesión'] == "Cliente"){
           <div class="col-4 card bg-light text-center" style="margin-top:40px; width: 8vw; height:8vw;">
             <p>Tipo de Servicio</p>
             <div class="card-body text-center" style="margin-top:-20px;">
-              <img src="./img/LaVandería Logo.png" style="width:4vw; height:8vh;" class="rounded" alt="">
-              <p>Tintado</p>
+              <img src="./img/tipoPedido/'.normalizarTexto($tipoServicio).'.svg" style="width:4vw; height:8vh;" class="rounded" alt="">
+              <p>'.$tipoServicio.'</p>
             </div>
           </div>
         </div>

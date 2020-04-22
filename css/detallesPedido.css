@@ -2,3 +2,19 @@
   width:100%;
   height: 30vh;
 }
+
+.separadorPrecio {
+  margin: 0px;
+  border-width: 2px;
+}
+
+.textoPrecio {
+  display:block;
+  margin-left: 20px;
+  font-size: 12px;
+}
+
+.totalPrecio {
+  display:block;
+  margin-left: 20px;
+}
