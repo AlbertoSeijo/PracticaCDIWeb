@@ -15,6 +15,7 @@
     <link href="./css/bootstrap.min.css" rel="stylesheet">
     <link href="./fontawesome/css/fontawesome.min.css" rel="stylesheet">
     <link href="./fontawesome/css/all.min.css" rel="stylesheet">
+    <link rel="icon" href="./img/favicon.ico" type="image/x-icon" />
     <link href="./css/common.css" rel="stylesheet">
     <link href="./css/header.css" rel="stylesheet">
     <script src="./js/jquery-3.4.1.min.js"></script>

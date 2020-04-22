@@ -1,5 +1,5 @@
 .seleccion-tipo-limpieza {
-  display: inline-block;
+  display: inline;
   width: 175px;
   height: 175px;
   margin-left: 40px;
@@ -9,7 +9,7 @@
 .seleccion-tipo-prenda {
   margin: 12px;
   height: 100px;
-  width:100px;
+  width: 100px;
 }
 
 .contenedor-tipo-prenda {
@@ -24,16 +24,30 @@
   height: 25px;
 }
 
-@media screen and (max-width: 1800px) {
-  .contenedorEtapas {
-    position: relative;
-    width: 100%;
+.botonConfirmarPedido {
+  height: 80px;
+  font-weight: bold;
+}
 
-  }
+// Extra small devices (portrait phones, less than 576px)
+// No media query since this is the default in Bootstrap
 
-  .contenedorDeLoDemas {
-    position: relative;
-    width: 100%;
+// Small devices (landscape phones, 576px and up)
+@media (min-width: 576px) {
 
-  }
+}
+
+// Medium devices (tablets, 768px and up)
+@media (min-width: 768px) {
+
+}
+
+// Large devices (desktops, 992px and up)
+@media (min-width: 992px) {
+
+}
+
+// Extra large devices (large desktops, 1200px and up)
+@media (min-width: 1200px) {
+
 }

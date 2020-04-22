@@ -52,7 +52,7 @@ if($_SESSION['tipoCuentaSesión'] != "Encargado"){
 <form id="consultaPedidosForm"></form>
 <div class="container-fluid">
   <div class="row justify-content-center contenedorFiltros">
-    <div class="col-xl-2">
+    <div class="col-lg-2">
       <div class="form-group">
         <label class="etiquetaElementosFormulario" for="aaaa">Mostrar:</label>
         <select id="seMuestra" name="seMuestra" class="custom-select" id="aaaa" form="consultaPedidosForm" onchange="actualizarConsultaPedidos()">
