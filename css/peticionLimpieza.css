@@ -1,19 +1,8 @@
 .seleccion-tipo-limpieza {
-  display: inline-block;
   width: 175px;
   height: 175px;
   margin-left: 40px;
   margin-right: 40px;
-}
-
-.seleccion-tipo-prenda {
-  margin: 12px;
-  height: 100px;
-  width:100px;
-}
-
-.contenedor-tipo-prenda {
-  width: 50%;
 }
 
 .etiquetaSubapartados {
@@ -23,17 +12,10 @@
   margin-top: -30px;
   height: 25px;
 }
-
-@media screen and (max-width: 1800px) {
-  .contenedorEtapas {
-    position: relative;
-    width: 100%;
-
-  }
-
-  .contenedorDeLoDemas {
-    position: relative;
-    width: 100%;
-
-  }
+/*#rcorners1 {
+  border-radius: 25px;
+  background: #73AD21;
+  padding: 20px;
+  width: 200px;
+  height: 150px;
 }
