@@ -41,3 +41,8 @@ function limpiezatintado(){
   document.getElementById("idTipoPedido").value = "3";
   actualizarEmpleadosLimpieza();
 }
+
+function realizarPedido(esExpress){
+  document.getElementById("esExpress").value = esExpress;
+  document.getElementById("peticionLimpiezaForm").submit();
+}

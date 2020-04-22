@@ -3,7 +3,6 @@ include './header.php';
 if(!isset($_SESSION['sesionIniciada'])){
   header("Location: ./");
 }
-include './commonFunctions.php';
 ?>
 
 <link href="./css/detallesPedido.css" rel="stylesheet">
