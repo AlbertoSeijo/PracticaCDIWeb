@@ -1,5 +1,6 @@
 <?php
 session_start();
+include './commonFunctions.php';
 /* POST VARIABLES */
 function mostrarPedido($tipoCuenta, $esPedidoExpress, $tipoPrenda, $tipoServicio, $etapaAnterior, $etapaActual, $etapaSiguiente){
 
@@ -7,19 +8,6 @@ function mostrarPedido($tipoCuenta, $esPedidoExpress, $tipoPrenda, $tipoServicio
 
 
 function mostrarPedidoCliente($parametros){
-
-}
-
-function normalizarTexto($texto){//Elimina espacios, acentos y mayúsculas del texto
-  $cambioCaracteres = array(
-    'A'=>'a', 'B'=>'b', 'C'=>'c', 'D'=>'d', 'E'=>'e', 'F'=>'f', 'G'=>'g', 'H'=>'h', 'I'=>'i',
-    'J'=>'j', 'K'=>'k', 'L'=>'l', 'M'=>'m', 'N'=>'n', 'Ñ'=>'ñ', 'O'=>'o', 'P'=>'p', 'Q'=>'q',
-    'R'=>'r', 'S'=>'s', 'T'=>'t', 'U'=>'u', 'V'=>'v', 'W'=>'w', 'X'=>'x', 'Y'=>'y', 'Z'=>'z',
-    ' '=>'',
-    'Á'=>'a', 'É'=>'e', 'Í'=>'i', 'Ó'=>'o', 'Ú'=>'u',
-    'á'=>'a', 'é'=>'e', 'í'=>'i', 'ó'=>'o', 'ú'=>'u',
-  );
-  return strtr($texto, $cambioCaracteres);
 
 }
 
@@ -75,34 +63,34 @@ function consultaSQLCliente($consulta, $tiposParametros, $listaParametros){
 
       echo '
         <!-- A partir de aquí comienza la tarjeta que hay que repetir según las consultas -->
-        <div class="container-fluid card bg-light" style="height: 250px; margin-bottom: 20px;">
-          <div class="row" style="height: 100%;">
-            <div class="col-8 container-fluid" style="">
+        <div class="container-fluid card bg-light" style="min-height: 250px; margin-bottom: 20px;">
+          <div class="container-fluid h-100">
+            <div class="contenedorDeLoDemas ml-0 mr-0">
               <div class="row" style="height: 35%;">
       ';
       if($esPedidoExpress){
         echo '
-                <div class="col-4 my-auto text-center" style="font-size: 16px; font-weight: bold;">
-                  <i class="fas fa-star fa-2x" style="color:  #f1c40f "></i> Pedido expréss
+                <div class="col-4 my-auto text-center textoExpress">
+                  <i class="fas fa-star fa-2x estrellaExpress"></i> Pedido expréss
                 </div>
         ';
       } else {
         echo '
-                <div class="col-4 my-auto text-center" style=" font-size: 16px; font-weight: bold; ">
-                  <i class="far fa-star fa-2x" style="color: #f1c40f"></i> Pedido normal
+                <div class="col-4 my-auto text-center textoExpress">
+                  <i class="far fa-star fa-2x estrellaExpress"></i> Pedido normal
                 </div>
         ';
       }
 
       echo'
-                <div class="col-8" style="">
+                <div class="col-8">
                   <h5 style="margin-top: 8px;">Cronología:</h5>
                   <div class="row" style="height: 100%;">
-                    <div class="col-6 text-left" style="height: 100%; white-space: nowrap;">
+                    <div class="col-6 text-left h-100" style="white-space: nowrap;">
                       <a style="display:block; margin-left: 20px; font-size: 14px;">Fecha de inicio:</a>
                       <a style="display:block; margin-left: 20px; font-size: 14px;">Fecha de fin:</a>
                     </div>
-                    <div class="col-6 text-right" style="height: 100%; white-space: nowrap;">
+                    <div class="col-6 text-right h-100" style="white-space: nowrap;">
                       <a style="display:block; margin-left: 20px; font-size: 14px;">'.$inicioPedido.'</a>
                       <a style="display:block; margin-left: 20px; font-size: 14px;">'.$finPedido.'</a>
                     </div>
@@ -111,67 +99,67 @@ function consultaSQLCliente($consulta, $tiposParametros, $listaParametros){
               </div>
               <div class="row" style="height: 65%;">
                 <div class="col-6 " style=""><!-- TODO Esta fila puede ser col-6 o col-12 según haya factura o no -->
-                  <div class="row" style="height: 100%;">
-                    <div class="col-6 text-center" style="height: 100; padding-top: 25px;">
+                  <div class="row h-100">
+                    <div class="col-6 text-center h-100" style="padding-top: 25px;">
                       <h5>Tipo de prenda</h5>
-                      <div class="card bg-white mx-auto" style="width: 75px; height: 75px;">
-                        <img src="./img/tipoPrenda/'.normalizarTexto($tipoPrenda).'.svg" class="mx-auto my-auto" style="width: 75%"></img>
+                      <div class="card bg-white mx-auto contenedorTipoServicioTipoPrenda">
+                        <img src="./img/tipoPrenda/'.normalizarTexto($tipoPrenda).'.svg" class="mx-auto my-auto w-75"></img>
                       </div>
                       <div class="text-center" style="position: absolute; width: 69px; background-color: white; height: 12px; left:0; right: 0; margin-left: auto; margin-right: auto; margin-top: -12px; line-height: 18px;">'.$tipoPrenda.'</div>
                     </div>
-                    <div class="col-6 text-center" style="height: 100; padding-top: 25px;">
+                    <div class="col-6 text-center h-100" style="padding-top: 25px;">
                       <h5>Tipo de servicio</h5>
-                      <div class="card bg-white mx-auto" style="width: 75px; height: 75px;">
-                        <img src="./img/tipoPedido/'.normalizarTexto($nombreTipoPedido).'.svg" class="mx-auto my-auto" style="width: 75%"></img>
+                      <div class="card bg-white mx-auto contenedorTipoServicioTipoPrenda">
+                        <img src="./img/tipoPedido/'.normalizarTexto($nombreTipoPedido).'.svg" class="mx-auto my-auto w-75"></img>
                       </div>
                       <div class="text-center" style="position: absolute; width: 69px; background-color: white; height: 12px; left:0; right: 0; margin-left: auto; margin-right: auto; margin-top: -12px; line-height: 18px;">'.$nombreTipoPedido.'</div>
                     </div>
                   </div>
                 </div>
-                <div class="col-6" style="">
+                <div class="col-6">
                   <h5 style="margin-top: 15px;">Total desglosado</h5>
-                  <div class="row" style="height: 100%;">
-                    <div class="col-6 text-left" style="height: 100%;">
-                      <a style="display:block; margin-left: 20px; font-size: 12px;">Servicio:</a>
-                      <a style="display:block; margin-left: 20px; font-size: 12px;">Arreglos solicitados:</a>
-                      <a style="display:block; margin-left: 20px; font-size: 12px;">Arreglos extras:</a>
-                      <a style="display:block; margin-left: 20px; font-size: 12px;">Descuento:</a>
-                      <a class="font-weight-bold" style="display:block; margin-left: 20px;">Total:</a>
+                  <div class="row h-100">
+                    <div class="col-6 text-left h-100">
+                      <a class="textoPrecio">Servicio:</a>
+                      <a class="textoPrecio">Arreglos solicitados:</a>
+                      <a class="textoPrecio">Arreglos extras:</a>
+                      <a class="textoPrecio">Descuento:</a>
+                      <a class="font-weight-bold totalPrecio">Total:</a>
                     </div>
-                    <div class="col-6 text-right" style="height: 100%;">
+                    <div class="col-6 text-right h-100">
                       <a style="position: absolute; left: 10px; top: 20px; font-size: 20px;">+</a>
-                      <a style="display:block; margin-left: 20px; font-size: 12px;">'.$precioBasePedido.' €</a>
-                      <a style="display:block; margin-left: 20px; font-size: 12px;">'.$precioDesperfectos.' €</a>
-                      <a style="display:block; margin-left: 20px; font-size: 12px;">'.$precioServiciosAdicionales.' €</a>
-                      <a style="display:block; margin-left: 20px; font-size: 12px;">(-'.$porcentajeDescuento.'%) -'.number_format(calcularTotalDescuento($precioBasePedido, $precioDesperfectos, $precioServiciosAdicionales, $porcentajeDescuento), 2, ',', '.').' €</a>
-                      <hr style="margin: 0px; border-width: 2px;">
-                      <a class="font-weight-bold" style="display:block; margin-left: 20px;">'.$calculoPrecioTotal.'</a>
+                      <a class="textoPrecio">'.$precioBasePedido.' €</a>
+                      <a class="textoPrecio">'.$precioDesperfectos.' €</a>
+                      <a class="textoPrecio">'.$precioServiciosAdicionales.' €</a>
+                      <a class="textoPrecio">(-'.$porcentajeDescuento.'%) -'.number_format(calcularTotalDescuento($precioBasePedido, $precioDesperfectos, $precioServiciosAdicionales, $porcentajeDescuento), 2, ',', '.').' €</a>
+                      <hr class="separadorPrecio">
+                      <a class="font-weight-bold totalPrecio">'.$calculoPrecioTotal.'</a>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
-            <div class="col-4 container-fluid" style="">
-              <div class="container-fluid" style="height: 70%;">
+            <div class="contenedorEtapas ml-0 mr-0">
+              <div class="container-fluid">
                 <h3 style="margin-top: 10px;">Etapas</h3>
-                <div class="row" style="height: 65%;">
-                  <div class="col-4 my-auto" style="">
-                    <div class="card bg-white mx-auto" style="width: 75px; height: 75px;">Etapa A</div>
+                <div class="row mt-3 ml-0 mr-0 justify-content-center" style="height: 125px; position: relative;">
+                  <img src="./img/arrowRight.svg" class="flechaIzquierdaTransicionPedidos"></img>
+                  <img src="./img/arrowRight.svg" class="flechaDerechaTransicionPedidos"></img>
+                  <div class="col-4 mx-auto my-auto">
+                    <div class="card bg-white mx-auto otrasEtapas">Etapa A</div>
                     <div class="text-center" style="position: absolute; width: 69px; background-color: white; height: 15px;  left:0; right: 0; margin-left: auto; margin-right: auto; margin-top: -15px;">Etapa 1</div>
                   </div>
-                  <div class="col-4 my-auto" style="">
-                    <i class="fas fa-caret-right fa-4x" style="position: absolute; left: -15px; transform: translate(0%, 20%);"></i>
-                    <div class="card bg-white mx-auto" style="width: 90px; height: 90px;">Etapa B</div>
+                  <div class="col-4 mx-auto my-auto">
+                    <div class="card bg-white mx-auto etapaActual">Etapa B</div>
                     <div class="text-center" style="position: absolute; width: 84px; background-color: white; height: 15px;  left:0; right: 0; margin-left: auto; margin-right: auto; margin-top: -15px;">Etapa 2</div>
                   </div>
-                  <div class="col-4 my-auto" style="">
-                    <i class="fas fa-caret-right fa-4x" style="position: absolute; left: -7px; transform: translate(0%, 10%);"></i>
-                    <div class="card bg-white mx-auto" style="width: 75px; height: 75px;">Etapa C</div>
+                  <div class="col-4 mx-auto my-auto">
+                    <div class="card bg-white mx-auto otrasEtapas">Etapa C</div>
                     <div class="text-center" style="position: absolute; width: 69px; background-color: white; height: 15px; left:0; right: 0; margin-left: auto; margin-right: auto; margin-top: -15px;">Etapa 3</div>
                   </div>
                 </div>
               </div>
-              <div class="container-fluid text-center" style="height: 30%;">
+              <div class="container-fluid text-center mt-2 mb-2 h-25">
   ';
   if($precioAceptado){
     echo '

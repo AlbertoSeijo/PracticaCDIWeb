@@ -33,6 +33,7 @@
 
 .contenedor-botones-continuar {
   margin-top: 48px;
+  margin-bottom: 48px;
 }
 
 .contenedor-entradaTarjeta-central {
@@ -44,6 +45,29 @@
 
 .input-tarjetaCliente {
    user-select: none;
+}
+
+.btn-continuar {}
+
+.separadorBotones {
+  display: none;
+  visibility: hidden;
+}
+
+@media screen and (max-width: 1000px) {
+  .btn-sin-tarjeta {
+    display: inline-block;
+    position: relative;
+    right: 0px;
+  }
+
+  .btn-continuar {
+    display: inline-block;
+  }
+
+  .separadorBotones {
+    display: block;
+  }
 }
 
 /*CANJEPUNTOS2*/

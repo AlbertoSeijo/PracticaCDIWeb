@@ -26,6 +26,7 @@
   height: 60vh;
   padding: 0px;
   margin-top: 16px;
+  margin-bottom: 16px;
 }
 
 .contenedorFiltros {
@@ -40,6 +41,105 @@
   margin-bottom: 0px;
 }
 
+.otrasEtapas {
+  width: 75px;
+  height: 75px;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.etapaActual {
+  width: 90px;
+  height: 90px;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.contenedorEtapas {
+  width: 30%;
+  position: absolute;
+  right: 0;
+
+}
+
+.contenedorDeLoDemas {
+  width: 70%;
+  position: absolute;
+  left: 0;
+}
+
+@media screen and (max-width: 1800px) {
+  .contenedorEtapas {
+    position: relative;
+    width: 100%;
+
+  }
+
+  .contenedorDeLoDemas {
+    position: relative;
+    width: 100%;
+
+  }
+}
+
 select {
   margin-top: -10px;
+}
+
+/*
+  consultaPedidosConsulta
+*/
+
+.flechaIzquierdaTransicionPedidos {
+  position: absolute;
+  left: calc(33.33% - 29px);
+  top:calc(50% - 25px);
+  margin: auto;
+  width: 50px;
+  height: 50px;
+}
+
+.flechaDerechaTransicionPedidos {
+  position: absolute;
+  left: calc(66.66% - 21px);
+  top:calc(50% - 25px);
+  margin: auto;
+  width: 50px;
+  height: 50px;
+}
+
+.estrellaExpress {
+  color: #f1c40f;
+}
+
+.textoExpress {
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.contenedorTipoServicioTipoPrenda {
+  width: 75px;
+  height: 75px;
+}
+
+.separadorPrecio {
+  margin: 0px;
+  border-width: 2px;
+}
+
+.textoPrecio {
+  display:block;
+  margin-left: 20px;
+  font-size: 12px;
+}
+
+.totalPrecio {
+  display:block;
+  margin-left: 20px;
 }

@@ -35,8 +35,21 @@ if(isset($_SESSION['sesionIniciada'])){
 //Primero comprobamos si se han enviado datos desde el formulario para ver si se debe intentar insertar al cargar la página o no.
 if(isset($_POST['triedLogin']) && $_POST['triedLogin'] == true){
   //Si no se ha introducido el usuario o la contraseña, advertir al usuario. En caso contrario, procedemos con el inicio de sesión.
-  if (!isset($_POST['emailLogin'], $_POST['contraseñaLogin']) ) {
-  	exit('Please fill both the username and password fields!');//TODO Echo Por favor rellena los campos, o algo así.
+  if (!isset($_POST['emailLogin'], $_POST['contraseñaLogin']) || empty($_POST['emailLogin']) || empty($_POST['contraseñaLogin'])) {
+  	echo '
+    <div class="container-fluid" align="center">
+      <div class="row justify-content-center" align="center">
+        <div class="col-lg-8 col-xl-4">
+          <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            Debes rellenar todos los campos para poder iniciar sesión.
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    ';//TODO Echo Por favor rellena los campos, o algo así.
   } else {
     define('SERVIDOR_BD', 'localhost:3306');
     define('USUARIO_BD', 'webtintoreria');

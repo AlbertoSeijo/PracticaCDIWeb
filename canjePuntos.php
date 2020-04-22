@@ -15,9 +15,8 @@ include './cabeceraContenido.php';
       <img draggable="false" id="imagen-tarjeta" src="./img/tarjetaPuntos.svg"></img>
     </div>
   </div>
-  <div class="row">
-    <div class="col-4"></div>
-    <div class="col-4">
+  <div class="row justify-content-center">
+    <div class="col-6 col-lg-4 col-md-6 col-sm-8">
       <form>
         <div class="form-row">
           <div class="col">
@@ -34,11 +33,10 @@ include './cabeceraContenido.php';
         </div>
       </form>
     </div>
-    <div class="col-4"></div>
   </div>
   <div class="row text-center contenedor-botones-continuar">
-    <div class="col-12 text-center">
-      <button class="btn btn-primary btn-lg">Continuar</button>
+    <div class="col-12 text-center justify-content-center">
+      <button class="btn btn-primary btn-lg btn-continuar">Continuar</button><hr class="separadorBotones">
       <button class="btn btn-primary btn-lg btn-sin-tarjeta">Tramitar pedido sin aplicar descuentos</button>
     </div>
   </div>
