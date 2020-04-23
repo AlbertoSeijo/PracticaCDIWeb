@@ -57,6 +57,7 @@ $db = mysqli_connect(SERVIDOR_BD,USUARIO_BD,CONTRASENA_BD,NOMBRE_BD);
     te.nombre nombreTipoEtapa,
     p.tipoPrenda tipoPrenda,
     tpedido.nombreTipoPedido tipoServicio,
+    tpedido.idTipoPedido idTipoPedido,
     p.esPedidoExpress esExpress,
     tpedido.precio precioBasePedido,
     desperfectos.coste precioDesperfectos,
@@ -116,7 +117,7 @@ WHERE
     $stmt->bind_param('s', $_POST["idPedido"]);
     $stmt->execute();
     $stmt->store_result();
-    $stmt->bind_result($nombreTipoEtapa, $tipoPrenda, $tipoServicio, $esExpress, $precioBasePedido, $precioDesperfectos,$precioServiciosAdicionales,$porcentajeDescuento,$inicioPedido,$inicioEtapa,$finEtapa,$descArreglos,$descServAdic,$empleadoAsignado,$ordenActual);
+    $stmt->bind_result($nombreTipoEtapa, $tipoPrenda, $tipoServicio, $idTipoPedido, $esExpress, $precioBasePedido, $precioDesperfectos,$precioServiciosAdicionales,$porcentajeDescuento,$inicioPedido,$inicioEtapa,$finEtapa,$descArreglos,$descServAdic,$empleadoAsignado,$ordenActual);
     while ($stmt->fetch()) {
 
       $calculoPrecioTotal = calcularPrecioTotal($precioBasePedido, $precioDesperfectos, $precioServiciosAdicionales, $porcentajeDescuento);
@@ -139,6 +140,34 @@ WHERE
         $etapaAnterior = $ordenActual -1;
         $etapaPosterior = $ordenActual +1;
       }
+
+
+
+      if ($etapaAnterior != null){
+        if ($stmtB = $db->prepare(
+          "SELECT te.nombre nombreTipoEtapa
+          FROM  TipoEtapa te, TipoEtapasportipopedido oe, tipoPedido tp
+          WHERE  oe.ordenEtapa = ? AND tp.idTipoPedido = ? AND te.idTipoEtapa = oe.idTipoEtapa AND tp.idTipoPedido = oe.idTipoPedido"
+        )) {
+          $stmtB->bind_param('ss', $etapaAnterior,$idTipoPedido);
+          $stmtB->execute();
+          $stmtB->store_result();
+          $stmtB->bind_result($nombreTipoEtapaAnterior);
+          while ($stmtB->fetch()) {
+
+
+
+        if ($etapaPosterior != null){
+          if ($stmtC = $db->prepare(
+            "SELECT te.nombre nombreTipoEtapa
+            FROM  TipoEtapa te, TipoEtapasportipopedido oe, tipoPedido tp
+            WHERE  oe.ordenEtapa = ? AND tp.idTipoPedido = ? AND te.idTipoEtapa = oe.idTipoEtapa AND tp.idTipoPedido = oe.idTipoPedido"
+          )) {
+            $stmtC->bind_param('ss', $etapaPosterior,$idTipoPedido);
+            $stmtC->execute();
+            $stmtC->store_result();
+            $stmtC->bind_result($nombreTipoEtapaPosterior);
+            while ($stmtC->fetch()) {
 
 
     $nombrePagina = $nombreTipoEtapa;
@@ -186,21 +215,44 @@ if($_SESSION['tipoCuentaSesión'] == "Cliente"){
       </div>
       <div id="col2" class="col-6" style="margin-top:20px;">
         <div class="row">
+        ';if($nombreTipoEtapaAnterior == null){
+          echo'
           <div class="col-3">
-            <div class="row justify-content-md-center">
+            <div class="row justify-content-md-center" style="visibility:hidden;">
               <div class="card bg-light text-center" style="margin-top:120px; width: 10vw; height:10vw;">
                 <div class="card-body text-center" style="margin-top:-20px;">
-                  <img src="./img/etapas/'.normalizarTexto($nombreTipoEtapa).'.svg" style="width:6vw; height:12vh; margin-top:30px;" class="rounded" alt="">
-                  <p style="margin-top:20px;">'.$nombreTipoEtapa.'</p>
+                  <img src="./img/LaVandería Logo.png" style="width:6vw; height:12vh; margin-top:30px;" class="rounded" alt="">
+                  <p style="margin-top:20px;">LaVandería Logo</p>
                 </div>
               </div>
             </div>
           </div>
           <div class="col-1">
-            <div class="row row justify-content-md-center">
+            <div class="row row justify-content-md-center" style="visibility:hidden;">
               <i class="fas fa-caret-right fa-4x" style="margin-top:20vh;"></i>
             </div>
           </div>
+          ';
+          } else {
+            echo'
+              <div class="col-3">
+                <div class="row justify-content-md-center">
+                  <div class="card bg-light text-center" style="margin-top:120px; width: 10vw; height:10vw;">
+                    <div class="card-body text-center" style="margin-top:-20px;">
+                      <img src="./img/etapas/'.normalizarTexto($nombreTipoEtapaAnterior).'.svg" style="width:6vw; height:12vh; margin-top:30px;" class="rounded" alt="">
+                      <p style="margin-top:20px;">'.$nombreTipoEtapaAnterior.'</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-1">
+                <div class="row row justify-content-md-center">
+                  <i class="fas fa-caret-right fa-4x" style="margin-top:20vh;"></i>
+                </div>
+              </div>
+              ';
+        }
+        echo'
           <div class="col-4">
             <div class="row justify-content-md-center">
               <div class="card bg-light text-center" style="margin-top:80px; width: 14vw; height:14vw;">
@@ -211,33 +263,56 @@ if($_SESSION['tipoCuentaSesión'] == "Cliente"){
               </div>
             </div>
           </div>
+          '; if ($nombreTipoEtapaPosterior == null){
+            echo'
           <div class="col-1">
-            <div class="row justify-content-md-center">
+            <div class="row justify-content-md-center" style="visibility:hidden;">
               <i class="fas fa-caret-right fa-4x" style="margin-top:20vh;"></i>
             </div>
           </div>
           <div class="col-3">
-            <div class="row justify-content-md-center">
+            <div class="row justify-content-md-center" style="visibility:hidden;">
               <div class="card bg-light text-center" style="margin-top:120px; width: 10vw; height:10vw;">
                 <div class="card-body text-center" style="margin-top:-20px;">
-                  <img src="./img/etapas/'.normalizarTexto($nombreTipoEtapa).'.svg" style="width:6vw; height:12vh; margin-top:30px;" class="rounded" alt="">
-                  <p style="margin-top:20px;">'.$nombreTipoEtapa.'</p>
+                  <img src="./img/LaVandería Logo.png" style="width:6vw; height:12vh; margin-top:30px;" class="rounded" alt="">
+                  <p style="margin-top:20px;">LaVandería Logo</p>
                 </div>
               </div>
             </div>
           </div>
+          ';
+        } else {
+            echo'
+            <div class="col-1">
+              <div class="row justify-content-md-center">
+                <i class="fas fa-caret-right fa-4x" style="margin-top:20vh;"></i>
+              </div>
+            </div>
+            <div class="col-3">
+              <div class="row justify-content-md-center">
+                <div class="card bg-light text-center" style="margin-top:120px; width: 10vw; height:10vw;">
+                  <div class="card-body text-center" style="margin-top:-20px;">
+                    <img src="./img/etapas/'.normalizarTexto($nombreTipoEtapaPosterior).'.svg" style="width:6vw; height:12vh; margin-top:30px;" class="rounded" alt="">
+                    <p style="margin-top:20px;">'.$nombreTipoEtapaPosterior.'</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            ';
+          }
+          echo'
         </div>
         <div class="row justify-content-md-center" style="margin-top:65px;">
               <div class="col-5">
                 <div class="form-group">
                   <label for="ServiciosAdic">Servicios adicionales</label>
-                  <textarea disabled class="form-control" id="ServiciosAdic" rows="6" style="resize: none;"></textarea>
+                  <textarea disabled class="form-control" id="ServiciosAdic" rows="6" style="resize: none;">'.$descServAdic.'</textarea>
                 </div>
               </div>
               <div class="col-5">
                 <div class="form-group">
                   <label for="Desperfectos">Desperfectos</label>
-                  <textarea disabled class="form-control" id="Desperfectos" rows="6" style="resize: none;"></textarea>
+                  <textarea disabled class="form-control" id="Desperfectos" rows="6" style="resize: none;">'.$descArreglos.'</textarea>
                 </div>
               </div>
         </div>
@@ -655,8 +730,9 @@ if($_SESSION['tipoCuentaSesión'] == "Cliente"){
   </div>
 ';
 }
-}
-}
+}}}
+}}}
+}}
 ?>
 
 <?php
