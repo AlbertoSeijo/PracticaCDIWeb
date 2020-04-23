@@ -1,5 +1,4 @@
 function actualizarEmpleadosLimpieza() {
-  console.log("allévoy");
   if (window.XMLHttpRequest) {
     // Navegadores: Firefox, Chrome, Opera, Safari
     xmlhttp = new XMLHttpRequest();
@@ -40,4 +39,9 @@ function limpiezatintado(){
   document.getElementById("pedexpressbot").disabled = false;
   document.getElementById("idTipoPedido").value = "3";
   actualizarEmpleadosLimpieza();
+}
+
+function realizarPedido(esExpress){
+  document.getElementById("esExpress").value = esExpress;
+  document.getElementById("peticionLimpiezaForm").submit();
 }
