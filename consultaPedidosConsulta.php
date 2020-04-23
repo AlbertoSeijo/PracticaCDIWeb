@@ -170,8 +170,8 @@ function consultaSQLCliente($consulta, $tiposParametros, $listaParametros){
     ';
   } else {
     echo '
-                <button type="button" onclick="cancelarPedido("'.$idPedido.'")" class="btn btn-danger btn-lg" style="width: 30%;">Cancelar pedido</button>
-                <button type="button" class="btn btn-primary btn-lg" style="width: 60%;">Aceptar precio actualizado</button>
+                <button type="button" onclick="cancelarPedido('.$idPedido.')" class="btn btn-danger btn-lg btn-cancelar-pedido">Cancelar pedido</button>
+                <button type="button" class="btn btn-primary btn-lg btn-aceptar-precio-actualizado">Aceptar precio actualizado</button>
     ';
   }
     echo'

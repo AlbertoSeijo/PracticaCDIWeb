@@ -21,5 +21,18 @@ actualizarConsultaPedidos();
 
 
 function cancelarPedido(idPedido){
-  $.redirect('detallesPedido.php', {'idPedido': idPedido});
+  //$.redirect('detallesPedido.php', {'idPedido': idPedido});
+  document.getElementById("contenedor-alerta-eliminar").style.visibility = "visible";
+}
+
+function confirmarCancelarPedido(){
+  document.getElementById("contenedor-eleccion-alerta-eliminar").style.visibility = "hidden";
+  document.getElementById("contenedor-alerta-eliminar").style.display = "none";
+  document.getElementById("contenedor-deshacer").style.visibility = "visible";
+
+
+}
+
+function noCancelarPedido(){
+  document.getElementById("contenedor-alerta-eliminar").style.visibility = "hidden";
 }

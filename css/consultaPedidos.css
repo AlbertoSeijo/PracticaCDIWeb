@@ -88,6 +88,46 @@
   }
 }
 
+.contenedor-alerta-eliminar{
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index:10000;
+  overflow: hidden;
+  position: fixed;
+  visibility: hidden;
+}
+
+.contenedor-deshacer {
+  visibility: hidden;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index:10001;
+}
+
+.fondo-contenedor-alerta-eliminar{
+  background-color: black;
+  filter: opacity(0.5);
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index:10000;
+}
+
+.svg-icon {
+  width: 28px;
+  margin: 4px;
+}
+
+.svg-icon-close {
+  width: 28px;
+  margin: 4px;
+  margin-right: -8px;
+  float: right;
+}
+
 select {
   margin-top: -10px;
 }
@@ -142,4 +182,33 @@ select {
 .totalPrecio {
   display:block;
   margin-left: 20px;
+}
+
+.btn-aceptar-precio-actualizado {
+  width: 60%;
+}
+
+.btn-cancelar-pedido {
+  width: 30%;
+}
+
+@media screen and (min-width: 576px) {
+
+}
+
+@media screen and (min-width: 768px) {
+  .btn-aceptar-precio-actualizado{
+      width: 100%;
+  }
+  .btn-cancelar-pedido{
+      width: 100%;
+  }
+}
+
+@media screen and (min-width: 992px) {
+
+}
+
+@media screen and (min-width: 1200px) {
+
 }

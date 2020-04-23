@@ -22,12 +22,12 @@ if($_SESSION['tipoCuentaSesión'] != "Encargado"){
 }
 
  ?>
- <!--
-<div class="container-fluid w-100 h-100" style="position: absolute; top: 0; left: 0; z-index:1000; overflow: hidden;">
-  <div class="container-fluid  w-100 h-100" style="background-color: black; filter: opacity(0.5); position: absolute; top: 0; left: 0; z-index:1000">
+
+<div id="contenedor-alerta-eliminar" class="container-fluid w-100 h-100 contenedor-alerta-eliminar">
+  <div id="fondo-contenedor-alerta-eliminar" class="container-fluid  w-100 h-100 fondo-contenedor-alerta-eliminar">
   </div>
-  <div class="row w-100 justify-content-center align-self-center" style="position: absolute; top: 50%;transform: translateY(-50%); z-index:1001;">
-    <div class="col-5 card" style="max-height: 500px;">
+  <div id="contenedor-eleccion-alerta-eliminar" class="row w-100 justify-content-center align-self-center" style="position: absolute; top: 50%;transform: translateY(-50%); z-index:10001;">
+    <div class="col-xl-5 col-lg-6 col-md-7 col-9 card" style="max-height: 500px;">
       <div class="row" style="margin-top: 24px;">
         <div class="col-4 d-flex align-items-center justify-content-center">
           <img style="width:125px;" src="./img/alert.svg" class=""></img>
@@ -39,16 +39,23 @@ if($_SESSION['tipoCuentaSesión'] != "Encargado"){
       </div>
       <div class="row" style="margin-bottom: 24px; margin-top: 24px;">
         <div class="col-6 text-center">
-          <button type="button" class="btn btn-lg btn-primary">No cancelarlo</button>
+          <button type="button" onclick="noCancelarPedido()" class="btn btn-lg btn-primary">No cancelarlo</button>
         </div>
         <div class="col-6 text-center">
-          <button type="button" class="btn btn-lg btn-danger">Cancelar pedido</button>
+          <button type="button" class="btn btn-lg btn-danger" onclick="confirmarCancelarPedido()">Cancelar pedido</button>
         </div>
       </div>
     </div>
   </div>
 </div>
--->
+<div class="container-fluid">
+  <div id="contenedor-deshacer" class="row justify-content-center contenedor-deshacer w-100">
+    <div class="col-sm-6 col-md-5 col-lg-4 card text-center" style="border-bottom-left-radius: 0px; border-bottom-right-radius: 0px; display: inline;">
+      <a>Pedido eliminado. </a><a href="google.es"><img style="display: inline;"class="svg-icon" src="./img/undo.svg"></img>Deshacer</a> <img onclick="window.open(this.src)" class="svg-icon-close" src="./img/close.svg"></img>
+    </div>
+  </div>
+</div>
+
 <form id="consultaPedidosForm"></form>
 <div class="container-fluid">
   <div class="row justify-content-center contenedorFiltros">
