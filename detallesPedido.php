@@ -91,7 +91,7 @@ LEFT JOIN (SELECT * FROM Etapa uE WHERE uE.idTipoEtapa = '7' AND uE.fechaFin IS 
 LEFT JOIN (SELECT * FROM Etapa pE WHERE pE.idTipoEtapa = '1') primeraEtapa
     ON primeraEtapa.idPedido = p.idPedido
 WHERE
-    p.idPedido = 13
+    p.idPedido = 1
         AND
     oe.idTipoPedido = p.idTipoPedido
         AND
@@ -159,6 +159,15 @@ WHERE
             $stmtC->bind_result($nombreTipoEtapaPosterior);
             while ($stmtC->fetch()) {}}
       } else {$nombreTipoEtapaPosterior = null;}
+
+
+
+        if ($stmtD = $db->prepare("SELECT c.nombre, c.apellidos FROM  cuenta c WHERE  c.idCuenta = ?")) {
+          $stmtD->bind_param('s', $empleadoAsignado);
+          $stmtD->execute();
+          $stmtD->store_result();
+          $stmtD->bind_result($empleadoNombre,$empleadoApellidos);
+          while ($stmtD->fetch()) {}}
 
     $nombrePagina = $nombreTipoEtapa;
     include './cabeceraContenido.php';
@@ -515,7 +524,6 @@ if($_SESSION['tipoCuentaSesión'] == "Cliente"){
             <label for="Asignar_coste_D">Asignar coste</label>
             <div class="input-group mb-3">
               <input type="text" class="form-control" style="margin-top:0px;">
-              <input type="hidden" class="form-control" style="margin-top:0px;">
               <div class="input-group-append">
                 <span class="input-group-text">€</span>
               </div>
@@ -530,33 +538,43 @@ if($_SESSION['tipoCuentaSesión'] == "Cliente"){
               <img src="./img/calendar.svg" style="width:3vw; height:3vh; position:absolute; left: 20%;" alt="">
             </div>
             <div class="fechas text-center" style="margin-top:30px;">
-              <a style="font-weight:bold; font-style:italic; text-decoration-line:underline;">Inicio pedido:</a> dd-mm-aaaa
+              <a style="font-weight:bold; font-style:italic; text-decoration-line:underline;">Inicio pedido:</a> '.$inicioPedido.'
             </div>
             <div class="fechas text-center">
-              <a style="font-weight:bold; font-style:italic; text-decoration-line:underline;">Inicio etapa:</a> dd-mm-aaaa
+              <a style="font-weight:bold; font-style:italic; text-decoration-line:underline;">Inicio etapa:</a> '.$inicioEtapa.'
             </div>
             <div class="fechas text-center">
-              <a style="font-weight:bold; font-style:italic; text-decoration-line:underline;">Fin etapa:</a> dd-mm-aaaa
+              <a style="font-weight:bold; font-style:italic; text-decoration-line:underline;">Fin etapa:</a> '.$finEtapa.'
             </div>
           </div>
         </div>
-        <div class="row justify-content-md-center" style="margin-top:40px;">
-          <div class="col-8">
-            <div class="form-group">
-              <label for="empleadoasignado">Empleado asignado:</label>
-              <textarea disabled class="form-control" id="empleadoasignado" rows="1" style="resize: none;"></textarea>
+        <div id="precio" class="row justify-content-md-center">
+          <div class="col-8" style="margin-top:30vh;">
+            <h5 style="margin-top: 15px;">Total desglosado</h5>
+            <div class="row" style="height: 100%;">
+              <div class="col-6 text-left" style="height: 100%;">
+                <a style="display:block; margin-left: 20px; font-size: 12px;">Servicio:</a>
+                <a style="display:block; margin-left: 20px; font-size: 12px;">Arreglos solicitados:</a>
+                <a style="display:block; margin-left: 20px; font-size: 12px;">Arreglos extras:</a>
+                <a style="display:block; margin-left: 20px; font-size: 12px;">Descuento:</a>
+                <a class="font-weight-bold" style="display:block; margin-left: 20px;">Total:</a>
+              </div>
+              <div class="col-6 text-right h-100">
+                <a style="position: absolute; left: 10px; top: 20px; font-size: 20px;">+</a>
+                <a class="textoPrecio">'.$precioBasePedido.' €</a>
+                <a class="textoPrecio">'.$precioDesperfectos.' €</a>
+                <a class="textoPrecio">'.$precioServiciosAdicionales.' €</a>
+                <a class="textoPrecio">(-'.$porcentajeDescuento.'%) -'.number_format(calcularTotalDescuento($precioBasePedido, $precioDesperfectos, $precioServiciosAdicionales, $porcentajeDescuento), 2, ',', '.').' €</a>
+                <hr class="separadorPrecio">
+                <a class="font-weight-bold totalPrecio">'.$calculoPrecioTotal.'</a>
+              </div>
             </div>
-          </div>
-        </div>
-        <div class="separador-fba"></div>
-        <div id="botones" class="row">
-          <div class="col-12 text-center">
-            <button type="button" class="btn btn-info" style="width:15vw; height:10vh;"><b>Enviar a la siguiente etapa</b></button>
           </div>
         </div>
       </div>
     </div>
   </div>
+</div>
 ';
     }else {
           echo'
@@ -571,13 +589,13 @@ if($_SESSION['tipoCuentaSesión'] == "Cliente"){
                 <div class="form-group">
                   <label for="Desperfectos">Desperfectos</label>
                   <textarea
-    '; if ("Recepcionado" != "no"){
+    '; if ("recepcionado" != normalizarTexto($nombreTipoEtapa)){
           echo'
                   disabled
           ';
     }
     echo'
-                 class="form-control" id="Desperfectos" rows="6" style="resize: none;"></textarea>
+                 class="form-control" id="Desperfectos" name="Desperfectos" rows="6" style="resize: none;"></textarea>
                 </div>
               </div>
           </div>
@@ -589,13 +607,13 @@ if($_SESSION['tipoCuentaSesión'] == "Cliente"){
                 <img src="./img/calendar.svg" style="width:3vw; height:3vh; position:absolute; left: 20%;" alt="">
               </div>
               <div class="fechas text-center" style="margin-top:30px;">
-                <a style="font-weight:bold; font-style:italic; text-decoration-line:underline;">Inicio pedido:</a> dd-mm-aaaa
+                <a style="font-weight:bold; font-style:italic; text-decoration-line:underline;">Inicio pedido:</a> '.$inicioPedido.'
               </div>
               <div class="fechas text-center">
-                <a style="font-weight:bold; font-style:italic; text-decoration-line:underline;">Inicio etapa:</a> dd-mm-aaaa
+                <a style="font-weight:bold; font-style:italic; text-decoration-line:underline;">Inicio etapa:</a> '.$inicioEtapa.'
               </div>
               <div class="fechas text-center">
-                <a style="font-weight:bold; font-style:italic; text-decoration-line:underline;">Fin etapa:</a> dd-mm-aaaa
+                <a style="font-weight:bold; font-style:italic; text-decoration-line:underline;">Fin etapa:</a> '.$finEtapa.'
               </div>
             </div>
           </div>
@@ -603,11 +621,11 @@ if($_SESSION['tipoCuentaSesión'] == "Cliente"){
             <div class="col-8">
               <div class="form-group">
                 <label for="empleadoasignado">Empleado asignado:</label>
-                <textarea disabled class="form-control" id="empleadoasignado" rows="1" style="resize: none;"></textarea>
+                <textarea disabled class="form-control" id="empleadoasignado" rows="1" style="resize: none;">'.$empleadoNombre.' '.$empleadoApellidos.'</textarea>
               </div>
             </div>
           </div>
-    '; if("Findelpedido" == "no"){
+    '; if("findepedido" == normalizarTexto($nombreTipoEtapa)){
       echo'
             <div id="botones" class="row" style="margin-top:10vh;">
               <div class="col-12 text-center">
@@ -661,7 +679,7 @@ if($_SESSION['tipoCuentaSesión'] == "Cliente"){
             </div>
           </div>
         </div>
-  '; if ("Secadoyrevision" == "no"){
+  '; if ("secadoyrevision" == normalizarTexto($nombreTipoEtapa)){
         echo'
         <div class="row" style="margin-top:65px;">
           <div class="col-12 text-center">
@@ -673,67 +691,113 @@ if($_SESSION['tipoCuentaSesión'] == "Cliente"){
       </div>
       <div id="col2" class="col-6" style="margin-top:20px;">
         <div class="row">
+          ';if($nombreTipoEtapaAnterior == null){
+          echo'
           <div class="col-3">
-            <div class="row justify-content-md-center">
-              <div class="card bg-light text-center" style="margin-top:120px; width: 10vw; height:10vw;">
+            <div class="row justify-content-md-center" style="visibility:hidden;">
+              <div class="card bg-light text-center" style="margin-top:100px; width: 10vw; height:10vw;">
                 <div class="card-body text-center" style="margin-top:-20px;">
                   <img src="./img/LaVandería Logo.png" style="width:6vw; height:12vh; margin-top:30px;" class="rounded" alt="">
-                  <a style=""></a>
+                  <p style="margin-top:20px;">LaVandería Logo</p>
                 </div>
               </div>
             </div>
           </div>
           <div class="col-1">
-            <div class="row row justify-content-md-center">
-              <i class="fas fa-caret-right fa-4x" style="margin-top:20vh;"></i>
+            <div class="row row justify-content-md-center" style="visibility:hidden;">
+              <img src="./img/arrowRight.svg" style="width:50px; margin-top:18.5vh;"></img>
             </div>
           </div>
+          ';
+          } else {
+            echo'
+              <div class="col-3">
+                <div class="row justify-content-md-center">
+                  <div class="card bg-light text-center" style="margin-top:100px; width: 10vw; height:10vw;">
+                    <div class="card-body text-center" style="margin-top:-20px;">
+                      <img src="./img/etapas/'.normalizarTexto($nombreTipoEtapaAnterior).'.svg" style="width:6vw; height:12vh; margin-top:30px;" class="rounded" alt="">
+                      <p style="margin-top:20px;">'.$nombreTipoEtapaAnterior.'</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-1">
+                <div class="row row justify-content-md-center">
+                  <img src="./img/arrowRight.svg" style="width:50px; margin-top:18.5vh;"></img>
+                </div>
+              </div>
+              ';
+        }
+        echo'
           <div class="col-4">
             <div class="row justify-content-md-center">
-              <div class="card bg-light text-center" style="margin-top:80px; width: 14vw; height:14vw;">
+              <div class="card bg-light text-center" style="margin-top:60px; width: 14vw; height:14vw;">
                 <div class="card-body text-center" style="margin-top:-20px;">
-                  <img src="./img/LaVandería Logo.png" style="width:8vw; height:16vh; margin-top:50px;" class="rounded" alt="">
-                  <a style=""></a>
+                  <img src="./img/etapas/'.normalizarTexto($nombreTipoEtapa).'.svg" style="width:8vw; height:16vh; margin-top:50px;" class="rounded" alt="">
+                  <p style="margin-top:20px;">'.$nombreTipoEtapa.'</p>
                 </div>
               </div>
             </div>
           </div>
+          '; if ($nombreTipoEtapaPosterior == null){
+            echo'
           <div class="col-1">
-            <div class="row justify-content-md-center">
-              <i class="fas fa-caret-right fa-4x" style="margin-top:20vh;"></i>
+            <div class="row justify-content-md-center" style="visibility:hidden;">
+              <img src="./img/arrowRight.svg" style="width:50px; margin-top:18.5vh;"></img>
             </div>
           </div>
           <div class="col-3">
-            <div class="row justify-content-md-center">
-              <div class="card bg-light text-center" style="margin-top:120px; width: 10vw; height:10vw;">
+            <div class="row justify-content-md-center" style="visibility:hidden;">
+              <div class="card bg-light text-center" style="margin-top:100px; width: 10vw; height:10vw;">
                 <div class="card-body text-center" style="margin-top:-20px;">
                   <img src="./img/LaVandería Logo.png" style="width:6vw; height:12vh; margin-top:30px;" class="rounded" alt="">
-                  <a style=""></a>
+                  <p style="margin-top:20px;">LaVandería Logo</p>
                 </div>
               </div>
             </div>
           </div>
+          ';
+        } else {
+            echo'
+            <div class="col-1">
+              <div class="row justify-content-md-center">
+                <img src="./img/arrowRight.svg" style="width:50px; margin-top:18.5vh;"></img>
+              </div>
+            </div>
+            <div class="col-3">
+              <div class="row justify-content-md-center">
+                <div class="card bg-light text-center" style="margin-top:100px; width: 10vw; height:10vw;">
+                  <div class="card-body text-center" style="margin-top:-20px;">
+                    <img src="./img/etapas/'.normalizarTexto($nombreTipoEtapaPosterior).'.svg" style="width:6vw; height:12vh; margin-top:30px;" class="rounded" alt="">
+                    <p style="margin-top:20px;">'.$nombreTipoEtapaPosterior.'</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            ';
+          }
+          echo'
         </div>
         <div class="row justify-content-md-center" style="margin-top:65px;">
               <div class="col-5">
                 <div class="form-group">
                   <label for="ServiciosAdic">Servicios adicionales</label>
-                  <textarea disabled class="form-control" id="ServiciosAdic" rows="6" style="resize: none;"></textarea>
+                  <textarea disabled class="form-control" id="ServiciosAdic" rows="6" style="resize: none;">'.$descServAdic.'</textarea>
                 </div>
               </div>
               <div class="col-5">
                 <div class="form-group">
                   <label for="Desperfectos">Desperfectos</label>
                   <textarea
-    '; if ("Recepcionado" != "no"){
+    '; if ("recepcionado" != normalizarTexto($nombreTipoEtapa)){
           echo'
                   disabled
           ';
     }
     echo'
-                 class="form-control" id="Desperfectos" rows="6" style="resize: none;"></textarea>
-                </div>
-              </div>
+              class="form-control" id="Desperfectos" rows="6" style="resize: none;">'.$descArreglos.'</textarea>
+            </div>
+          </div>
         </div>
       </div>
       <div id="col3" class="col-3" style="margin-top:20px;">
@@ -743,13 +807,13 @@ if($_SESSION['tipoCuentaSesión'] == "Cliente"){
               <img src="./img/calendar.svg" style="width:3vw; height:3vh; position:absolute; left: 20%;" alt="">
             </div>
             <div class="fechas text-center" style="margin-top:30px;">
-              <a style="font-weight:bold; font-style:italic; text-decoration-line:underline;">Inicio pedido:</a> dd-mm-aaaa
+              <a style="font-weight:bold; font-style:italic; text-decoration-line:underline;">Inicio pedido:</a> '.$inicioPedido.'
             </div>
             <div class="fechas text-center">
-              <a style="font-weight:bold; font-style:italic; text-decoration-line:underline;">Inicio etapa:</a> dd-mm-aaaa
+              <a style="font-weight:bold; font-style:italic; text-decoration-line:underline;">Inicio etapa:</a> '.$inicioEtapa.'
             </div>
             <div class="fechas text-center">
-              <a style="font-weight:bold; font-style:italic; text-decoration-line:underline;">Fin etapa:</a> dd-mm-aaaa
+              <a style="font-weight:bold; font-style:italic; text-decoration-line:underline;">Fin etapa:</a> '.$finEtapa.'
             </div>
           </div>
         </div>
@@ -757,7 +821,7 @@ if($_SESSION['tipoCuentaSesión'] == "Cliente"){
           <div class="col-8">
             <div class="form-group">
               <label for="empleadoasignado">Empleado asignado:</label>
-              <textarea disabled class="form-control" id="empleadoasignado" rows="1" style="resize: none;"></textarea>
+              <textarea disabled class="form-control" id="empleadoasignado" rows="1" style="resize: none;">'.$empleadoNombre.' '.$empleadoApellidos.'</textarea>
             </div>
           </div>
         </div>
@@ -772,7 +836,11 @@ if($_SESSION['tipoCuentaSesión'] == "Cliente"){
   </div>
 ';
 }
+
+
 }}
+
+mysqli_close($db);
 ?>
 
 <?php
