@@ -1,11 +1,28 @@
 <?php
 session_start();
 include './commonFunctions.php';
+define('SERVIDOR_BD', 'localhost:3306');
+define('USUARIO_BD', 'webtintoreria');
+define('CONTRASENA_BD', 'lavanderia');
+define('NOMBRE_BD', 'tintoreria');
+
+
 /* POST VARIABLES */
-function mostrarPedido($tipoCuenta, $esPedidoExpress, $tipoPrenda, $tipoServicio, $etapaAnterior, $etapaActual, $etapaSiguiente){
+
+function cSQL(){
 
 }
 
+/*function mostrarPedido($tipoCuenta, $esExpress, $tipoPrenda, $tipoServicio, $etapaAnterior, $etapaActual, $etapaSiguiente){
+
+}*/
+function bindParam($stmt, $tipoCuenta){
+  if($tipoCuenta == "Cliente" || $tipoCuenta == "Empleado"){
+    $stmt->bind_param("s", $_SESSION['idCuentaSesión']);
+  } else if ($tipoCuenta == "Encargado") {
+    //No se añade ningún param (Encargado no lo necesita)
+  }
+}
 
 function mostrarPedidoCliente($parametros){
 
@@ -43,145 +60,272 @@ function calcularTotalDescuento($precioBasePedido, $precioDesperfectos, $precioS
   return $calculoTotalDescuento;
 }
 
+function condicionTipoCuenta($tipoCuenta){
+  if($tipoCuenta == "Cliente"){
+    return "and p.ClientePedido = ?";
+  } else if ($tipoCuenta == "Empleado") {
+    return "";//TODO Alguna condición que indique que el empleado está involucrado en este pedido
+  } else if ($tipoCuenta == "Encargado") {
+    return ""; //No se añade condición, devuelve todos los pedidos.
+  } else { //Error al detectar tipoCuenta
+    return "and '0' == '1'"; //Si el tipo de cuenta no es válido entonces la consulta no devuelve nada de esta forma
+  }
+}
 
-function consultaSQLCliente($consulta, $tiposParametros, $listaParametros){
+function obtenerEtapas($ordenEtapaActual, $idTipoPedido ,$hayArreglos, $hayServiciosAdicionales){
+  $etapaAnterior = null;
+  $etapaPosterior = null;
 
-  $resultado;
-  $contador = 0;
 
+  if ($ordenEtapaActual== 1){
+    $etapaAnterior = null;
+    $etapaPosterior = $ordenEtapaActual +1;
+  } else if ($ordenEtapaActual == 4){
+    $etapaPosterior = $ordenEtapaActual +1;
+    if ($hayArreglos || $hayServiciosAdicionales){
+      $etapaAnterior = 3;
+    } else {
+      $etapaAnterior = 1;
+    }
+  } else if ($ordenEtapaActual == 7) {
+    $etapaAnterior = $ordenEtapaActual -1;
+    $etapaPosterior = null;
+  } else {
+    $etapaAnterior = $ordenEtapaActual -1;
+    $etapaPosterior = $ordenEtapaActual +1;
+  }
+$db = mysqli_connect(SERVIDOR_BD,USUARIO_BD,CONTRASENA_BD,NOMBRE_BD);
+  if ($stmtA = $db->prepare(
+    "SELECT te.nombre nombreTipoEtapa
+    FROM  TipoEtapa te, TipoEtapasportipopedido oe, tipoPedido tp
+    WHERE  oe.ordenEtapa = ? AND tp.idTipoPedido = ? AND te.idTipoEtapa = oe.idTipoEtapa AND tp.idTipoPedido = oe.idTipoPedido"
+  )) {
+    $stmtA->bind_param('ss', $etapaAnterior, $idTipoPedido);
+    $stmtA->execute();
+    $stmtA->store_result();
+    $stmtA->bind_result($nombreTipoEtapaAnterior);
+    $stmtA->fetch();
+  }
 
+    if ($stmtB = $db->prepare(
+      "SELECT te.nombre nombreTipoEtapa
+      FROM  TipoEtapa te, TipoEtapasportipopedido oe, tipoPedido tp
+      WHERE  oe.ordenEtapa = ? AND tp.idTipoPedido = ? AND te.idTipoEtapa = oe.idTipoEtapa AND tp.idTipoPedido = oe.idTipoPedido"
+    )) {
+      $stmtB->bind_param('ss', $etapaPosterior,$idTipoPedido);
+      $stmtB->execute();
+      $stmtB->store_result();
+      $stmtB->bind_result($nombreTipoEtapaPosterior);
+      $stmtB->fetch();
+    }
+
+  return array ("nombreTipoEtapaPosterior" => $nombreTipoEtapaPosterior, "nombreTipoEtapaAnterior" => $nombreTipoEtapaAnterior);
+}
+
+function consultaSQL($consulta, $tiposParametros, $listaParametros){
+  $consulta = "
+  SELECT
+  te.nombre nombreTipoEtapa,
+  p.tipoPrenda tipoPrenda,
+  tpedido.nombreTipoPedido nombreTipoPedido,
+  tpedido.idTipoPedido idTipoPedido,
+  p.esPedidoExpress esExpress,
+  tpedido.precio precioBasePedido,
+  desperfectos.coste precioDesperfectos,
+  serviciosAdicionales.coste precioServiciosAdicionales,
+  d.valor porcentajeDescuento,
+  primeraEtapa.fechaIni inicioPedido,
+  ultimaEtapa.fechaFin finPedido,
+  e.fechaIni inicioEtapa,
+  e.fechaFin finPedido,
+  desperfectos.descripcion descArreglos,
+  serviciosAdicionales.descripcion descServAdic,
+  e.empleadoasignado empleadoAsignado,
+  oe.ordenEtapa ordenActual,
+  te.nombre nombreTipoEtapaActual,
+  e.idTipoEtapa idTipoEtapa,
+  p.precioAceptado precioAceptado,
+  p.idPedido idPedido
+FROM
+  Pedido p INNER JOIN tipoPedido tpedido ON p.idTipoPedido = tpedido.idTipoPedido
+  INNER JOIN Cuenta c ON c.idCuenta = p.ClientePedido
+  INNER JOIN Etapa e ON e.idPedido = p.idPedido
+  INNER JOIN TipoEtapa te ON te.idTipoEtapa = e.idTipoEtapa
+  INNER JOIN tipoEtapasportipopedido oe ON oe.idTipoEtapa = e.idTipoEtapa
+LEFT JOIN Descuento d
+  ON p.idDescuentos = d.idDescuentos
+LEFT JOIN (SELECT aD.idPedido, aD.idTipoPedido, aD.ClientePedido, aD.coste, aD.descripcion
+      FROM Arreglos aD
+      WHERE aD.tipoArreglo = 'Desperfecto') desperfectos
+  ON desperfectos.idPedido = p.idPedido AND desperfectos.idTipoPedido = p.idTipoPedido AND desperfectos.ClientePedido = p.ClientePedido
+LEFT JOIN (SELECT aSA.idPedido, aSA.idTipoPedido, aSA.ClientePedido, aSA.coste, aSA.descripcion
+      FROM Arreglos aSA
+      WHERE aSA.tipoArreglo = 'Servicio adicional') serviciosAdicionales
+  ON serviciosAdicionales.idPedido = p.idPedido AND serviciosAdicionales.idTipoPedido = p.idTipoPedido AND serviciosAdicionales.ClientePedido = p.ClientePedido
+LEFT JOIN (SELECT * FROM Etapa uE WHERE uE.idTipoEtapa = '7' AND uE.fechaFin IS NOT NULL) ultimaEtapa
+  ON ultimaEtapa.idPedido = p.idPedido
+LEFT JOIN (SELECT * FROM Etapa pE WHERE pE.idTipoEtapa = '1') primeraEtapa
+  ON primeraEtapa.idPedido = p.idPedido
+WHERE
+  oe.idTipoPedido = p.idTipoPedido
+      AND
+
+  oe.ordenEtapa = (
+
+    SELECT MAX(oeB.ordenEtapa)
+    FROM Etapa eB, tipoEtapasportipopedido oeB
+    WHERE eB.idPedido = p.idPedido AND eB.idTipoEtapa = oeB.idTipoEtapa AND oeB.idTipoPedido = p.idTipoPedido
+
+  ) ".condicionTipoCuenta($_SESSION["tipoCuentaSesión"]);
   $db = mysqli_connect(SERVIDOR_BD,USUARIO_BD,CONTRASENA_BD,NOMBRE_BD);
-  //echo $consulta;
   if ($stmt = $db->prepare($consulta)) {
-    $stmt->bind_param($tiposParametros, $listaParametros);
+    bindParam($stmt,$_SESSION["tipoCuentaSesión"]);
     $stmt->execute();
-    $stmt->store_result();
-    $stmt->bind_result($idPedido, $tipoPrenda, $nombreTipoPedido, $esPedidoExpress, $nombreCliente, $apellidosCliente, $precioBasePedido, $precioDesperfectos,$precioServiciosAdicionales,$porcentajeDescuento,$inicioPedido,$finPedido,$precioAceptado);
-    while ($stmt->fetch()) {
+    return $stmt->get_result();
+  }
+}
 
-      $calculoPrecioTotal = calcularPrecioTotal($precioBasePedido, $precioDesperfectos, $precioServiciosAdicionales, $porcentajeDescuento);
-
+function mostrarPedido($resultadoConsulta){
+  while($result = $resultadoConsulta->fetch_assoc()){
+    $resultEtapas = obtenerEtapas($result["ordenActual"], $result["idTipoPedido"], $result["descArreglos"] != null,  $result["descServAdic"] != null);
+    echo '
+      <!-- A partir de aquí comienza la tarjeta que hay que repetir según las consultas -->
+      <div class="container-fluid card bg-light" style="min-height: 250px; margin-bottom: 20px;">
+        <div class="container-fluid h-100">
+          <div class="contenedorDeLoDemas ml-0 mr-0">
+            <div class="row" style="height: 35%;">
+    ';
+    if($result["esExpress"]){
       echo '
-        <!-- A partir de aquí comienza la tarjeta que hay que repetir según las consultas -->
-        <div class="container-fluid card bg-light" style="min-height: 250px; margin-bottom: 20px;">
-          <div class="container-fluid h-100">
-            <div class="contenedorDeLoDemas ml-0 mr-0">
-              <div class="row" style="height: 35%;">
-      ';
-      if($esPedidoExpress){
-        echo '
-                <div class="col-4 my-auto text-center textoExpress">
-                  <i class="fas fa-star fa-2x estrellaExpress"></i> Pedido expréss
-                </div>
-        ';
-      } else {
-        echo '
-                <div class="col-4 my-auto text-center textoExpress">
-                  <i class="far fa-star fa-2x estrellaExpress"></i> Pedido normal
-                </div>
-        ';
-      }
-
-      echo'
-                <div class="col-8">
-                  <h5 style="margin-top: 8px;">Cronología:</h5>
-                  <div class="row" style="height: 100%;">
-                    <div class="col-6 text-left h-100" style="white-space: nowrap;">
-                      <a style="display:block; margin-left: 20px; font-size: 14px;">Fecha de inicio:</a>
-                      <a style="display:block; margin-left: 20px; font-size: 14px;">Fecha de fin:</a>
-                    </div>
-                    <div class="col-6 text-right h-100" style="white-space: nowrap;">
-                      <a style="display:block; margin-left: 20px; font-size: 14px;">'.$inicioPedido.'</a>
-                      <a style="display:block; margin-left: 20px; font-size: 14px;">'.$finPedido.'</a>
-                    </div>
-                  </div>
-                </div>
+              <div class="col-4 my-auto text-center textoExpress">
+                <i class="fas fa-star fa-2x estrellaExpress"></i> Pedido expréss
               </div>
-              <div class="row" style="height: 65%;">
-                <div class="col-6 " style=""><!-- TODO Esta fila puede ser col-6 o col-12 según haya factura o no -->
-                  <div class="row h-100">
-                    <div class="col-6 text-center h-100" style="padding-top: 25px;">
-                      <h5>Tipo de prenda</h5>
-                      <div class="card bg-white mx-auto contenedorTipoServicioTipoPrenda">
-                        <img src="./img/tipoPrenda/'.normalizarTexto($tipoPrenda).'.svg" class="mx-auto my-auto w-75"></img>
-                      </div>
-                      <div class="text-center" style="position: absolute; width: 69px; background-color: white; height: 12px; left:0; right: 0; margin-left: auto; margin-right: auto; margin-top: -12px; line-height: 18px;">'.$tipoPrenda.'</div>
-                    </div>
-                    <div class="col-6 text-center h-100" style="padding-top: 25px;">
-                      <h5>Tipo de servicio</h5>
-                      <div class="card bg-white mx-auto contenedorTipoServicioTipoPrenda">
-                        <img src="./img/tipoPedido/'.normalizarTexto($nombreTipoPedido).'.svg" class="mx-auto my-auto w-75"></img>
-                      </div>
-                      <div class="text-center" style="position: absolute; width: 69px; background-color: white; height: 12px; left:0; right: 0; margin-left: auto; margin-right: auto; margin-top: -12px; line-height: 18px;">'.$nombreTipoPedido.'</div>
-                    </div>
+      ';
+    } else {
+      echo '
+              <div class="col-4 my-auto text-center textoExpress">
+                <i class="far fa-star fa-2x estrellaExpress"></i> Pedido normal
+              </div>
+      ';
+    }
+
+    echo'
+              <div class="col-8">
+                <h5 style="margin-top: 8px;">Cronología:</h5>
+                <div class="row" style="height: 100%;">
+                  <div class="col-6 text-left h-100" style="white-space: nowrap;">
+                    <a style="display:block; margin-left: 20px; font-size: 14px;">Fecha de inicio:</a>
+                    <a style="display:block; margin-left: 20px; font-size: 14px;">Fecha de fin:</a>
                   </div>
-                </div>
-                <div class="col-6">
-                  <h5 style="margin-top: 15px;">Total desglosado</h5>
-                  <div class="row h-100">
-                    <div class="col-6 text-left h-100">
-                      <a class="textoPrecio">Servicio:</a>
-                      <a class="textoPrecio">Arreglos solicitados:</a>
-                      <a class="textoPrecio">Arreglos extras:</a>
-                      <a class="textoPrecio">Descuento:</a>
-                      <a class="font-weight-bold totalPrecio">Total:</a>
-                    </div>
-                    <div class="col-6 text-right h-100">
-                      <a style="position: absolute; left: 10px; top: 20px; font-size: 20px;">+</a>
-                      <a class="textoPrecio">'.$precioBasePedido.' €</a>
-                      <a class="textoPrecio">'.$precioDesperfectos.' €</a>
-                      <a class="textoPrecio">'.$precioServiciosAdicionales.' €</a>
-                      <a class="textoPrecio">(-'.$porcentajeDescuento.'%) -'.number_format(calcularTotalDescuento($precioBasePedido, $precioDesperfectos, $precioServiciosAdicionales, $porcentajeDescuento), 2, ',', '.').' €</a>
-                      <hr class="separadorPrecio">
-                      <a class="font-weight-bold totalPrecio">'.$calculoPrecioTotal.'</a>
-                    </div>
+                  <div class="col-6 text-right h-100" style="white-space: nowrap;">
+                    <a style="display:block; margin-left: 20px; font-size: 14px;">'.$result["inicioPedido"].'</a>
+                    <a style="display:block; margin-left: 20px; font-size: 14px;">'.$result["finPedido"].'</a>
                   </div>
                 </div>
               </div>
             </div>
-            <div class="contenedorEtapas ml-0 mr-0">
-              <div class="container-fluid">
-                <h3 style="margin-top: 10px;">Etapas</h3>
-                <div class="row mt-3 ml-0 mr-0 justify-content-center" style="height: 125px; position: relative;">
-                  <img src="./img/arrowRight.svg" class="flechaIzquierdaTransicionPedidos"></img>
-                  <img src="./img/arrowRight.svg" class="flechaDerechaTransicionPedidos"></img>
-                  <div class="col-4 mx-auto my-auto">
-                    <div class="card bg-white mx-auto otrasEtapas">Etapa A</div>
-                    <div class="text-center" style="position: absolute; width: 69px; background-color: white; height: 15px;  left:0; right: 0; margin-left: auto; margin-right: auto; margin-top: -15px;">Etapa 1</div>
+            <div class="row" style="height: 65%;">
+              <div class="col-6 " style=""><!-- TODO Esta fila puede ser col-6 o col-12 según haya factura o no -->
+                <div class="row h-100">
+                  <div class="col-6 text-center h-100" style="padding-top: 25px;">
+                    <h5>Tipo de prenda</h5>
+                    <div class="card bg-white mx-auto contenedorTipoServicioTipoPrenda">
+                      <img src="./img/tipoPrenda/'.normalizarTexto($result["tipoPrenda"]).'.svg" class="mx-auto my-auto w-75"></img>
+                    </div>
+                    <div class="text-center" style="position: absolute; width: 69px; background-color: white; height: 12px; left:0; right: 0; margin-left: auto; margin-right: auto; margin-top: -12px; line-height: 18px;">'.$result["tipoPrenda"].'</div>
                   </div>
-                  <div class="col-4 mx-auto my-auto">
-                    <div class="card bg-white mx-auto etapaActual">Etapa B</div>
-                    <div class="text-center" style="position: absolute; width: 84px; background-color: white; height: 15px;  left:0; right: 0; margin-left: auto; margin-right: auto; margin-top: -15px;">Etapa 2</div>
-                  </div>
-                  <div class="col-4 mx-auto my-auto">
-                    <div class="card bg-white mx-auto otrasEtapas">Etapa C</div>
-                    <div class="text-center" style="position: absolute; width: 69px; background-color: white; height: 15px; left:0; right: 0; margin-left: auto; margin-right: auto; margin-top: -15px;">Etapa 3</div>
+                  <div class="col-6 text-center h-100" style="padding-top: 25px;">
+                    <h5>Tipo de servicio</h5>
+                    <div class="card bg-white mx-auto contenedorTipoServicioTipoPrenda">
+                      <img src="./img/tipoPedido/'.normalizarTexto($result["nombreTipoPedido"]).'.svg" class="mx-auto my-auto w-75"></img>
+                    </div>
+                    <div class="text-center" style="position: absolute; width: 69px; background-color: white; height: 12px; left:0; right: 0; margin-left: auto; margin-right: auto; margin-top: -12px; line-height: 18px;">'.$result["nombreTipoPedido"].'</div>
                   </div>
                 </div>
               </div>
-              <div class="container-fluid text-center mt-2 mb-2 h-25">
-  ';
-  if($precioAceptado){
-    echo '
-                <form action="./detallesPedido" method="POST">
-                  <input type="submit" class="btn btn-primary btn-lg" value="Detalles del pedido">
-                  <input type="hidden" name="idPedido" value="'.$idPedido.'">
-                </form>
-    ';
-  } else {
-    echo '
-                <button type="button" onclick="cancelarPedido('.$idPedido.')" class="btn btn-danger btn-lg btn-cancelar-pedido">Cancelar pedido</button>
-                <button type="button" class="btn btn-primary btn-lg btn-aceptar-precio-actualizado">Aceptar precio actualizado</button>
-    ';
-  }
-    echo'
+              <div class="col-6">
+                <h5 style="margin-top: 15px;">Total desglosado</h5>
+                <div class="row h-100">
+                  <div class="col-6 text-left h-100">
+                    <a class="textoPrecio">Servicio:</a>
+                    <a class="textoPrecio">Arreglos solicitados:</a>
+                    <a class="textoPrecio">Arreglos extras:</a>
+                    <a class="textoPrecio">Descuento:</a>
+                    <a class="font-weight-bold totalPrecio">Total:</a>
+                  </div>
+                  <div class="col-6 text-right h-100">
+                    <a style="position: absolute; left: 10px; top: 20px; font-size: 20px;">+</a>
+                    <a class="textoPrecio">'.$result["precioBasePedido"].' €</a>
+                    <a class="textoPrecio">'.$result["precioDesperfectos"].' €</a>
+                    <a class="textoPrecio">'.$result["precioServiciosAdicionales"].' €</a>
+                    <a class="textoPrecio">(-'.$result["porcentajeDescuento"].'%) -'.number_format(calcularTotalDescuento($result["precioBasePedido"], $result["precioDesperfectos"], $result["precioServiciosAdicionales"], $result["porcentajeDescuento"]), 2, ',', '.').' €</a>
+                    <hr class="separadorPrecio">
+                    <a class="font-weight-bold totalPrecio">'.calcularPrecioTotal($result["precioBasePedido"], $result["precioDesperfectos"], $result["precioServiciosAdicionales"], $result["porcentajeDescuento"]).'</a>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-        <!-- A partir de aquí termina la tarjeta que hay que repetir según las consultas -->
+          <div class="contenedorEtapas ml-0 mr-0">
+            <div class="container-fluid">
+              <h3 style="margin-top: 10px;">Etapas</h3>
+              <div class="row mt-3 ml-0 mr-0 justify-content-center" style="height: 125px; position: relative;">
+    ';
+    if($resultEtapas["nombreTipoEtapaAnterior"] != null){
+                echo '<img src="./img/arrowRight.svg" class="flechaIzquierdaTransicionPedidos"></img>';
+    }
+    if($resultEtapas["nombreTipoEtapaPosterior"] != null){
+                echo '<img src="./img/arrowRight.svg" class="flechaDerechaTransicionPedidos"></img>';
+    }
+    echo '
+                <div class="col-4 mx-auto my-auto">
+    ';
+    if($resultEtapas["nombreTipoEtapaAnterior"] != null){
+      echo'
+                  <div class="card bg-white mx-auto otrasEtapas"></div>
+                  <div class="text-center" style="position: absolute; width: 69px; background-color: white; height: 15px;  left:0; right: 0; margin-left: auto; margin-right: auto; margin-top: -15px;">'.$resultEtapas["nombreTipoEtapaAnterior"].'</div>
       ';
     }
+    echo '
+                </div>
+                <div class="col-4 mx-auto my-auto">
+                  <div class="card bg-white mx-auto etapaActual"></div>
+                  <div class="text-center" style="position: absolute; width: 84px; background-color: white; height: 15px;  left:0; right: 0; margin-left: auto; margin-right: auto; margin-top: -15px;">'.$result["nombreTipoEtapaActual"].'</div>
+                </div>
+                <div class="col-4 mx-auto my-auto">
+    ';
+    if($resultEtapas["nombreTipoEtapaPosterior"] != null){
+      echo '
+                  <div class="card bg-white mx-auto otrasEtapas"></div>
+                  <div class="text-center" style="position: absolute; width: 69px; background-color: white; height: 15px; left:0; right: 0; margin-left: auto; margin-right: auto; margin-top: -15px;">'.$resultEtapas["nombreTipoEtapaPosterior"].'</div>
+      ';
+    }
+    echo '
+                </div>
+              </div>
+            </div>
+            <div class="container-fluid text-center mt-2 mb-2 h-25">
+  ';
+  if($result["precioAceptado"]){
+  echo '
+              <form action="./detallesPedido" method="POST">
+                <input type="submit" class="btn btn-primary btn-lg" value="Detalles del pedido">
+                <input type="hidden" name="idPedido" value="'.$result["idPedido"].'">
+              </form>
+  ';
+  } else {
+  echo '
+              <button type="button" onclick="cancelarPedido('.$result["idPedido"].')" class="btn btn-danger btn-lg btn-cancelar-pedido">Cancelar pedido</button>
+              <button type="button" class="btn btn-primary btn-lg btn-aceptar-precio-actualizado">Aceptar precio actualizado</button>
+  ';
+  }
+  echo'
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- A partir de aquí termina la tarjeta que hay que repetir según las consultas -->
+    ';
   }
 }
 
@@ -197,7 +341,7 @@ function cSQLOrdenarPor($consulta, $ordenarPor){//TODO En la consulta principal 
   } else if($ordenarPor == 'fechaFinDesc'){
     return $consulta . ' ORDER BY actualEtapa.fechaFin DESC';
   } else if($ordenarPor == 'express'){
-    return $consulta . ' ORDER BY p.esPedidoExpress DESC';
+    return $consulta . ' ORDER BY p.esExpress DESC';
   } else {
     return $consulta;
   }
@@ -230,70 +374,21 @@ $ordenarPor = $_POST["ordenarPor"];
 $buscarPor = $_POST["buscarPor"];
 $entradaBusqueda = $_POST["entradaBusqueda"];
 
-define('SERVIDOR_BD', 'localhost:3306');
-define('USUARIO_BD', 'webtintoreria');
-define('CONTRASENA_BD', 'lavanderia');
-define('NOMBRE_BD', 'tintoreria');
 
-$db = mysqli_connect(SERVIDOR_BD,USUARIO_BD,CONTRASENA_BD,NOMBRE_BD);
-
+$tiposParametrosCliente = 's';
+$parametrosCliente = array();
+$consultaPrincipalCliente = "";
+mostrarPedido(consultaSQL($consultaPrincipalCliente,$tiposParametrosCliente,$_SESSION['idCuentaSesión']));
 if($_SESSION['tipoCuentaSesión'] == "Cliente"){//TODO A LA CONSULTA LE FALTAN LAS ETAPAS
-  $consultaPrincipalCliente = "
-  SELECT
-	p.idPedido idPedido,
-	p.tipoPrenda tipoPrenda,
-	tpedido.nombreTipoPedido,
-	p.esPedidoExpress,
-	c.nombre nombreCliente,
-	c.apellidos apellidosCliente,
-	tpedido.precio precioBasePedido,
-	desperfectos.coste precioDesperfectos,
-	serviciosAdicionales.coste precioServiciosAdicionales,
-	d.valor porcentajeDescuento,
-	primeraEtapa.fechaIni inicioPedido,
-	ultimaEtapa.fechaFin finPedido,
-	p.precioAceptado precioAceptado
-FROM
-	TipoPedido tpedido,
-	Cuenta c,
-	Etapa primeraEtapa,
-	Pedido p
-LEFT JOIN Descuento d
-	ON p.idDescuentos = d.idDescuentos
-LEFT JOIN (SELECT aD.idPedido, aD.idTipoPedido, aD.ClientePedido, aD.coste
-		FROM Arreglos aD
-		WHERE aD.tipoArreglo = 'Desperfecto') desperfectos
-	ON desperfectos.idPedido = p.idPedido AND desperfectos.idTipoPedido = p.idTipoPedido AND desperfectos.ClientePedido = p.ClientePedido
-LEFT JOIN (SELECT aSA.idPedido, aSA.idTipoPedido, aSA.ClientePedido, aSA.coste
-		FROM Arreglos aSA
-		WHERE aSA.tipoArreglo = 'Servicio adicional') serviciosAdicionales
-	ON serviciosAdicionales.idPedido = p.idPedido AND serviciosAdicionales.idTipoPedido = p.idTipoPedido AND serviciosAdicionales.ClientePedido = p.ClientePedido
-LEFT JOIN (SELECT * FROM Etapa uE WHERE uE.idTipoEtapa = '7' AND uE.fechaFin IS NOT NULL) ultimaEtapa
-	ON ultimaEtapa.idPedido = p.idPedido
-WHERE
-	p.ClientePedido = ?
-		AND
-	p.idTipoPedido = tpedido.idTipoPedido
-		AND
-	p.ClientePedido = c.idCuenta
-		AND
-	primeraEtapa.idPedido = p.idPedido
-		AND
-	primeraEtapa.idTipoEtapa = '1'
 
-
-
-  ";
-  $tiposParametrosCliente = 's';
-  $parametrosCliente = array($_SESSION['idCuentaSesión']);
-  consultaSQLCliente(cSQLOrdenarPor(cSQLBusqueda(cSQLMostrarUnicamente($consultaPrincipalCliente, $seMuestra), $buscarPor, $entradaBusqueda), $ordenarPor),$tiposParametrosCliente,$_SESSION['idCuentaSesión']);
+  //consultaSQLCliente(cSQLOrdenarPor(cSQLBusqueda(cSQLMostrarUnicamente($consultaPrincipalCliente, $seMuestra), $buscarPor, $entradaBusqueda), $ordenarPor),$tiposParametrosCliente,$_SESSION['idCuentaSesión']);
   /*consultaSQL(cSQLOrdenarPor(cSQLBusqueda(cSQLMostrarUnicamente($consultaPrincipal, $seMuestra), $buscarPor, $entradaBusqueda), $ordenarPor), 'i', array("foo", "bar", "hello", "world"), $funcionAnid);//Obtenemos
 
 */
 
 
 /*
-  if ($stmt = $db->prepare('SELECT p.idPedido, d.valor, p.tipoPrenda, p.esPedidoExpress, tpedido.nombreTipoPedido, tpedido.precio  FROM Pedido p, Descuento d, TipoPedido tpedido WHERE ClientePedido = ? AND p.TipoPedido_idTipoPedido = tpedido.idTipoPedido AND p.Descuentos_idDescuentos  = d.idDescuentos')) {//Preparamos la consulta sql para evitar posibles ataques tipo SQL Injection
+  if ($stmt = $db->prepare('SELECT p.idPedido, d.valor, p.tipoPrenda, p.esExpress, tpedido.nombreTipoPedido, tpedido.precio  FROM Pedido p, Descuento d, TipoPedido tpedido WHERE ClientePedido = ? AND p.TipoPedido_idTipoPedido = tpedido.idTipoPedido AND p.Descuentos_idDescuentos  = d.idDescuentos')) {//Preparamos la consulta sql para evitar posibles ataques tipo SQL Injection
     $stmt->bind_param('i', $_SESSION['idCuentaSesión']);//Bindeamos al '?' el correo electrónico que nos ha mandado el usuario a través del formulario. El parámetro 's' indica que es un string.
     $stmt->execute();
     $stmt->store_result();
