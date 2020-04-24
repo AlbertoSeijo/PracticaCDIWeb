@@ -6,6 +6,7 @@ if(!isset($_SESSION['sesionIniciada'])){
 ?>
 
 <link href="./css/detallesPedido.css" rel="stylesheet">
+<script src="./js/detallesPedido.js"></script>
 
 <?php
 
@@ -44,6 +45,7 @@ function calcularTotalDescuento($precioBasePedido, $precioDesperfectos, $precioS
 
 
 
+$idPedido = 1;
 
 define('SERVIDOR_BD', 'localhost:3306');
 define('USUARIO_BD', 'webtintoreria');
@@ -69,7 +71,8 @@ $db = mysqli_connect(SERVIDOR_BD,USUARIO_BD,CONTRASENA_BD,NOMBRE_BD);
     desperfectos.descripcion descArreglos,
     serviciosAdicionales.descripcion descServAdic,
     e.empleadoasignado empleadoAsignado,
-    oe.ordenEtapa ordenActual
+    oe.ordenEtapa ordenActual,
+    e.idTipoEtapa idTipoEtapa
 FROM
     Pedido p INNER JOIN tipoPedido tpedido ON p.idTipoPedido = tpedido.idTipoPedido
     INNER JOIN Cuenta c ON c.idCuenta = p.ClientePedido
@@ -91,7 +94,7 @@ LEFT JOIN (SELECT * FROM Etapa uE WHERE uE.idTipoEtapa = '7' AND uE.fechaFin IS 
 LEFT JOIN (SELECT * FROM Etapa pE WHERE pE.idTipoEtapa = '1') primeraEtapa
     ON primeraEtapa.idPedido = p.idPedido
 WHERE
-    p.idPedido = 1
+    p.idPedido = ?
         AND
     oe.idTipoPedido = p.idTipoPedido
         AND
@@ -103,10 +106,11 @@ WHERE
 
     )"
   )) {
-    /*$stmt->bind_param('s', $_POST["idPedido"]);*/
+    $stmt->bind_param('s', $_POST["idPedido"]);
     $stmt->execute();
     $stmt->store_result();
-    $stmt->bind_result($nombreTipoEtapa, $tipoPrenda, $tipoServicio, $idTipoPedido, $esExpress, $precioBasePedido, $precioDesperfectos,$precioServiciosAdicionales,$porcentajeDescuento,$inicioPedido,$inicioEtapa,$finEtapa,$descArreglos,$descServAdic,$empleadoAsignado,$ordenActual);
+    $stmt->bind_result($nombreTipoEtapa, $tipoPrenda, $tipoServicio, $idTipoPedido, $esExpress, $precioBasePedido, $precioDesperfectos,
+    $precioServiciosAdicionales,$porcentajeDescuento,$inicioPedido,$inicioEtapa,$finEtapa,$descArreglos,$descServAdic,$empleadoAsignado,$ordenActual, $idEtapa);
     while ($stmt->fetch()) {
 
       $calculoPrecioTotal = calcularPrecioTotal($precioBasePedido, $precioDesperfectos, $precioServiciosAdicionales, $porcentajeDescuento);
@@ -168,6 +172,8 @@ WHERE
           $stmtD->store_result();
           $stmtD->bind_result($empleadoNombre,$empleadoApellidos);
           while ($stmtD->fetch()) {}}
+
+
 
     $nombrePagina = $nombreTipoEtapa;
     include './cabeceraContenido.php';
@@ -367,6 +373,7 @@ if($_SESSION['tipoCuentaSesión'] == "Cliente"){
 </div>
 ';
 } else if ($_SESSION['tipoCuentaSesión'] == "Encargado"){
+  if(!isset($_POST["haEnviadoASiguienteEtapa"]) || $_POST["haEnviadoASiguienteEtapa"] == false) {
   echo'
   <div class="container-fluid">
     <div class="row" style="margin-top:20px;">
@@ -629,7 +636,7 @@ if($_SESSION['tipoCuentaSesión'] == "Cliente"){
       echo'
             <div id="botones" class="row" style="margin-top:10vh;">
               <div class="col-12 text-center">
-                <button type="button" class="btn btn-info" style="width:15vw; height:30vh;"><b>Realizar Pago</b></button>
+                <button type="button" class="btn btn-info" style="width:15vw; height:30vh;" onclick="realizarPagos()"><b>Realizar Pago</b></button>
               </div>
             </div>
           </div>
@@ -641,7 +648,7 @@ if($_SESSION['tipoCuentaSesión'] == "Cliente"){
           <div class="separador-fba"></div>
           <div id="botones" class="row">
             <div class="col-12 text-center">
-              <button type="button" class="btn btn-info" style="width:15vw; height:10vh;"><b>Enviar a la siguiente etapa</b></button>
+              <button type="button" class="btn btn-info" style="width:15vw; height:10vh;" onclick="EnvSigEtEnc('.$_POST["idPedido"].')"><b>Enviar a la siguiente etapa</b></button>
             </div>
           </div>
         </div>
@@ -650,6 +657,23 @@ if($_SESSION['tipoCuentaSesión'] == "Cliente"){
   ';
     }
   }
+} else if(isset($_POST["haEnviadoASiguienteEtapa"]) && $_POST["haEnviadoASiguienteEtapa"] == true){
+
+      $systemDate= date("Y-m-d H:i:s");
+
+      $stmtE = $db->prepare("UPDATE etapa e SET e.fechaFin=? WHERE e.idPedido = ?  AND e.idTipoEtapa=?");
+      $stmtE->bind_param('sss', $systemDate,$_POST["idPedido"],$idEtapa);
+      $stmtE->execute();
+/* ESTO TODAVIA NO VA
+      $stmtE = $db->prepare("INSERT INTO etapa e VALUES (?,null,?,?,?)");
+      $stmtE->bind_param('ssss', $systemDate,$_POST["idPedido"],$empleadoSiguienteAsignado,$idSiguienteEtapa);
+      $stmtE->execute();
+*/
+      header("location:detallespedido");
+
+}
+
+
 } else if ($_SESSION['tipoCuentaSesión'] == "Empleado"){
   echo'
   <div class="container-fluid">
@@ -828,7 +852,7 @@ if($_SESSION['tipoCuentaSesión'] == "Cliente"){
         <div class="separador-fba"></div>
         <div id="botones" class="row">
           <div class="col-12 text-center">
-            <button type="button" class="btn btn-info" style="width:15vw; height:10vh;"><b>Enviar a la siguiente etapa</b></button>
+            <button type="button" class="btn btn-info" style="width:15vw; height:10vh;" onclick="EnvSigEtEmp()"><b>Enviar a la siguiente etapa</b></button>
           </div>
         </div>
       </div>
@@ -836,8 +860,6 @@ if($_SESSION['tipoCuentaSesión'] == "Cliente"){
   </div>
 ';
 }
-
-
 }}
 
 mysqli_close($db);
