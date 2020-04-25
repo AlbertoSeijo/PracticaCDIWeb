@@ -63,10 +63,10 @@ if($_SESSION['tipoCuentaSesión'] != "Encargado"){
       <div class="form-group">
         <label class="etiquetaElementosFormulario" for="aaaa">Mostrar:</label>
         <select id="seMuestra" name="seMuestra" class="custom-select" id="aaaa" form="consultaPedidosForm" onchange="actualizarConsultaPedidos()">
-          <option selected value="porRealizar">Por realizar</option>
+          <option selected value="todo">Todo</option>
+          <option value="porRealizar">Por realizar</option>
           <option value="finalizado">Finalizado</option>
           <option value="enProceso">En proceso</option>
-          <option value="todo">Todo</option>
         </select>
       </div>
     </div>
@@ -76,7 +76,7 @@ if($_SESSION['tipoCuentaSesión'] != "Encargado"){
         <option selected value="express">Express</option>
         <option value="fechaIniAsc">Fecha de toma de pedido (ascendente)</option>
         <option value="fechaIniDesc">Fecha de toma de pedido (descendente)</option>
-        <option value="fechaFinAsc">Fecha de fin de pedido (descendente)</option>
+        <option value="fechaFinAsc">Fecha de fin de pedido (ascendente)</option>
         <option value="fechaFinDesc">Fecha de fin de pedido (descendente)</option>
         <option value="tipoPrenda">Tipo de prenda (alfabético)</option>
       </select>
@@ -85,9 +85,9 @@ if($_SESSION['tipoCuentaSesión'] != "Encargado"){
       <div class="input-group contenedorBusqueda">
         <div class="input-group-prepend">
           <select id="buscarPor" name="buscarPor" class="custom-select btn bg-light" form="consultaPedidosForm" onchange="actualizarConsultaPedidos()">
-            <option selected value="c.nombre">Nombre de cliente</option>
-            <option value="e.fechaIni">Fecha de pedido</option>
-            <option value="p.tipoPrenda">Tipo de prenda</option>
+            <option selected value="nombreCliente">Nombre de cliente</option>
+            <option value="fechaPedido">Fecha de pedido</option>
+            <option value="tipoPrenda">Tipo de prenda</option>
           </select>
         </div>
         <input type="text" id="entradaBusqueda" name="entradaBusqueda" class="form-control" placeholder="Búsqueda..." form="consultaPedidosForm" oninput="actualizarConsultaPedidos()">

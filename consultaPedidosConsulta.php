@@ -9,9 +9,6 @@ define('NOMBRE_BD', 'tintoreria');
 
 /* POST VARIABLES */
 
-function cSQL(){
-
-}
 
 /*function mostrarPedido($tipoCuenta, $esExpress, $tipoPrenda, $tipoServicio, $etapaAnterior, $etapaActual, $etapaSiguiente){
 
@@ -22,10 +19,6 @@ function bindParam($stmt, $tipoCuenta){
   } else if ($tipoCuenta == "Encargado") {
     //No se añade ningún param (Encargado no lo necesita)
   }
-}
-
-function mostrarPedidoCliente($parametros){
-
 }
 
 function calcularPrecioTotal($precioBasePedido, $precioDesperfectos, $precioServiciosAdicionales, $porcentajeDescuento){
@@ -94,7 +87,7 @@ function obtenerEtapas($ordenEtapaActual, $idTipoPedido ,$hayArreglos, $hayServi
     $etapaAnterior = $ordenEtapaActual -1;
     $etapaPosterior = $ordenEtapaActual +1;
   }
-$db = mysqli_connect(SERVIDOR_BD,USUARIO_BD,CONTRASENA_BD,NOMBRE_BD);
+  $db = mysqli_connect(SERVIDOR_BD,USUARIO_BD,CONTRASENA_BD,NOMBRE_BD);
   if ($stmtA = $db->prepare(
     "SELECT te.nombre nombreTipoEtapa
     FROM  TipoEtapa te, TipoEtapasportipopedido oe, tipoPedido tp
@@ -124,50 +117,49 @@ $db = mysqli_connect(SERVIDOR_BD,USUARIO_BD,CONTRASENA_BD,NOMBRE_BD);
 
 function consultaSQL($consulta, $tiposParametros, $listaParametros){
   $consulta = "
-  SELECT
-  te.nombre nombreTipoEtapa,
-  p.tipoPrenda tipoPrenda,
-  tpedido.nombreTipoPedido nombreTipoPedido,
-  tpedido.idTipoPedido idTipoPedido,
-  p.esPedidoExpress esExpress,
-  tpedido.precio precioBasePedido,
-  desperfectos.coste precioDesperfectos,
-  serviciosAdicionales.coste precioServiciosAdicionales,
-  d.valor porcentajeDescuento,
-  primeraEtapa.fechaIni inicioPedido,
-  ultimaEtapa.fechaFin finPedido,
-  e.fechaIni inicioEtapa,
-  e.fechaFin finPedido,
-  desperfectos.descripcion descArreglos,
-  serviciosAdicionales.descripcion descServAdic,
-  e.empleadoasignado empleadoAsignado,
-  oe.ordenEtapa ordenActual,
-  te.nombre nombreTipoEtapaActual,
-  e.idTipoEtapa idTipoEtapa,
-  p.precioAceptado precioAceptado,
-  p.idPedido idPedido
-FROM
-  Pedido p INNER JOIN tipoPedido tpedido ON p.idTipoPedido = tpedido.idTipoPedido
-  INNER JOIN Cuenta c ON c.idCuenta = p.ClientePedido
-  INNER JOIN Etapa e ON e.idPedido = p.idPedido
-  INNER JOIN TipoEtapa te ON te.idTipoEtapa = e.idTipoEtapa
-  INNER JOIN tipoEtapasportipopedido oe ON oe.idTipoEtapa = e.idTipoEtapa
-LEFT JOIN Descuento d
-  ON p.idDescuentos = d.idDescuentos
-LEFT JOIN (SELECT aD.idPedido, aD.idTipoPedido, aD.ClientePedido, aD.coste, aD.descripcion
-      FROM Arreglos aD
-      WHERE aD.tipoArreglo = 'Desperfecto') desperfectos
-  ON desperfectos.idPedido = p.idPedido AND desperfectos.idTipoPedido = p.idTipoPedido AND desperfectos.ClientePedido = p.ClientePedido
-LEFT JOIN (SELECT aSA.idPedido, aSA.idTipoPedido, aSA.ClientePedido, aSA.coste, aSA.descripcion
-      FROM Arreglos aSA
-      WHERE aSA.tipoArreglo = 'Servicio adicional') serviciosAdicionales
-  ON serviciosAdicionales.idPedido = p.idPedido AND serviciosAdicionales.idTipoPedido = p.idTipoPedido AND serviciosAdicionales.ClientePedido = p.ClientePedido
-LEFT JOIN (SELECT * FROM Etapa uE WHERE uE.idTipoEtapa = '7' AND uE.fechaFin IS NOT NULL) ultimaEtapa
-  ON ultimaEtapa.idPedido = p.idPedido
-LEFT JOIN (SELECT * FROM Etapa pE WHERE pE.idTipoEtapa = '1') primeraEtapa
-  ON primeraEtapa.idPedido = p.idPedido
-WHERE
-  oe.idTipoPedido = p.idTipoPedido
+    SELECT
+    te.nombre nombreTipoEtapa,
+    p.tipoPrenda tipoPrenda,
+    tpedido.nombreTipoPedido nombreTipoPedido,
+    tpedido.idTipoPedido idTipoPedido,
+    p.esPedidoExpress esExpress,
+    tpedido.precio precioBasePedido,
+    desperfectos.coste precioDesperfectos,
+    serviciosAdicionales.coste precioServiciosAdicionales,
+    d.valor porcentajeDescuento,
+    primeraEtapa.fechaIni inicioPedido,
+    ultimaEtapa.fechaFin finPedido,
+    e.fechaIni inicioEtapa,
+    desperfectos.descripcion descArreglos,
+    serviciosAdicionales.descripcion descServAdic,
+    e.empleadoasignado empleadoAsignado,
+    oe.ordenEtapa ordenActual,
+    te.nombre nombreTipoEtapaActual,
+    e.idTipoEtapa idTipoEtapa,
+    p.precioAceptado precioAceptado,
+    p.idPedido idPedido
+  FROM
+    Pedido p INNER JOIN tipoPedido tpedido ON p.idTipoPedido = tpedido.idTipoPedido
+    INNER JOIN Cuenta c ON c.idCuenta = p.ClientePedido
+    INNER JOIN Etapa e ON e.idPedido = p.idPedido
+    INNER JOIN TipoEtapa te ON te.idTipoEtapa = e.idTipoEtapa
+    INNER JOIN tipoEtapasportipopedido oe ON oe.idTipoEtapa = e.idTipoEtapa
+  LEFT JOIN Descuento d
+    ON p.idDescuentos = d.idDescuentos
+  LEFT JOIN (SELECT aD.idPedido, aD.idTipoPedido, aD.ClientePedido, aD.coste, aD.descripcion
+        FROM Arreglos aD
+        WHERE aD.tipoArreglo = 'Desperfecto') desperfectos
+    ON desperfectos.idPedido = p.idPedido AND desperfectos.idTipoPedido = p.idTipoPedido AND desperfectos.ClientePedido = p.ClientePedido
+  LEFT JOIN (SELECT aSA.idPedido, aSA.idTipoPedido, aSA.ClientePedido, aSA.coste, aSA.descripcion
+        FROM Arreglos aSA
+        WHERE aSA.tipoArreglo = 'Servicio adicional') serviciosAdicionales
+    ON serviciosAdicionales.idPedido = p.idPedido AND serviciosAdicionales.idTipoPedido = p.idTipoPedido AND serviciosAdicionales.ClientePedido = p.ClientePedido
+  LEFT JOIN (SELECT * FROM Etapa uE WHERE uE.idTipoEtapa = '7' AND uE.fechaFin IS NOT NULL) ultimaEtapa
+    ON ultimaEtapa.idPedido = p.idPedido
+  LEFT JOIN (SELECT * FROM Etapa pE WHERE pE.idTipoEtapa = '1') primeraEtapa
+    ON primeraEtapa.idPedido = p.idPedido
+  WHERE
+    oe.idTipoPedido = p.idTipoPedido
       AND
 
   oe.ordenEtapa = (
@@ -176,7 +168,7 @@ WHERE
     FROM Etapa eB, tipoEtapasportipopedido oeB
     WHERE eB.idPedido = p.idPedido AND eB.idTipoEtapa = oeB.idTipoEtapa AND oeB.idTipoPedido = p.idTipoPedido
 
-  ) ".condicionTipoCuenta($_SESSION["tipoCuentaSesión"]);
+  ) ".condicionTipoCuenta($_SESSION["tipoCuentaSesión"]) . cSQLBusqueda($_POST["buscarPor"], $_POST["entradaBusqueda"]) . cSQLMostrarUnicamente($_POST["seMuestra"]) . cSQLOrdenarPor($_POST["ordenarPor"]) ;
   $db = mysqli_connect(SERVIDOR_BD,USUARIO_BD,CONTRASENA_BD,NOMBRE_BD);
   if ($stmt = $db->prepare($consulta)) {
     bindParam($stmt,$_SESSION["tipoCuentaSesión"]);
@@ -186,7 +178,7 @@ WHERE
 }
 
 function mostrarPedido($resultadoConsulta){
-  while($result = $resultadoConsulta->fetch_assoc()){
+  while($resultadoConsulta != null && $result = $resultadoConsulta->fetch_assoc()){
     $resultEtapas = obtenerEtapas($result["ordenActual"], $result["idTipoPedido"], $result["descArreglos"] != null,  $result["descServAdic"] != null);
     echo '
       <!-- A partir de aquí comienza la tarjeta que hay que repetir según las consultas -->
@@ -282,21 +274,27 @@ function mostrarPedido($resultadoConsulta){
     ';
     if($resultEtapas["nombreTipoEtapaAnterior"] != null){
       echo'
-                  <div class="card bg-white mx-auto otrasEtapas"></div>
+                  <div class="card bg-white mx-auto otrasEtapas">
+                    <img src="./img/etapas/'.normalizarTexto($resultEtapas["nombreTipoEtapaAnterior"]).'.svg" class="mx-auto my-auto w-75"></img>
+                  </div>
                   <div class="text-center" style="position: absolute; width: 69px; background-color: white; height: 15px;  left:0; right: 0; margin-left: auto; margin-right: auto; margin-top: -15px;">'.$resultEtapas["nombreTipoEtapaAnterior"].'</div>
       ';
     }
     echo '
                 </div>
                 <div class="col-4 mx-auto my-auto">
-                  <div class="card bg-white mx-auto etapaActual"></div>
+                  <div class="card bg-white mx-auto etapaActual">
+                    <img src="./img/etapas/'.normalizarTexto($result["nombreTipoEtapaActual"]).'.svg" class="mx-auto my-auto w-75"></img>
+                  </div>
                   <div class="text-center" style="position: absolute; width: 84px; background-color: white; height: 15px;  left:0; right: 0; margin-left: auto; margin-right: auto; margin-top: -15px;">'.$result["nombreTipoEtapaActual"].'</div>
                 </div>
                 <div class="col-4 mx-auto my-auto">
     ';
     if($resultEtapas["nombreTipoEtapaPosterior"] != null){
       echo '
-                  <div class="card bg-white mx-auto otrasEtapas"></div>
+                  <div class="card bg-white mx-auto otrasEtapas">
+                    <img src="./img/etapas/'.normalizarTexto($resultEtapas["nombreTipoEtapaPosterior"]).'.svg" class="mx-auto my-auto w-75"></img>
+                  </div>
                   <div class="text-center" style="position: absolute; width: 69px; background-color: white; height: 15px; left:0; right: 0; margin-left: auto; margin-right: auto; margin-top: -15px;">'.$resultEtapas["nombreTipoEtapaPosterior"].'</div>
       ';
     }
@@ -329,43 +327,57 @@ function mostrarPedido($resultadoConsulta){
   }
 }
 
-function cSQLOrdenarPor($consulta, $ordenarPor){//TODO En la consulta principal hay que hacer que fechaIni y fechaFin sean las del pedido y no las de las etapas
+function cSQLOrdenarPor($ordenarPor){//TODO En la consulta principal hay que hacer que fechaIni y fechaFin sean las del pedido y no las de las etapas
   if($ordenarPor == 'tipoPrenda'){
-    return $consulta . ' ORDER BY p.tipoPrenda DESC';
+    return ' ORDER BY p.tipoPrenda ASC';
   } else if($ordenarPor == 'fechaIniAsc'){
-    return $consulta . ' ORDER BY actualEtapa.fechaIni ASC';
+    return ' ORDER BY primeraEtapa.fechaIni ASC';
   } else if($ordenarPor == 'fechaIniDesc'){
-    return $consulta . ' ORDER BY actualEtapa.fechaIni DESC';
+    return ' ORDER BY primeraEtapa.fechaIni DESC';
   } else if($ordenarPor == 'fechaFinAsc'){
-    return $consulta . ' ORDER BY actualEtapa.fechaFin ASC';
+    return ' ORDER BY ultimaEtapa.fechaFin ASC';
   } else if($ordenarPor == 'fechaFinDesc'){
-    return $consulta . ' ORDER BY actualEtapa.fechaFin DESC';
+    return ' ORDER BY ultimaEtapa.fechaFin DESC';
   } else if($ordenarPor == 'express'){
-    return $consulta . ' ORDER BY p.esExpress DESC';
+    return ' ORDER BY p.esPedidoExpress DESC';
   } else {
-    return $consulta;
+    return '';
   }
 }
 
-function cSQLBusqueda($consulta, $nombreColumna, $texto){
-  if(isset($texto) && !is_null($texto) && !empty($texto)) {
-    return $consulta . ' AND ' . $nombreColumna . ' LIKE "^' . $texto .'"';
+function cSQLBusqueda($nombreColumna, $texto){
+  $sqlColumna = "";
+  if ($nombreColumna == "tipoPrenda"){
+    $sqlColumna = "primeraEtapa.fechaIni";
+  } else if ($nombreColumna == "fechaPedido"){
+    $sqlColumna = "e.fechaIni";
+  } else if ($nombreColumna == "nombreCliente"){
+    $sqlColumna =  "CONCAT(c.nombre, ' ', c.apellidos)";
+  }
+
+  if(isset($texto) && !is_null($texto) && !empty($texto) && $sqlColumna != "") {
+    if($nombreColumna == "nombreCliente"){
+      return ' AND ' . $sqlColumna . ' LIKE "%' . $texto .'%"';
+
+    } else {
+      return ' AND ' . $sqlColumna . ' LIKE "' . $texto .'%"';
+    }
   } else {
-    return $consulta;
+    return "";
   }
 }
 
-function cSQLMostrarUnicamente($consulta, $mostrar){
+function cSQLMostrarUnicamente($mostrar){
   if($mostrar == "todo"){
-    return $consulta;
+    return "";
   } else if($mostrar == "porRealizar") {
-    return $consulta . ' And actualEtapa.idTipoEtapa = 1';
+    return ' And primeraEtapa.fechaIni IS NOT NULL AND  primeraEtapa.fechaFin IS NULL';
   } else if($mostrar == "enProceso") {
-    return $consulta . ' And (actualEtapa.idTipoEtapa != 1 OR !(actualEtapa.idTipoEtapa = 7 AND actualEtapa.fechaFin != null)';
+    return ' And primeraEtapa.fechaIni IS NOT NULL AND  primeraEtapa.fechaFin IS NOT NULL  AND  ultimaEtapa.fechaFin IS NULL';
   } else if($mostrar == "finalizado") {
-    return $consulta . ' And actualEtapa.idTipoEtapa = 7 AND actualEtapa.fechaFin != null';
+    return ' And ultimaEtapa.fechaFin IS NOT NULL';
   } else {
-    return $consulta;
+    return '';
   }
 }
 
