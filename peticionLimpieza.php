@@ -161,10 +161,12 @@ if(!isset($_POST["peticionRealizada"]) || $_POST["peticionRealizada"] == false){
 
     $idPedido = mysqli_stmt_insert_id ($stmtA);
 
-    if ($stmtB = $db->prepare('INSERT INTO arreglos (descripcion,coste,tipoArreglo,idPedido,idTipoPedido,ClientePedido) VALUES (?,null,"Servicio adicional",?,?,?)')) {
-      $stmtB->bind_param('siii', $_POST['TrabajosAdicionales'], $idPedido, $_POST['idTipoPedido'],$_POST['idCliente']);
-      $stmtB->execute();
-      $stmtB->store_result();
+    if (isset($_POST['TrabajosAdicionales']) &&  !is_null($_POST['TrabajosAdicionales']) && !empty($_POST['TrabajosAdicionales'])){
+      if ($stmtB = $db->prepare('INSERT INTO arreglos (descripcion,coste,tipoArreglo,idPedido,idTipoPedido,ClientePedido) VALUES (?,null,"Servicio adicional",?,?,?)')) {
+        $stmtB->bind_param('siii', $_POST['TrabajosAdicionales'], $idPedido, $_POST['idTipoPedido'],$_POST['idCliente']);
+        $stmtB->execute();
+        $stmtB->store_result();
+      }
     }
 
     header("location: ./");
