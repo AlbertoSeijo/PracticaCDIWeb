@@ -185,30 +185,63 @@ select {
 }
 
 .btn-aceptar-precio-actualizado {
-  width: 60%;
+  width: 100%;
 }
 
 .btn-cancelar-pedido {
-  width: 30%;
+  width: 100%;
+  margin-bottom: 6px;
 }
 
+.etqEtapaPosteriorAnterior {
+  font-size: 11px;
+  position: absolute;
+  width: 73px;
+  background-color: white;
+  height: 12px;
+  left:0;
+  right: 0;
+  bottom: -38px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.etqEtapaActual {
+  font-size: 11px;
+  position: absolute;
+  width: 86px;
+  background-color: white;
+  height: 12px;
+  left:0;
+  right: 0;
+  bottom: -45px;
+  margin-left: auto;
+  margin-right: auto;
+}
 @media screen and (min-width: 576px) {
 
 }
 
 @media screen and (min-width: 768px) {
-  .btn-aceptar-precio-actualizado{
-      width: 100%;
-  }
-  .btn-cancelar-pedido{
-      width: 100%;
-  }
+
 }
 
 @media screen and (min-width: 992px) {
-
 }
 
 @media screen and (min-width: 1200px) {
+}
 
+@media screen and (max-width: 1800px) {
+  .contenedorEtapas {
+    position: relative;
+    width: 100%;
+
+  }
+
+  .contenedorDeLoDemas {
+    position: relative;
+    width: 100%;
+
+  }
 }

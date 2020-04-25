@@ -6,16 +6,11 @@ define('USUARIO_BD', 'webtintoreria');
 define('CONTRASENA_BD', 'lavanderia');
 define('NOMBRE_BD', 'tintoreria');
 
-
-/* POST VARIABLES */
-
-
-/*function mostrarPedido($tipoCuenta, $esExpress, $tipoPrenda, $tipoServicio, $etapaAnterior, $etapaActual, $etapaSiguiente){
-
-}*/
 function bindParam($stmt, $tipoCuenta){
-  if($tipoCuenta == "Cliente" || $tipoCuenta == "Empleado"){
+  if($tipoCuenta == "Cliente"){
     $stmt->bind_param("s", $_SESSION['idCuentaSesión']);
+  } else if ($tipoCuenta == "Empleado") {
+    //TODO FALTA ARREGLAR CONSULTA PARA QUE EL ENCARGADO VEA SUS PEDIDOS + (MOSTRAR) FUNCIONE COMO DEBE PARA SUS PEDIDOS
   } else if ($tipoCuenta == "Encargado") {
     //No se añade ningún param (Encargado no lo necesita)
   }
@@ -115,7 +110,7 @@ function obtenerEtapas($ordenEtapaActual, $idTipoPedido ,$hayArreglos, $hayServi
   return array ("nombreTipoEtapaPosterior" => $nombreTipoEtapaPosterior, "nombreTipoEtapaAnterior" => $nombreTipoEtapaAnterior);
 }
 
-function consultaSQL($consulta, $tiposParametros, $listaParametros){
+function consultaSQL(){
   $consulta = "
     SELECT
     te.nombre nombreTipoEtapa,
@@ -137,7 +132,9 @@ function consultaSQL($consulta, $tiposParametros, $listaParametros){
     te.nombre nombreTipoEtapaActual,
     e.idTipoEtapa idTipoEtapa,
     p.precioAceptado precioAceptado,
-    p.idPedido idPedido
+    p.idPedido idPedido,
+    c.nombre nombreCliente,
+    c.apellidos apellidosCliente
   FROM
     Pedido p INNER JOIN tipoPedido tpedido ON p.idTipoPedido = tpedido.idTipoPedido
     INNER JOIN Cuenta c ON c.idCuenta = p.ClientePedido
@@ -180,36 +177,53 @@ function consultaSQL($consulta, $tiposParametros, $listaParametros){
 function mostrarPedido($resultadoConsulta){
   while($resultadoConsulta != null && $result = $resultadoConsulta->fetch_assoc()){
     $resultEtapas = obtenerEtapas($result["ordenActual"], $result["idTipoPedido"], $result["descArreglos"] != null,  $result["descServAdic"] != null);
+    $alturaMinima = "275px";
+    if(!$result["precioAceptado"]){
+      $alturaMinima = "325px";
+    }
     echo '
       <!-- A partir de aquí comienza la tarjeta que hay que repetir según las consultas -->
-      <div class="container-fluid card bg-light" style="min-height: 250px; margin-bottom: 20px;">
-        <div class="container-fluid h-100">
+      <div class="container-fluid card bg-light" style="min-height: '.$alturaMinima.'; margin-bottom: 20px;">
+        <div class="container-fluid">
           <div class="contenedorDeLoDemas ml-0 mr-0">
-            <div class="row" style="height: 35%;">
+            <div class="row mt-2" style="height: 35%;">
     ';
     if($result["esExpress"]){
       echo '
-              <div class="col-4 my-auto text-center textoExpress">
+              <div class="col-md-4 col-sm-12 my-auto text-center textoExpress ">
                 <i class="fas fa-star fa-2x estrellaExpress"></i> Pedido expréss
               </div>
       ';
     } else {
       echo '
-              <div class="col-4 my-auto text-center textoExpress">
+              <div class="col-md-4 col-sm-12 my-auto text-center textoExpress ">
                 <i class="far fa-star fa-2x estrellaExpress"></i> Pedido normal
               </div>
       ';
     }
-
+    $anchoColumnaCronologia = "col-12 col-md-6";
+    if($_SESSION['tipoCuentaSesión'] == "Encargado") {
+      $anchoColumnaCronologia = "col-12 col-md-4";
+      echo '
+      <div class="col-12 col-md-2">
+        <h5 style="margin-top: 8px;">Cliente:</h5>
+        <div class="row" style="height: 100%;">
+          <div class="col-12 text-center h-100 p-0" style="white-space: nowrap;">
+            <img src="./img/avatar/avatarCliente.png" style="width: 35px;"></img> ' . $result["nombreCliente"] . ' ' . $result["apellidosCliente"] .'
+          </div>
+        </div>
+      </div>
+      ';
+    }
     echo'
-              <div class="col-8">
+              <div class="'.$anchoColumnaCronologia.'">
                 <h5 style="margin-top: 8px;">Cronología:</h5>
                 <div class="row" style="height: 100%;">
-                  <div class="col-6 text-left h-100" style="white-space: nowrap;">
+                  <div class="col-4 text-left h-100 p-0" style="white-space: nowrap;">
                     <a style="display:block; margin-left: 20px; font-size: 14px;">Fecha de inicio:</a>
                     <a style="display:block; margin-left: 20px; font-size: 14px;">Fecha de fin:</a>
                   </div>
-                  <div class="col-6 text-right h-100" style="white-space: nowrap;">
+                  <div class="col-8 text-right h-100 p-0" style="white-space: nowrap; overflow: hidden;">
                     <a style="display:block; margin-left: 20px; font-size: 14px;">'.$result["inicioPedido"].'</a>
                     <a style="display:block; margin-left: 20px; font-size: 14px;">'.$result["finPedido"].'</a>
                   </div>
@@ -217,7 +231,13 @@ function mostrarPedido($resultadoConsulta){
               </div>
             </div>
             <div class="row" style="height: 65%;">
-              <div class="col-6 " style=""><!-- TODO Esta fila puede ser col-6 o col-12 según haya factura o no -->
+            ';
+              $anchoColumnaTipoPedidoTipoPrenda = "col-12 col-sm-6";
+              if($_SESSION['tipoCuentaSesión'] == "Empleado"){
+                $anchoColumnaTipoPedidoTipoPrenda = "col-12";
+              }
+            echo '
+              <div class="'.$anchoColumnaTipoPedidoTipoPrenda.'"><!-- TODO Esta fila puede ser col-6 o col-12 según haya factura o no -->
                 <div class="row h-100">
                   <div class="col-6 text-center h-100" style="padding-top: 25px;">
                     <h5>Tipo de prenda</h5>
@@ -234,8 +254,10 @@ function mostrarPedido($resultadoConsulta){
                     <div class="text-center" style="position: absolute; width: 69px; background-color: white; height: 12px; left:0; right: 0; margin-left: auto; margin-right: auto; margin-top: -12px; line-height: 18px;">'.$result["nombreTipoPedido"].'</div>
                   </div>
                 </div>
-              </div>
-              <div class="col-6">
+              </div>';
+            if($_SESSION['tipoCuentaSesión'] == "Encargado" || $_SESSION['tipoCuentaSesión'] == "Cliente") {
+              echo'
+              <div class="col-12 col-sm-6">
                 <h5 style="margin-top: 15px;">Total desglosado</h5>
                 <div class="row h-100">
                   <div class="col-6 text-left h-100">
@@ -255,7 +277,9 @@ function mostrarPedido($resultadoConsulta){
                     <a class="font-weight-bold totalPrecio">'.calcularPrecioTotal($result["precioBasePedido"], $result["precioDesperfectos"], $result["precioServiciosAdicionales"], $result["porcentajeDescuento"]).'</a>
                   </div>
                 </div>
-              </div>
+              </div>';
+            }
+          echo'
             </div>
           </div>
           <div class="contenedorEtapas ml-0 mr-0">
@@ -277,7 +301,7 @@ function mostrarPedido($resultadoConsulta){
                   <div class="card bg-white mx-auto otrasEtapas">
                     <img src="./img/etapas/'.normalizarTexto($resultEtapas["nombreTipoEtapaAnterior"]).'.svg" class="mx-auto my-auto w-75"></img>
                   </div>
-                  <div class="text-center" style="position: absolute; width: 69px; background-color: white; height: 15px;  left:0; right: 0; margin-left: auto; margin-right: auto; margin-top: -15px;">'.$resultEtapas["nombreTipoEtapaAnterior"].'</div>
+                  <a class="text-center etqEtapaPosteriorAnterior">'.$resultEtapas["nombreTipoEtapaAnterior"].'</a>
       ';
     }
     echo '
@@ -286,7 +310,7 @@ function mostrarPedido($resultadoConsulta){
                   <div class="card bg-white mx-auto etapaActual">
                     <img src="./img/etapas/'.normalizarTexto($result["nombreTipoEtapaActual"]).'.svg" class="mx-auto my-auto w-75"></img>
                   </div>
-                  <div class="text-center" style="position: absolute; width: 84px; background-color: white; height: 15px;  left:0; right: 0; margin-left: auto; margin-right: auto; margin-top: -15px;">'.$result["nombreTipoEtapaActual"].'</div>
+                  <div class="text-center etqEtapaActual">'.$result["nombreTipoEtapaActual"].'</div>
                 </div>
                 <div class="col-4 mx-auto my-auto">
     ';
@@ -295,14 +319,14 @@ function mostrarPedido($resultadoConsulta){
                   <div class="card bg-white mx-auto otrasEtapas">
                     <img src="./img/etapas/'.normalizarTexto($resultEtapas["nombreTipoEtapaPosterior"]).'.svg" class="mx-auto my-auto w-75"></img>
                   </div>
-                  <div class="text-center" style="position: absolute; width: 69px; background-color: white; height: 15px; left:0; right: 0; margin-left: auto; margin-right: auto; margin-top: -15px;">'.$resultEtapas["nombreTipoEtapaPosterior"].'</div>
+                  <a class="text-center etqEtapaPosteriorAnterior">'.$resultEtapas["nombreTipoEtapaPosterior"].'</a>
       ';
     }
     echo '
                 </div>
               </div>
             </div>
-            <div class="container-fluid text-center mt-2 mb-2 h-25">
+            <div class="container-fluid text-center mt-3 mb-2 h-25">
   ';
   if($result["precioAceptado"]){
   echo '
@@ -381,41 +405,5 @@ function cSQLMostrarUnicamente($mostrar){
   }
 }
 
-$seMuestra = $_POST["seMuestra"];
-$ordenarPor = $_POST["ordenarPor"];
-$buscarPor = $_POST["buscarPor"];
-$entradaBusqueda = $_POST["entradaBusqueda"];
-
-
-$tiposParametrosCliente = 's';
-$parametrosCliente = array();
-$consultaPrincipalCliente = "";
-mostrarPedido(consultaSQL($consultaPrincipalCliente,$tiposParametrosCliente,$_SESSION['idCuentaSesión']));
-if($_SESSION['tipoCuentaSesión'] == "Cliente"){//TODO A LA CONSULTA LE FALTAN LAS ETAPAS
-
-  //consultaSQLCliente(cSQLOrdenarPor(cSQLBusqueda(cSQLMostrarUnicamente($consultaPrincipalCliente, $seMuestra), $buscarPor, $entradaBusqueda), $ordenarPor),$tiposParametrosCliente,$_SESSION['idCuentaSesión']);
-  /*consultaSQL(cSQLOrdenarPor(cSQLBusqueda(cSQLMostrarUnicamente($consultaPrincipal, $seMuestra), $buscarPor, $entradaBusqueda), $ordenarPor), 'i', array("foo", "bar", "hello", "world"), $funcionAnid);//Obtenemos
-
-*/
-
-
-/*
-  if ($stmt = $db->prepare('SELECT p.idPedido, d.valor, p.tipoPrenda, p.esExpress, tpedido.nombreTipoPedido, tpedido.precio  FROM Pedido p, Descuento d, TipoPedido tpedido WHERE ClientePedido = ? AND p.TipoPedido_idTipoPedido = tpedido.idTipoPedido AND p.Descuentos_idDescuentos  = d.idDescuentos')) {//Preparamos la consulta sql para evitar posibles ataques tipo SQL Injection
-    $stmt->bind_param('i', $_SESSION['idCuentaSesión']);//Bindeamos al '?' el correo electrónico que nos ha mandado el usuario a través del formulario. El parámetro 's' indica que es un string.
-    $stmt->execute();
-    $stmt->store_result();
-    if ($stmt->num_rows > 0) {//Si hay más de 0 filas es que se ha encontrado una cuenta con ese correo electrónico.
-      $stmt->bind_result($puntos, $numtarjeta);//Guardamos la fila actual en viariables.
-      $stmt->fetch();*/
-  } else if ($_SESSION['tipoCuentaSesión'] == "Empleado") {
-
-
-
-  } else if ($_SESSION['tipoCuentaSesión'] == "Encargado") {
-
-
-
-  } else {
-    echo 'ERROR: Tipo de cuenta no definido.';
-  }
+mostrarPedido(consultaSQL());
 ?>
