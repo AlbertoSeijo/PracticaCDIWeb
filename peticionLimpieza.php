@@ -112,8 +112,8 @@ if(!isset($_POST["peticionRealizada"]) || $_POST["peticionRealizada"] == false){
           <div class="row" style="height: 50%;">
             <div class="col-12" style="height: 100%;">
               <div class="form-group" style="height: 80%; margin-top: 0px;">
-                <label for="exampleFormControlTextarea1">Trabajos adicionales</label>
-                <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" style="resize: none; height: 100%"></textarea>
+                <label for="TrabajosAdicionales">Trabajos adicionales</label>
+                <textarea class="form-control" form="peticionLimpiezaForm" id="TrabajosAdicionales" rows="3" style="resize: none; height: 100%"></textarea>
               </div>
             </div>
           </div>
@@ -154,11 +154,19 @@ if(!isset($_POST["peticionRealizada"]) || $_POST["peticionRealizada"] == false){
 ';
 } else if(isset($_POST["peticionRealizada"]) && $_POST["peticionRealizada"] == true) {
 
-  if ($stmt = $db->prepare('INSERT INTO Pedido (idTipoPedido,ClientePedido,idDescuentos,tipoPrenda,esPedidoExpress,precioAceptado) VALUES (?,?,null,?,?,false)')) {
-    $stmt->bind_param('iisi', $_POST['idTipoPedido'],$_POST['idCliente'],$_POST['tipoPrenda'],$_POST['esExpress']);
-    $stmt->execute();
-    $stmt->store_result();
+  if ($stmtA = $db->prepare('INSERT INTO Pedido (idTipoPedido,ClientePedido,idDescuentos,tipoPrenda,esPedidoExpress,precioAceptado) VALUES (?,?,null,?,?,false)')) {
+    $stmtA->bind_param('iisi', $_POST['idTipoPedido'],$_POST['idCliente'],$_POST['tipoPrenda'],$_POST['esExpress']);
+    $stmtA->execute();
+    $stmtA->store_result();
 
+    $idPedido = mysqli_insert_id();
+
+    if ($stmtB = $db->prepare('INSERT INTO arreglos (descripcion,coste,tipoArreglo,tipoPedido,idTipoPedido,clientePedido) VALUES (?,null,"Servicio adicional",?,?,?)')) {
+      $stmtB->bind_param('siii', $_POST['TrabajosAdicionales'], $idPedido, $_POST['idTipoPedido'],$_POST['idCliente']);
+      $stmtB->execute();
+      $stmtB->store_result();
+    }
+    
     header("location: ./");
   }
 
