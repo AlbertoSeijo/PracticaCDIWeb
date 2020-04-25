@@ -16,6 +16,21 @@ include './cabeceraContenido.php';
   <input type="hidden" id="esExpress" name="esExpress" value="">
 </form>
 <?php
+
+  define('SERVIDOR_BD', 'localhost:3306');
+  define('USUARIO_BD', 'webtintoreria');
+  define('CONTRASENA_BD', 'lavanderia');
+  define('NOMBRE_BD', 'tintoreria');
+
+  $db = mysqli_connect(SERVIDOR_BD,USUARIO_BD,CONTRASENA_BD,NOMBRE_BD);
+
+  if ($stmt = $db->prepare('SELECT c.nombre, c.apellidos, c.idCuenta
+    FROM cuenta c INNER JOIN cliente cl ON c.idCuenta=cl.idCuenta ORDER BY c.nombre ASC')) {
+    $stmt->execute();
+    $stmt->store_result();
+    $stmt->bind_result($nombreCliente, $apellidoCliente, $idCliente);
+  }
+
 if(!isset($_POST["peticionRealizada"]) || $_POST["peticionRealizada"] == false){
   echo'
 <div class="container-fluid" style="height:60vh; margin-top: 25px;">
@@ -25,42 +40,42 @@ if(!isset($_POST["peticionRealizada"]) || $_POST["peticionRealizada"] == false){
       <div class="card bg-light text-center h-100" style="overflow-x: hidden; overflow-y: auto;">
           <div class="row text-center justify-content-center">
             <div class="contenedor-tipo-prenda m-0 p-0">
-              <button type="button" class="btn btn-primary seleccion-tipo-prenda">
+              <button type="button" class="btn btn-primary seleccion-tipo-prenda" onclick="setTipoPrendaPedido(\'Lana\')">
                 <img src="./img/tipoPrenda/lana.svg" style="width:3vw;"><a>Lana</a>
               </button>
             </div>
             <div class="contenedor-tipo-prenda m-0 p-0">
-              <button type="button" class="btn btn-primary seleccion-tipo-prenda">
+              <button type="button" class="btn btn-primary seleccion-tipo-prenda" onclick="setTipoPrendaPedido("Seda")">
                 <img src="./img/tipoPrenda/seda.svg" style="width:3vw;"><a>Seda</a>
               </button>
             </div>
             <div class="contenedor-tipo-prenda m-0 p-0">
-              <button type="button" class="btn btn-primary seleccion-tipo-prenda">
+              <button type="button" class="btn btn-primary seleccion-tipo-prenda" onclick="setTipoPrendaPedido("Cuero")">
                 <img src="./img/tipoPrenda/cuero.svg" style="width:3vw;"><a>Cuero</a>
               </button>
             </div>
             <div class="contenedor-tipo-prenda m-0 p-0">
-              <button type="button" class="btn btn-primary seleccion-tipo-prenda">
+              <button type="button" class="btn btn-primary seleccion-tipo-prenda" onclick="setTipoPrendaPedido("Bambú")">
                 <img src="./img/tipoPrenda/bambu.svg" style="width:3vw;"><a>Bambú</a>
               </button>
             </div>
             <div class="contenedor-tipo-prenda m-0 p-0">
-              <button type="button" class="btn btn-primary seleccion-tipo-prenda">
+              <button type="button" class="btn btn-primary seleccion-tipo-prenda" onclick="setTipoPrendaPedido("Algodón")">
                 <img src="./img/tipoPrenda/algodon.svg" style="width:3vw;"><a>Algodón</a>
               </button>
             </div>
             <div class="contenedor-tipo-prenda m-0 p-0">
-              <button type="button" class="btn btn-primary seleccion-tipo-prenda">
+              <button type="button" class="btn btn-primary seleccion-tipo-prenda" onclick="setTipoPrendaPedido("Nailon")">
                 <img src="./img/tipoPrenda/nailon.svg" style="width:3vw;"><a>Nailon</a>
               </button>
             </div>
             <div class="contenedor-tipo-prenda m-0 p-0">
-              <button type="button" class="btn btn-primary seleccion-tipo-prenda">
+              <button type="button" class="btn btn-primary seleccion-tipo-prenda" onclick="setTipoPrendaPedido("Trajes")">
                 <img src="./img/tipoPrenda/traje.svg" style="width:3vw;"><a>Trajes</a>
               </button>
             </div>
             <div class="contenedor-tipo-prenda m-0 p-0">
-              <button type="button" class="btn btn-primary seleccion-tipo-prenda">
+              <button type="button" class="btn btn-primary seleccion-tipo-prenda" onclick="setTipoPrendaPedido("Vestidos")">
                 <img src="./img/tipoPrenda/vestido.svg" style="width:3vw;"><a>Vestidos</a>
               </button>
             </div>
@@ -105,8 +120,13 @@ if(!isset($_POST["peticionRealizada"]) || $_POST["peticionRealizada"] == false){
         </div>
         <div class="col-3" style="height: 100%; margin-top:20px;">
           <div class="card bg-light" style="height: 17%;"><label class="etiquetaSubapartados" for="">Cliente del Pedido</label>
-            <div class="card-body" id="clientePedido" style="height: 20%; overflow-x: hidden; overflow-y: auto;">
-              <!-- Aquí no va nada, ajax hace su magia -->
+            <div class="card-body" id="clientePedido" style="height: 20%;">
+              <select name="idCliente" class="custom-select" style="margin-bottom:15px;">';
+                while ($stmt->fetch()) {
+                  echo'<option value="'.$idCliente.'">'.$nombreCliente.' '.$apellidoCliente.'</option>';
+                }
+                echo'
+              </select>
             </div>
           </div>
           <div class="card bg-light" style="height: 80%; margin-top:15px;"><label class="etiquetaSubapartados" for="">Asignación de empleados</label>
@@ -120,7 +140,7 @@ if(!isset($_POST["peticionRealizada"]) || $_POST["peticionRealizada"] == false){
         <div class="col-12">
           <div class="row justify-md-center" style="height: 100%; margin-top:7vh; margin-left:-25px;">
             <div class="col-8" style="height: 100%">
-              <button id="pednormalbot" type="button" disabled class="btn btn-info seleccion-tipo-prenda" onclick="realizarPedido(true)" style="width: 98%; height: 60%;"><b>Pedido normal</b></button>
+              <button id="pednormalbot" type="button" disabled class="btn btn-info seleccion-tipo-prenda" onclick="realizarPedido(false)" style="width: 98%; height: 60%;"><b>Pedido normal</b></button>
             </div>
             <div class="col-4" style="height: 100%">
               <button id="pedexpressbot" type="button" disabled class="btn btn-warning seleccion-tipo-prenda" onclick="realizarPedido(true)" style="width: 98%; height: 60%;"><b>Pedido express</b></button>
@@ -133,25 +153,13 @@ if(!isset($_POST["peticionRealizada"]) || $_POST["peticionRealizada"] == false){
 </div>
 ';
 } else if(isset($_POST["peticionRealizada"]) && $_POST["peticionRealizada"] == true) {
-  define('SERVIDOR_BD', 'localhost:3306');
-  define('USUARIO_BD', 'webtintoreria');
-  define('CONTRASENA_BD', 'lavanderia');
-  define('NOMBRE_BD', 'tintoreria');
 
-  $db = mysqli_connect(SERVIDOR_BD,USUARIO_BD,CONTRASENA_BD,NOMBRE_BD);
-
-  if ($stmt = $db->prepare('INSERT INTO Pedido (idTipoPedido,ClientePedido,tipoPrenda,esPedidoExpress,precioAceptado) VALUES (?,?,?,"null",?,?,false)')) {
+  if ($stmt = $db->prepare('INSERT INTO Pedido (idTipoPedido,ClientePedido,idDescuentos,tipoPrenda,esPedidoExpress,precioAceptado) VALUES (?,?,null,?,?,false)')) {
     $stmt->bind_param('iisi', $_POST['idTipoPedido'],$_POST['idCliente'],$_POST['tipoPrenda'],$_POST['esExpress']);
     $stmt->execute();
     $stmt->store_result();
-    // Store the result so we can check if the account exists in the database.
-    if ($stmt->num_rows > 0) {
-        echo 'La petición se ha realizado correctamente. ¿Qué desea hacer? (Realizar nueva petición) | (Volver a la página principal)';
-    } else {
-        echo 'Ha ocurrido un error al procesar la petición de limpieza. ¿Qué desea hacer? (Realizar nueva petición) | (Volver a la página principal)';
-    }
-  } else {
-    echo 'Ha ocurrido un error al procesar la petición de limpieza. ¿Qué desea hacer? (Realizar nueva petición) | (Volver a la página principal)';
+
+    header("location: index");
   }
 
 } else {
