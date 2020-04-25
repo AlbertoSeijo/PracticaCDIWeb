@@ -53,205 +53,63 @@ echo '
 ';
 
 }
+echo '
+   <div class="col-xl-4 col-lg-6">
+      <h3><b>Descuentos</b></h3>
+      <div class="card bg-primary text-black contenedor-descuentos">
+        <div class="card-body">';
+if ($stmt = $db->prepare('SELECT descripcion, puntos FROM descuento WHERE usadoPorTarjeta IS NULL and descripcion LIKE "%descuento%"')) {
+  $stmt->execute();
+  $resultado = $stmt -> get_result();
+  while($result = $resultado->fetch_assoc()){
+      echo'<div class="card espacios-descuentos container-fluid bg-light">
+      <div class="row" style="height: 90px;">
+        <div class="col-2" style="padding: 0px;">
+          <div class="card bg-white" style="width: 70px; height: 70px; position: absolute; top: 50%; left: 50%; transform: translateX(-50%) translateY(-50%);">
+            <img src="./img/canjePuntos/iconosTipoDescuento/iconoRegalo.svg" style="width: 50px; height: 50px; position: absolute; top: 50%; left: 50%; transform: translateX(-50%) translateY(-50%);"></img>
+            <img src="./img/canjePuntos/iconosTipoDescuento/iconoDescuento.svg" style="width: 25px; height: 25px; position: absolute; bottom: -7px; right: -7px;"></img>
+          </div>
+        </div>
+        <div class="col-10 text-center align-middle" style="height: 100%; overflow: hidden;">
+          <a style="display: block; width: 100%; font-weight: bold; font-size: 20px;">Titulo de promoción</a>
+          <a style="display: block; width: 100%; font-weight: bold; font-size: 16px;">' .$result ["descripcion"].'</a>
+          <a style="position: absolute; bottom: 6px; right: 6px; font-size: 14px;">'.$result ["puntos"].'</a>
+        </div>
+      </div>
+      </div>';}
+      echo '</div>
+    </div>
+  </div>';
+}
 
 echo '
    <div class="col-xl-4 col-lg-6">
       <h3><b>Descuentos</b></h3>
       <div class="card bg-primary text-black contenedor-descuentos">
-        <div class="card-body">
-          <div class="card espacios-descuentos container-fluid bg-light">
-          <div class="row" style="height: 90px;">
-            <div class="col-2" style="padding: 0px;">
-              <div class="card bg-white" style="width: 70px; height: 70px; position: absolute; top: 50%; left: 50%; transform: translateX(-50%) translateY(-50%);">
-                <img src="./img/canjePuntos/iconosTipoDescuento/iconoRegalo.svg" style="width: 50px; height: 50px; position: absolute; top: 50%; left: 50%; transform: translateX(-50%) translateY(-50%);"></img>
-                <img src="./img/canjePuntos/iconosTipoDescuento/iconoDescuento.svg" style="width: 25px; height: 25px; position: absolute; bottom: -7px; right: -7px;"></img>
-              </div>
-            </div>
-            <div class="col-10 text-center align-middle" style="height: 100%; overflow: hidden;">
-              <a style="display: block; width: 100%; font-weight: bold; font-size: 20px;">Titulo de promoción</a>
-              <a style="display: block; width: 100%; font-weight: bold; font-size: 16px;">Descripción (algo larga para ver lo que realmente...</a>
-              <a style="position: absolute; bottom: 6px; right: 6px; font-size: 14px;">99999 puntos</a>
-            </div>
-          </div>
-          </div>
-          <div class="card espacios-descuentos container-fluid bg-light">
-          <div class="row" style="height: 90px;">
-            <div class="col-2" style="padding: 0px;">
-              <div class="card bg-white" style="width: 70px; height: 70px; position: absolute; top: 50%; left: 50%; transform: translateX(-50%) translateY(-50%);">
-                <img src="./img/canjePuntos/iconosTipoDescuento/iconoRegalo.svg" style="width: 50px; height: 50px; position: absolute; top: 50%; left: 50%; transform: translateX(-50%) translateY(-50%);"></img>
-                <img src="./img/canjePuntos/iconosTipoDescuento/iconoDescuento.svg" style="width: 25px; height: 25px; position: absolute; bottom: -7px; right: -7px;"></img>
-              </div>
-            </div>
-            <div class="col-10 text-center align-middle" style="height: 100%; overflow: hidden;">
-              <a style="display: block; width: 100%; font-weight: bold; font-size: 20px;">Titulo de promoción</a>
-              <a style="display: block; width: 100%; font-weight: bold; font-size: 16px;">Descripción (algo larga para ver lo que realmente...</a>
-              <a style="position: absolute; bottom: 6px; right: 6px; font-size: 14px;">99999 puntos</a>
-            </div>
-          </div>
-          </div>
-          <div class="card espacios-descuentos container-fluid bg-light">
-          <div class="row" style="height: 90px;">
-            <div class="col-2" style="padding: 0px;">
-              <div class="card bg-white" style="width: 70px; height: 70px; position: absolute; top: 50%; left: 50%; transform: translateX(-50%) translateY(-50%);">
-                <img src="./img/canjePuntos/iconosTipoDescuento/iconoRegalo.svg" style="width: 50px; height: 50px; position: absolute; top: 50%; left: 50%; transform: translateX(-50%) translateY(-50%);"></img>
-                <img src="./img/canjePuntos/iconosTipoDescuento/iconoDescuento.svg" style="width: 25px; height: 25px; position: absolute; bottom: -7px; right: -7px;"></img>
-              </div>
-            </div>
-            <div class="col-10 text-center align-middle" style="height: 100%; overflow: hidden;">
-              <a style="display: block; width: 100%; font-weight: bold; font-size: 20px;">Titulo de promoción</a>
-              <a style="display: block; width: 100%; font-weight: bold; font-size: 16px;">Descripción (algo larga para ver lo que realmente...</a>
-              <a style="position: absolute; bottom: 6px; right: 6px; font-size: 14px;">99999 puntos</a>
-            </div>
-          </div>
-          </div>
-          <div class="card espacios-descuentos container-fluid bg-light">
-          <div class="row" style="height: 90px;">
-            <div class="col-2" style="padding: 0px;">
-              <div class="card bg-white" style="width: 70px; height: 70px; position: absolute; top: 50%; left: 50%; transform: translateX(-50%) translateY(-50%);">
-                <img src="./img/canjePuntos/iconosTipoDescuento/iconoRegalo.svg" style="width: 50px; height: 50px; position: absolute; top: 50%; left: 50%; transform: translateX(-50%) translateY(-50%);"></img>
-                <img src="./img/canjePuntos/iconosTipoDescuento/iconoDescuento.svg" style="width: 25px; height: 25px; position: absolute; bottom: -7px; right: -7px;"></img>
-              </div>
-            </div>
-            <div class="col-10 text-center align-middle" style="height: 100%; overflow: hidden;">
-              <a style="display: block; width: 100%; font-weight: bold; font-size: 20px;">Titulo de promoción</a>
-              <a style="display: block; width: 100%; font-weight: bold; font-size: 16px;">Descripción (algo larga para ver lo que realmente...</a>
-              <a style="position: absolute; bottom: 6px; right: 6px; font-size: 14px;">99999 puntos</a>
-            </div>
-          </div>
-          </div>
-          <div class="card espacios-descuentos container-fluid bg-light">
-          <div class="row" style="height: 90px;">
-            <div class="col-2" style="padding: 0px;">
-              <div class="card bg-white" style="width: 70px; height: 70px; position: absolute; top: 50%; left: 50%; transform: translateX(-50%) translateY(-50%);">
-                <img src="./img/canjePuntos/iconosTipoDescuento/iconoRegalo.svg" style="width: 50px; height: 50px; position: absolute; top: 50%; left: 50%; transform: translateX(-50%) translateY(-50%);"></img>
-                <img src="./img/canjePuntos/iconosTipoDescuento/iconoDescuento.svg" style="width: 25px; height: 25px; position: absolute; bottom: -7px; right: -7px;"></img>
-              </div>
-            </div>
-            <div class="col-10 text-center align-middle" style="height: 100%; overflow: hidden;">
-              <a style="display: block; width: 100%; font-weight: bold; font-size: 20px;">Titulo de promoción</a>
-              <a style="display: block; width: 100%; font-weight: bold; font-size: 16px;">Descripción (algo larga para ver lo que realmente...</a>
-              <a style="position: absolute; bottom: 6px; right: 6px; font-size: 14px;">99999 puntos</a>
-            </div>
-          </div>
-          </div>
-          <div class="card espacios-descuentos container-fluid bg-light">
-            <div class="row" style="height: 90px;">
-              <div class="col-2" style="padding: 0px;">
-                <div class="card bg-white" style="width: 70px; height: 70px; position: absolute; top: 50%; left: 50%; transform: translateX(-50%) translateY(-50%);">
-                  <img src="./img/canjePuntos/iconosTipoDescuento/iconoRegalo.svg" style="width: 50px; height: 50px; position: absolute; top: 50%; left: 50%; transform: translateX(-50%) translateY(-50%);"></img>
-                  <img src="./img/canjePuntos/iconosTipoDescuento/iconoDescuento.svg" style="width: 25px; height: 25px; position: absolute; bottom: -7px; right: -7px;"></img>
-                </div>
-              </div>
-              <div class="col-10 text-center align-middle" style="height: 100%; overflow: hidden;">
-                <a style="display: block; width: 100%; font-weight: bold; font-size: 20px;">Titulo de promoción</a>
-                <a style="display: block; width: 100%; font-weight: bold; font-size: 16px;">Descripción (algo larga para ver lo que realmente...</a>
-                <a style="position: absolute; bottom: 6px; right: 6px; font-size: 14px;">99999 puntos</a>
-              </div>
-            </div>
-          </div>
+        <div class="card-body">';
+if ($stmt = $db->prepare('SELECT descripcion, puntos FROM descuento WHERE usadoPorTarjeta IS NULL and descripcion = "Servicio Gratuito"')) {
+  $stmt->execute();
+  $resultado = $stmt -> get_result();
+  while($result = $resultado->fetch_assoc()){
+    echo'<div class="card espacios-descuentos container-fluid bg-light">
+    <div class="row" style="height: 90px;">
+      <div class="col-2" style="padding: 0px;">
+        <div class="card bg-white" style="width: 70px; height: 70px; position: absolute; top: 50%; left: 50%; transform: translateX(-50%) translateY(-50%);">
+          <img src="./img/canjePuntos/iconosTipoDescuento/iconoRegalo.svg" style="width: 50px; height: 50px; position: absolute; top: 50%; left: 50%; transform: translateX(-50%) translateY(-50%);"></img>
+          <img src="./img/canjePuntos/iconosTipoDescuento/iconoDescuento.svg" style="width: 25px; height: 25px; position: absolute; bottom: -7px; right: -7px;"></img>
         </div>
+      </div>
+      <div class="col-10 text-center align-middle" style="height: 100%; overflow: hidden;">
+        <a style="display: block; width: 100%; font-weight: bold; font-size: 20px;">Titulo de promoción</a>
+        <a style="display: block; width: 100%; font-weight: bold; font-size: 16px;">' .$result ["descripcion"].'</a>
+        <a style="position: absolute; bottom: 6px; right: 6px; font-size: 14px;">'.$result ["puntos"].'</a>
       </div>
     </div>
-
-
-    <div class="col-xl-4 col-lg-6">
-      <h3><b>Regalos</b></h3>
-      <div class="card bg-primary text-black contenedor-descuentos">
-        <div class="card-body">
-          <div class="card espacios-descuentos container-fluid bg-light">
-          <div class="row" style="height: 90px;">
-            <div class="col-2" style="padding: 0px;">
-              <div class="card bg-white" style="width: 70px; height: 70px; position: absolute; top: 50%; left: 50%; transform: translateX(-50%) translateY(-50%);">
-                <img src="./img/canjePuntos/iconosTipoDescuento/iconoRegalo.svg" style="width: 50px; height: 50px; position: absolute; top: 50%; left: 50%; transform: translateX(-50%) translateY(-50%);"></img>
-                <img src="./img/canjePuntos/iconosTipoDescuento/iconoDescuento.svg" style="width: 25px; height: 25px; position: absolute; bottom: -7px; right: -7px;"></img>
-              </div>
-            </div>
-            <div class="col-10 text-center align-middle" style="height: 100%; overflow: hidden;">
-              <a style="display: block; width: 100%; font-weight: bold; font-size: 20px;">Titulo de promoción</a>
-              <a style="display: block; width: 100%; font-weight: bold; font-size: 16px;">Descripción (algo larga para ver lo que realmente...</a>
-              <a style="position: absolute; bottom: 6px; right: 6px; font-size: 14px;">99999 puntos</a>
-            </div>
-          </div>
-          </div>
-          <div class="card espacios-descuentos container-fluid bg-light">
-          <div class="row" style="height: 90px;">
-            <div class="col-2" style="padding: 0px;">
-              <div class="card bg-white" style="width: 70px; height: 70px; position: absolute; top: 50%; left: 50%; transform: translateX(-50%) translateY(-50%);">
-                <img src="./img/canjePuntos/iconosTipoDescuento/iconoRegalo.svg" style="width: 50px; height: 50px; position: absolute; top: 50%; left: 50%; transform: translateX(-50%) translateY(-50%);"></img>
-                <img src="./img/canjePuntos/iconosTipoDescuento/iconoDescuento.svg" style="width: 25px; height: 25px; position: absolute; bottom: -7px; right: -7px;"></img>
-              </div>
-            </div>
-            <div class="col-10 text-center align-middle" style="height: 100%; overflow: hidden;">
-              <a style="display: block; width: 100%; font-weight: bold; font-size: 20px;">Titulo de promoción</a>
-              <a style="display: block; width: 100%; font-weight: bold; font-size: 16px;">Descripción (algo larga para ver lo que realmente...</a>
-              <a style="position: absolute; bottom: 6px; right: 6px; font-size: 14px;">99999 puntos</a>
-            </div>
-          </div>
-          </div>
-          <div class="card espacios-descuentos container-fluid bg-light">
-          <div class="row" style="height: 90px;">
-            <div class="col-2" style="padding: 0px;">
-              <div class="card bg-white" style="width: 70px; height: 70px; position: absolute; top: 50%; left: 50%; transform: translateX(-50%) translateY(-50%);">
-                <img src="./img/canjePuntos/iconosTipoDescuento/iconoRegalo.svg" style="width: 50px; height: 50px; position: absolute; top: 50%; left: 50%; transform: translateX(-50%) translateY(-50%);"></img>
-                <img src="./img/canjePuntos/iconosTipoDescuento/iconoDescuento.svg" style="width: 25px; height: 25px; position: absolute; bottom: -7px; right: -7px;"></img>
-              </div>
-            </div>
-            <div class="col-10 text-center align-middle" style="height: 100%; overflow: hidden;">
-              <a style="display: block; width: 100%; font-weight: bold; font-size: 20px;">Titulo de promoción</a>
-              <a style="display: block; width: 100%; font-weight: bold; font-size: 16px;">Descripción (algo larga para ver lo que realmente...</a>
-              <a style="position: absolute; bottom: 6px; right: 6px; font-size: 14px;">99999 puntos</a>
-            </div>
-          </div>
-          </div>
-          <div class="card espacios-descuentos container-fluid bg-light">
-          <div class="row" style="height: 90px;">
-            <div class="col-2" style="padding: 0px;">
-              <div class="card bg-white" style="width: 70px; height: 70px; position: absolute; top: 50%; left: 50%; transform: translateX(-50%) translateY(-50%);">
-                <img src="./img/canjePuntos/iconosTipoDescuento/iconoRegalo.svg" style="width: 50px; height: 50px; position: absolute; top: 50%; left: 50%; transform: translateX(-50%) translateY(-50%);"></img>
-                <img src="./img/canjePuntos/iconosTipoDescuento/iconoDescuento.svg" style="width: 25px; height: 25px; position: absolute; bottom: -7px; right: -7px;"></img>
-              </div>
-            </div>
-            <div class="col-10 text-center align-middle" style="height: 100%; overflow: hidden;">
-              <a style="display: block; width: 100%; font-weight: bold; font-size: 20px;">Titulo de promoción</a>
-              <a style="display: block; width: 100%; font-weight: bold; font-size: 16px;">Descripción (algo larga para ver lo que realmente...</a>
-              <a style="position: absolute; bottom: 6px; right: 6px; font-size: 14px;">99999 puntos</a>
-            </div>
-          </div>
-          </div>
-          <div class="card espacios-descuentos container-fluid bg-light">
-          <div class="row" style="height: 90px;">
-            <div class="col-2" style="padding: 0px;">
-              <div class="card bg-white" style="width: 70px; height: 70px; position: absolute; top: 50%; left: 50%; transform: translateX(-50%) translateY(-50%);">
-                <img src="./img/canjePuntos/iconosTipoDescuento/iconoRegalo.svg" style="width: 50px; height: 50px; position: absolute; top: 50%; left: 50%; transform: translateX(-50%) translateY(-50%);"></img>
-                <img src="./img/canjePuntos/iconosTipoDescuento/iconoDescuento.svg" style="width: 25px; height: 25px; position: absolute; bottom: -7px; right: -7px;"></img>
-              </div>
-            </div>
-            <div class="col-10 text-center align-middle" style="height: 100%; overflow: hidden;">
-              <a style="display: block; width: 100%; font-weight: bold; font-size: 20px;">Titulo de promoción</a>
-              <a style="display: block; width: 100%; font-weight: bold; font-size: 16px;">Descripción (algo larga para ver lo que realmente...</a>
-              <a style="position: absolute; bottom: 6px; right: 6px; font-size: 14px;">99999 puntos</a>
-            </div>
-          </div>
-          </div>
-          <div class="card espacios-descuentos container-fluid bg-light">
-            <div class="row" style="height: 90px;">
-              <div class="col-2" style="padding: 0px;">
-                <div class="card bg-white" style="width: 70px; height: 70px; position: absolute; top: 50%; left: 50%; transform: translateX(-50%) translateY(-50%);">
-                  <img src="./img/canjePuntos/iconosTipoDescuento/iconoRegalo.svg" style="width: 50px; height: 50px; position: absolute; top: 50%; left: 50%; transform: translateX(-50%) translateY(-50%);"></img>
-                  <img src="./img/canjePuntos/iconosTipoDescuento/iconoDescuento.svg" style="width: 25px; height: 25px; position: absolute; bottom: -7px; right: -7px;"></img>
-                </div>
-              </div>
-              <div class="col-10 text-center align-middle" style="height: 100%; overflow: hidden;">
-                <a style="display: block; width: 100%; font-weight: bold; font-size: 20px;">Titulo de promoción</a>
-                <a style="display: block; width: 100%; font-weight: bold; font-size: 16px;">Descripción (algo larga para ver lo que realmente...</a>
-                <a style="position: absolute; bottom: 6px; right: 6px; font-size: 14px;">99999 puntos</a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-  </div>
-';
+    </div>';}
+    echo '</div>
+    </div>
+    </div>';
+    }
  ?>
 <?php
 include './footer.php';

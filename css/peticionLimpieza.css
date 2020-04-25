@@ -1,9 +1,7 @@
 .seleccion-tipo-limpieza {
   display: inline;
-  width: 175px;
-  height: 175px;
-  margin-left: 40px;
-  margin-right: 40px;
+  width: 20vw;
+  height: 20vh;  
 }
 
 .seleccion-tipo-prenda {
@@ -14,14 +12,6 @@
 
 .contenedor-tipo-prenda {
   width: 50%;
-}
-
-.etiquetaSubapartados {
-  position: absolute;
-  top: 15px;
-  background-color: white;
-  margin-top: -30px;
-  height: 25px;
 }
 
 .botonConfirmarPedido {
