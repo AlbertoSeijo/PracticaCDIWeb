@@ -25,28 +25,44 @@ if(!isset($_POST["peticionRealizada"]) || $_POST["peticionRealizada"] == false){
       <div class="card bg-light text-center h-100" style="overflow-x: hidden; overflow-y: auto;">
           <div class="row text-center justify-content-center">
             <div class="contenedor-tipo-prenda m-0 p-0">
-              <button type="button" class="btn btn-primary seleccion-tipo-prenda">Lana</button>
+              <button type="button" class="btn btn-primary seleccion-tipo-prenda">
+                <img src="./img/tipoPrenda/lana.svg" style="width:3vw;"><a>Lana</a>
+              </button>
             </div>
             <div class="contenedor-tipo-prenda m-0 p-0">
-              <button type="button" class="btn btn-primary seleccion-tipo-prenda">Seda</button>
+              <button type="button" class="btn btn-primary seleccion-tipo-prenda">
+                <img src="./img/tipoPrenda/seda.svg" style="width:3vw;"><a>Seda</a>
+              </button>
             </div>
             <div class="contenedor-tipo-prenda m-0 p-0">
-              <button type="button" class="btn btn-primary seleccion-tipo-prenda">Cuero</button>
+              <button type="button" class="btn btn-primary seleccion-tipo-prenda">
+                <img src="./img/tipoPrenda/cuero.svg" style="width:3vw;"><a>Cuero</a>
+              </button>
             </div>
             <div class="contenedor-tipo-prenda m-0 p-0">
-              <button type="button" class="btn btn-primary seleccion-tipo-prenda">Bambú</button>
+              <button type="button" class="btn btn-primary seleccion-tipo-prenda">
+                <img src="./img/tipoPrenda/bambu.svg" style="width:3vw;"><a>Bambú</a>
+              </button>
             </div>
             <div class="contenedor-tipo-prenda m-0 p-0">
-              <button type="button" class="btn btn-primary seleccion-tipo-prenda">Algodón</button>
+              <button type="button" class="btn btn-primary seleccion-tipo-prenda">
+                <img src="./img/tipoPrenda/algodon.svg" style="width:3vw;"><a>Algodón</a>
+              </button>
             </div>
             <div class="contenedor-tipo-prenda m-0 p-0">
-              <button type="button" class="btn btn-primary seleccion-tipo-prenda">Nailon</button>
+              <button type="button" class="btn btn-primary seleccion-tipo-prenda">
+                <img src="./img/tipoPrenda/nailon.svg" style="width:3vw;"><a>Nailon</a>
+              </button>
             </div>
             <div class="contenedor-tipo-prenda m-0 p-0">
-              <button type="button" class="btn btn-primary seleccion-tipo-prenda">Trajes</button>
+              <button type="button" class="btn btn-primary seleccion-tipo-prenda">
+                <img src="./img/tipoPrenda/traje.svg" style="width:3vw;"><a>Trajes</a>
+              </button>
             </div>
             <div class="contenedor-tipo-prenda m-0 p-0">
-              <button type="button" class="btn btn-primary seleccion-tipo-prenda">Vestidos</button>
+              <button type="button" class="btn btn-primary seleccion-tipo-prenda">
+                <img src="./img/tipoPrenda/vestido.svg" style="width:3vw;"><a>Vestidos</a>
+              </button>
             </div>
         </div>
       </div>
@@ -58,9 +74,15 @@ if(!isset($_POST["peticionRealizada"]) || $_POST["peticionRealizada"] == false){
             <div class="col-12" style="height: 100%;">
               <label class="etiquetaSubapartados" for="">Tipo de servicio</label>
               <div class="card bg-light" style="max-height: 100%; overflow-x:auto;">
-                  <button type="button" class="btn btn-primary seleccion-tipo-limpieza" onclick="limpiezacompleta()">Limpieza completa</button>
-                  <button type="button" class="btn btn-primary seleccion-tipo-limpieza" onclick="limpiezaseco()">Limpieza en seco</button>
-                  <button type="button" class="btn btn-primary seleccion-tipo-limpieza" onclick="limpiezatintado()">Tintado</button>
+                  <button type="button" class="btn btn-primary seleccion-tipo-limpieza" onclick="limpiezacompleta()">
+                    <img src="./img/tipoPedido/limpiezacompleta.svg" style="width:3vw;"><a>Limpieza completa</a>
+                  </button>
+                  <button type="button" class="btn btn-primary seleccion-tipo-limpieza" onclick="limpiezaseco()">
+                    <img src="./img/tipoPedido/limpiezaenseco.svg" style="width:3vw;"><a>Limpieza en Seco</a>
+                  </button>
+                  <button type="button" class="btn btn-primary seleccion-tipo-limpieza" onclick="limpiezatintado()">
+                    <img src="./img/tipoPedido/tintado.svg" style="width:3vw;"><a>Tintado</a>
+                  </button>
               </div>
             </div>
           </div>
