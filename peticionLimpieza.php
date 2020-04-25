@@ -18,10 +18,10 @@ include './cabeceraContenido.php';
 <?php
 if(!isset($_POST["peticionRealizada"]) || $_POST["peticionRealizada"] == false){
   echo'
-<div class="container-fluid" style="height:60vh; margin-top: 40px;">
+<div class="container-fluid" style="height:60vh; margin-top: 25px;">
   <div class="row h-100">
     <div class="col-lg-2 col-md-12 h-100">
-      <label class="etiquetaSubapartados" for="">Tipo de prenda</label>
+      <a>Tipo de prenda</a>
       <div class="card bg-light text-center h-100" style="overflow-x: hidden; overflow-y: auto;">
           <div class="row text-center justify-content-center">
             <div class="contenedor-tipo-prenda m-0 p-0">
@@ -70,19 +70,27 @@ if(!isset($_POST["peticionRealizada"]) || $_POST["peticionRealizada"] == false){
     <div class="col-lg-10 col-md-12 h-100">
       <div class="row h-75">
         <div class="col-9" style="height: 100%;">
-          <div class="row" style="height: 50%;">
+          <div class="row" style="height: 58%;">
             <div class="col-12" style="height: 100%;">
-              <label class="etiquetaSubapartados" for="">Tipo de servicio</label>
-              <div class="card bg-light" style="max-height: 100%; overflow-x:auto;">
-                  <button type="button" class="btn btn-primary seleccion-tipo-limpieza" onclick="limpiezacompleta()">
-                    <img src="./img/tipoPedido/limpiezacompleta.svg" style="width:3vw;"><a>Limpieza completa</a>
-                  </button>
-                  <button type="button" class="btn btn-primary seleccion-tipo-limpieza" onclick="limpiezaseco()">
-                    <img src="./img/tipoPedido/limpiezaenseco.svg" style="width:3vw;"><a>Limpieza en Seco</a>
-                  </button>
-                  <button type="button" class="btn btn-primary seleccion-tipo-limpieza" onclick="limpiezatintado()">
-                    <img src="./img/tipoPedido/tintado.svg" style="width:3vw;"><a>Tintado</a>
-                  </button>
+              <a>Tipo de servicio</a>
+              <div class="card bg-light" style="height: 90%;">
+                <div class="row text-center">
+                  <div class="col-4">
+                    <button type="button" class="btn btn-primary seleccion-tipo-limpieza" style="margin:10px; width: 10vw; height: 20vh;  " onclick="limpiezacompleta()">
+                      <img src="./img/tipoPedido/limpiezacompleta.svg" style="width:7vw;"><a>Limpieza completa</a>
+                    </button>
+                  </div>
+                  <div class="col-4">
+                    <button type="button" class="btn btn-primary seleccion-tipo-limpieza" style="margin:10px; width: 10vw; height: 20vh;" onclick="limpiezaseco()">
+                      <img src="./img/tipoPedido/limpiezaenseco.svg" style="width:7vw;"><a>Limpieza en Seco</a>
+                    </button>
+                  </div>
+                  <div class="col-4">
+                    <button type="button" class="btn btn-primary seleccion-tipo-limpieza" style="margin:10px; width: 10vw; height: 20vh;" onclick="limpiezatintado()">
+                      <img src="./img/tipoPedido/tintado.svg" style="width:7vw;"><a>Tintado</a>
+                    </button>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -95,20 +103,29 @@ if(!isset($_POST["peticionRealizada"]) || $_POST["peticionRealizada"] == false){
             </div>
           </div>
         </div>
-        <div class="col-3" style="height: 100%;">
-          <div class="card bg-light" style="height: 95.3%;"><label class="etiquetaSubapartados" for="">Asignación de empleados</label>
-            <div class="card-body" id="empleadosTipoLimpieza" style="height: 100%; overflow-x: hidden; overflow-y: auto;">
+        <div class="col-3" style="height: 100%; margin-top:20px;">
+          <div class="card bg-light" style="height: 17%;"><label class="etiquetaSubapartados" for="">Cliente del Pedido</label>
+            <div class="card-body" id="clientePedido" style="height: 20%; overflow-x: hidden; overflow-y: auto;">
+              <!-- Aquí no va nada, ajax hace su magia -->
+            </div>
+          </div>
+          <div class="card bg-light" style="height: 80%; margin-top:15px;"><label class="etiquetaSubapartados" for="">Asignación de empleados</label>
+            <div class="card-body" id="empleadosTipoLimpieza" style="height: 80%; overflow-x: hidden; overflow-y: auto;">
               <!-- Aquí no va nada, ajax hace su magia -->
             </div>
           </div>
         </div>
       </div>
       <div class="row h-25">
-        <div class="col-8" style="height: 100%">
-          <button id="pednormalbot" type="button" disabled class="btn btn-info seleccion-tipo-prenda" onclick="realizarPedido(true)" style="width: 100%; height: 60%;"><b>Pedido normal</b></button>
-        </div>
-        <div class="col-4" style="height: 100%">
-          <button id="pedexpressbot" type="button" disabled class="btn btn-warning seleccion-tipo-prenda" onclick="realizarPedido(true)" style="width: 100%; height: 60%;"><b>Pedido express</b></button>
+        <div class="col-12">
+          <div class="row justify-md-center" style="height: 100%; margin-top:7vh; margin-left:-25px;">
+            <div class="col-8" style="height: 100%">
+              <button id="pednormalbot" type="button" disabled class="btn btn-info seleccion-tipo-prenda" onclick="realizarPedido(true)" style="width: 98%; height: 60%;"><b>Pedido normal</b></button>
+            </div>
+            <div class="col-4" style="height: 100%">
+              <button id="pedexpressbot" type="button" disabled class="btn btn-warning seleccion-tipo-prenda" onclick="realizarPedido(true)" style="width: 98%; height: 60%;"><b>Pedido express</b></button>
+            </div>
+          </div>
         </div>
       </div>
     </div>
