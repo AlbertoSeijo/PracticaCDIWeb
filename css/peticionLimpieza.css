@@ -1,13 +1,24 @@
 .seleccion-tipo-limpieza {
   display: inline;
   width: 20vw;
-  height: 20vh;  
+  height: 20vh;
 }
 
 .seleccion-tipo-prenda {
   margin: 12px;
   height: 100px;
   width: 100px;
+}
+
+.boton-personalizado {
+  background-color: white;
+  border-color: red;
+  border-radius: 4px;
+  border-width: 4px;
+}
+
+.boton-personalizado .boton-seleccionado {
+  border-width: 12px;
 }
 
 .contenedor-tipo-prenda {

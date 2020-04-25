@@ -40,42 +40,42 @@ if(!isset($_POST["peticionRealizada"]) || $_POST["peticionRealizada"] == false){
       <div class="card bg-light text-center h-100" style="overflow-x: hidden; overflow-y: auto;">
           <div class="row text-center justify-content-center">
             <div class="contenedor-tipo-prenda m-0 p-0">
-              <button type="button" class="btn btn-primary seleccion-tipo-prenda" value="Lana">
+              <button type="button" class="btn btn-primary seleccion-tipo-prenda boton-personalizado" value="Lana">
                 <img src="./img/tipoPrenda/lana.svg" style="width:3vw;"><a>Lana</a>
               </button>
             </div>
             <div class="contenedor-tipo-prenda m-0 p-0">
-              <button type="button" class="btn btn-primary seleccion-tipo-prenda" value="Seda">
+              <button type="button" class="btn btn-primary seleccion-tipo-prenda boton-personalizado" value="Seda">
                 <img src="./img/tipoPrenda/seda.svg" style="width:3vw;"><a>Seda</a>
               </button>
             </div>
             <div class="contenedor-tipo-prenda m-0 p-0">
-              <button type="button" class="btn btn-primary seleccion-tipo-prenda" value="Cuero">
+              <button type="button" class="btn btn-primary seleccion-tipo-prenda boton-personalizado" value="Cuero">
                 <img src="./img/tipoPrenda/cuero.svg" style="width:3vw;"><a>Cuero</a>
               </button>
             </div>
             <div class="contenedor-tipo-prenda m-0 p-0">
-              <button type="button" class="btn btn-primary seleccion-tipo-prenda" value="Bambú">
+              <button type="button" class="btn btn-primary seleccion-tipo-prenda boton-personalizado" value="Bambú">
                 <img src="./img/tipoPrenda/bambu.svg" style="width:3vw;"><a>Bambú</a>
               </button>
             </div>
             <div class="contenedor-tipo-prenda m-0 p-0">
-              <button type="button" class="btn btn-primary seleccion-tipo-prenda" value="Algodón">
+              <button type="button" class="btn btn-primary seleccion-tipo-prenda boton-personalizado" value="Algodón">
                 <img src="./img/tipoPrenda/algodon.svg" style="width:3vw;"><a>Algodón</a>
               </button>
             </div>
             <div class="contenedor-tipo-prenda m-0 p-0">
-              <button type="button" class="btn btn-primary seleccion-tipo-prenda" value="Nailon">
+              <button type="button" class="btn btn-primary seleccion-tipo-prenda boton-personalizado" value="Nailon">
                 <img src="./img/tipoPrenda/nailon.svg" style="width:3vw;"><a>Nailon</a>
               </button>
             </div>
             <div class="contenedor-tipo-prenda m-0 p-0">
-              <button type="button" class="btn btn-primary seleccion-tipo-prenda" value="Trajes">
+              <button type="button" class="btn btn-primary seleccion-tipo-prenda boton-personalizado" value="Trajes">
                 <img src="./img/tipoPrenda/traje.svg" style="width:3vw;"><a>Trajes</a>
               </button>
             </div>
             <div class="contenedor-tipo-prenda m-0 p-0">
-              <button type="button" class="btn btn-primary seleccion-tipo-prenda" value="Vestidos">
+              <button type="button" class="btn btn-primary seleccion-tipo-prenda boton-personalizado" value="Vestidos">
                 <img src="./img/tipoPrenda/vestido.svg" style="width:3vw;"><a>Vestidos</a>
               </button>
             </div>
@@ -113,7 +113,7 @@ if(!isset($_POST["peticionRealizada"]) || $_POST["peticionRealizada"] == false){
             <div class="col-12" style="height: 100%;">
               <div class="form-group" style="height: 80%; margin-top: 0px;">
                 <label for="TrabajosAdicionales">Trabajos adicionales</label>
-                <textarea class="form-control" form="peticionLimpiezaForm" id="TrabajosAdicionales" rows="3" style="resize: none; height: 100%"></textarea>
+                <textarea class="form-control" form="peticionLimpiezaForm" id="TrabajosAdicionales" name="TrabajosAdicionales" rows="3" style="resize: none; height: 100%"></textarea>
               </div>
             </div>
           </div>
@@ -159,14 +159,14 @@ if(!isset($_POST["peticionRealizada"]) || $_POST["peticionRealizada"] == false){
     $stmtA->execute();
     $stmtA->store_result();
 
-    $idPedido = mysqli_insert_id();
+    $idPedido = mysqli_stmt_insert_id ($stmtA);
 
-    if ($stmtB = $db->prepare('INSERT INTO arreglos (descripcion,coste,tipoArreglo,tipoPedido,idTipoPedido,clientePedido) VALUES (?,null,"Servicio adicional",?,?,?)')) {
+    if ($stmtB = $db->prepare('INSERT INTO arreglos (descripcion,coste,tipoArreglo,idPedido,idTipoPedido,ClientePedido) VALUES (?,null,"Servicio adicional",?,?,?)')) {
       $stmtB->bind_param('siii', $_POST['TrabajosAdicionales'], $idPedido, $_POST['idTipoPedido'],$_POST['idCliente']);
       $stmtB->execute();
       $stmtB->store_result();
     }
-    
+
     header("location: ./");
   }
 

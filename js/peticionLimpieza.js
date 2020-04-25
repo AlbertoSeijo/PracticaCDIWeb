@@ -19,6 +19,8 @@ function actualizarEmpleadosLimpieza() {
 
 $( ".seleccion-tipo-prenda" ).on( "click", function(){
   setTipoPrendaPedido(this.value);
+  $( ".seleccion-tipo-prenda" ).removeClass("boton-seleccionado");
+  $(this).addClass("boton-seleccionado");
 } );
 
 
