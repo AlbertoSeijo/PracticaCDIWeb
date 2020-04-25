@@ -17,6 +17,13 @@ function actualizarEmpleadosLimpieza() {
   xmlhttp.send(new FormData(formElement));
 }
 
+$( ".seleccion-tipo-prenda" ).on( "click", function(){
+  setTipoPrendaPedido(this.value);
+} );
+
+
+
+
 function setTipoPrendaPedido(prenda){
   document.getElementById("idTipoPrenda").value = prenda;
   if(document.getElementById("idTipoPedido").value && document.getElementById("idTipoPrenda").value){
@@ -53,6 +60,6 @@ function limpiezatintado(){
 }
 
 function realizarPedido(esExpress){
-  document.getElementById("esExpress").value = esExpress;
+  document.getElementById("esExpress").value = esExpress ? 1 : 0;
   document.getElementById("peticionLimpiezaForm").submit();
 }

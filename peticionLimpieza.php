@@ -40,42 +40,42 @@ if(!isset($_POST["peticionRealizada"]) || $_POST["peticionRealizada"] == false){
       <div class="card bg-light text-center h-100" style="overflow-x: hidden; overflow-y: auto;">
           <div class="row text-center justify-content-center">
             <div class="contenedor-tipo-prenda m-0 p-0">
-              <button type="button" class="btn btn-primary seleccion-tipo-prenda" onclick="setTipoPrendaPedido(\'Lana\')">
+              <button type="button" class="btn btn-primary seleccion-tipo-prenda" value="Lana">
                 <img src="./img/tipoPrenda/lana.svg" style="width:3vw;"><a>Lana</a>
               </button>
             </div>
             <div class="contenedor-tipo-prenda m-0 p-0">
-              <button type="button" class="btn btn-primary seleccion-tipo-prenda" onclick="setTipoPrendaPedido("Seda")">
+              <button type="button" class="btn btn-primary seleccion-tipo-prenda" value="Seda">
                 <img src="./img/tipoPrenda/seda.svg" style="width:3vw;"><a>Seda</a>
               </button>
             </div>
             <div class="contenedor-tipo-prenda m-0 p-0">
-              <button type="button" class="btn btn-primary seleccion-tipo-prenda" onclick="setTipoPrendaPedido("Cuero")">
+              <button type="button" class="btn btn-primary seleccion-tipo-prenda" value="Cuero">
                 <img src="./img/tipoPrenda/cuero.svg" style="width:3vw;"><a>Cuero</a>
               </button>
             </div>
             <div class="contenedor-tipo-prenda m-0 p-0">
-              <button type="button" class="btn btn-primary seleccion-tipo-prenda" onclick="setTipoPrendaPedido("Bambú")">
+              <button type="button" class="btn btn-primary seleccion-tipo-prenda" value="Bambú">
                 <img src="./img/tipoPrenda/bambu.svg" style="width:3vw;"><a>Bambú</a>
               </button>
             </div>
             <div class="contenedor-tipo-prenda m-0 p-0">
-              <button type="button" class="btn btn-primary seleccion-tipo-prenda" onclick="setTipoPrendaPedido("Algodón")">
+              <button type="button" class="btn btn-primary seleccion-tipo-prenda" value="Algodón">
                 <img src="./img/tipoPrenda/algodon.svg" style="width:3vw;"><a>Algodón</a>
               </button>
             </div>
             <div class="contenedor-tipo-prenda m-0 p-0">
-              <button type="button" class="btn btn-primary seleccion-tipo-prenda" onclick="setTipoPrendaPedido("Nailon")">
+              <button type="button" class="btn btn-primary seleccion-tipo-prenda" value="Nailon">
                 <img src="./img/tipoPrenda/nailon.svg" style="width:3vw;"><a>Nailon</a>
               </button>
             </div>
             <div class="contenedor-tipo-prenda m-0 p-0">
-              <button type="button" class="btn btn-primary seleccion-tipo-prenda" onclick="setTipoPrendaPedido("Trajes")">
+              <button type="button" class="btn btn-primary seleccion-tipo-prenda" value="Trajes">
                 <img src="./img/tipoPrenda/traje.svg" style="width:3vw;"><a>Trajes</a>
               </button>
             </div>
             <div class="contenedor-tipo-prenda m-0 p-0">
-              <button type="button" class="btn btn-primary seleccion-tipo-prenda" onclick="setTipoPrendaPedido("Vestidos")">
+              <button type="button" class="btn btn-primary seleccion-tipo-prenda" value="Vestidos">
                 <img src="./img/tipoPrenda/vestido.svg" style="width:3vw;"><a>Vestidos</a>
               </button>
             </div>
@@ -121,7 +121,7 @@ if(!isset($_POST["peticionRealizada"]) || $_POST["peticionRealizada"] == false){
         <div class="col-3" style="height: 100%; margin-top:20px;">
           <div class="card bg-light" style="height: 17%;"><label class="etiquetaSubapartados" for="">Cliente del Pedido</label>
             <div class="card-body" id="clientePedido" style="height: 20%;">
-              <select name="idCliente" class="custom-select" style="margin-bottom:15px;">';
+              <select name="idCliente" form="peticionLimpiezaForm" class="custom-select" style="margin-bottom:15px;">';
                 while ($stmt->fetch()) {
                   echo'<option value="'.$idCliente.'">'.$nombreCliente.' '.$apellidoCliente.'</option>';
                 }
@@ -159,7 +159,7 @@ if(!isset($_POST["peticionRealizada"]) || $_POST["peticionRealizada"] == false){
     $stmt->execute();
     $stmt->store_result();
 
-    header("location: index");
+    header("location: ./");
   }
 
 } else {
