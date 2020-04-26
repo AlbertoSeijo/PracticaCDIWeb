@@ -35,46 +35,46 @@
               <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarText">
-              <ul class="navbar-nav mx-auto">
+              <ul class="navbar-nav mx-auto justify-content-center navbar-personalizado">
                 <?php
                 if(!isset($_SESSION['sesionIniciada'])){//TODO Cambiar elementos navbar para que los enlaces, textos y menú actual seleccionado coincidan como tienen que coincidir
                   echo '
-                    <li class="nav-item active">
-                      <a class="nav-link" href="#">Elementos <span class="sr-only">(current)</span></a>
-                    </li>
-                    <li class="nav-item">
-                      <a class="nav-link" href="#">Sesión</a>
-                    </li>
-                    <li class="nav-item">
-                      <a class="nav-link" href="#">No iniciada</a>
-                    </li>
+                  <li class="nav-item '; echo (basename($_SERVER['PHP_SELF']) == "index.php") ? 'active' : ''; echo'">
+                    <a class="nav-link" href="./">Inicio</a>
+                  </li>
                   ';
                 } else {
                   if($_SESSION['tipoCuentaSesión'] == "Cliente"){
                     echo '
-                      <li class="nav-item active">
-                        <a class="nav-link" href="#">Menú<span class="sr-only">(current)</span></a>
+                      <li class="nav-item '; echo (basename($_SERVER['PHP_SELF']) == "index.php") ? 'active' : ''; echo'">
+                        <a class="nav-link" href="./">Inicio</a>
                       </li>
-                      <li class="nav-item">
-                        <a class="nav-link" href="#">Cliente</a>
+                      <li class="nav-item '; echo (basename($_SERVER['PHP_SELF']) == "consultaPedidos.php") ? 'active' : ''; echo'">
+                        <a class="nav-link" href="./consultaPedidos">Consulta de pedidos</a>
+                      </li>
+                      <li class="nav-item '; echo (basename($_SERVER['PHP_SELF']) == "tarjetaPuntos.php") ? 'active' : ''; echo'">
+                        <a class="nav-link" href="./tarjetaPuntos">Tarjeta de puntos</a>
                       </li>
                     ';
                   } else if ($_SESSION['tipoCuentaSesión'] == "Empleado"){
                     echo '
-                      <li class="nav-item active">
-                        <a class="nav-link" href="#">Elementos<span class="sr-only">(current)</span></a>
+                      <li class="nav-item '; echo (basename($_SERVER['PHP_SELF']) == "index.php") ? 'active' : ''; echo'">
+                        <a class="nav-link" href="./">Inicio</a>
                       </li>
-                      <li class="nav-item">
-                        <a class="nav-link" href="#">Empleado</a>
+                      <li class="nav-item '; echo (basename($_SERVER['PHP_SELF']) == "consultaPedidos.php") ? 'active' : ''; echo'">
+                        <a class="nav-link" href="./consultaPedidos">Consulta de pedidos</a>
                       </li>
                     ';
                   } else if ($_SESSION['tipoCuentaSesión'] == "Encargado"){
                     echo '
-                      <li class="nav-item active">
-                        <a class="nav-link" href="#">Páginas<span class="sr-only">(current)</span></a>
+                      <li class="nav-item '; echo (basename($_SERVER['PHP_SELF']) == "index.php") ? 'active' : ''; echo'">
+                        <a class="nav-link" href="./">Inicio</a>
                       </li>
-                      <li class="nav-item">
-                        <a class="nav-link" href="#">Encargado</a>
+                      <li class="nav-item '; echo (basename($_SERVER['PHP_SELF']) == "peticionLimpieza.php") ? 'active' : ''; echo'">
+                        <a class="nav-link" href="./peticionLimpieza">Petición de limpieza</a>
+                      </li>
+                      <li class="nav-item '; echo (basename($_SERVER['PHP_SELF']) == "consultaPedidos.php") ? 'active' : ''; echo'">
+                        <a class="nav-link" href="./consultaPedidos">Consulta de pedidos</a>
                       </li>
                     ';
                   } else {//TODO Posiblemente sustituir por los mismos que una sesión iniciada, o alguno que cierre la sesión o similar.
@@ -93,18 +93,25 @@
                 }
                 ?>
               </ul>
-              <span class="navbar-text">
+
                 <?php
                   if(isset($_POST['cerrarSesión'])){
                     session_destroy();
                     header("Location: ./");
                   }
+                  echo '<div class="contenedorCredencialesUsuario"><span class="navbar-text">';
                   if(isset($_SESSION['sesionIniciada']) && $_SESSION['sesionIniciada'] == true){
-                    echo $_SESSION['nombreSesión'] . " " . $_SESSION['apellidosSesión'];
+                      echo '<img src="./img/avatar/avatar'.$_SESSION['tipoCuentaSesión'].'.svg" style="border-color: darkgray;  border-style: solid; border-width: 2px; width:40px; margin-right: 16px; background-color: white; border-radius: 20px; padding: 2px; "></img>';
+
                     echo '
-                      <form method="POST">
-                        <button type="submit" name="cerrarSesión" value="true" class="btn btn-primary" style="background-color: transparent; border-color: transparent;"><img src="./img/logout.svg" style="width: 36px;"></img></button>
-                      </form>
+
+                    <a>' . $_SESSION["nombreSesión"] . ' ' . $_SESSION["apellidosSesión"] . '</a>
+
+                    ';
+                    echo '
+                      <form method="POST" style="display: inline;">
+                        <button type="submit" name="cerrarSesión" value="true" class="" style="background-color: transparent; border-color: transparent;"><img src="./img/logout.svg" style="width: 36px;"></img></button>
+                      </form></span></div>
                     ';
 
                   } else {
@@ -114,7 +121,7 @@
                     ';
                   }
                 ?>
-              </span>
+
             </div>
         </nav>
       </div>

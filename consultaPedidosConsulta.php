@@ -60,28 +60,32 @@ function condicionTipoCuenta($tipoCuenta){
   }
 }
 
-function obtenerEtapas($ordenEtapaActual, $idTipoPedido ,$hayArreglos, $hayServiciosAdicionales){
+function obtenerEtapas($ordenActual, $idTipoPedido ,$hayArreglos, $hayServiciosAdicionales){
   $etapaAnterior = null;
   $etapaPosterior = null;
 
 
-  if ($ordenEtapaActual== 1){
-    $etapaAnterior = null;
-    $etapaPosterior = $ordenEtapaActual +1;
-  } else if ($ordenEtapaActual == 4){
-    $etapaPosterior = $ordenEtapaActual +1;
-    if ($hayArreglos || $hayServiciosAdicionales){
-      $etapaAnterior = 3;
-    } else {
-      $etapaAnterior = 1;
-    }
-  } else if ($ordenEtapaActual == 7) {
-    $etapaAnterior = $ordenEtapaActual -1;
-    $etapaPosterior = null;
-  } else {
-    $etapaAnterior = $ordenEtapaActual -1;
-    $etapaPosterior = $ordenEtapaActual +1;
-  }
+  if ($ordenActual == 1){
+          $etapaAnterior = null;
+          if ($hayServiciosAdicionales){
+            $etapaPosterior = $ordenActual +1;
+          } else if (!$hayServiciosAdicionales) {
+            $etapaPosterior = 4;
+          }
+        } else if ($ordenActual == 4){
+          $etapaPosterior = $ordenActual +1;
+          if ($hayArreglos || $hayServiciosAdicionales){
+            $etapaAnterior = 3;
+          } else {
+            $etapaAnterior = 1;
+          }
+        } else if ($ordenActual == 7) {
+          $etapaAnterior = $ordenActual -1;
+          $etapaPosterior = null;
+        } else {
+          $etapaAnterior = $ordenActual -1;
+          $etapaPosterior = $ordenActual +1;
+        }
   $db = mysqli_connect(SERVIDOR_BD,USUARIO_BD,CONTRASENA_BD,NOMBRE_BD);
   if ($stmtA = $db->prepare(
     "SELECT te.nombre nombreTipoEtapa
