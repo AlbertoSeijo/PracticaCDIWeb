@@ -14,8 +14,8 @@ function redirectPost(url, data) {
 }
 
 
-function realizarPagos(){
-  window.location.href = "./canjepuntos.php";
+function realizarPagos(idPedido){
+  redirectPost('./canjepuntos.php', {'idPedido': idPedido, 'haEnviadoAPago': true});
 }
 
 function EnvSigEtEnc(idPedido){
@@ -23,6 +23,16 @@ function EnvSigEtEnc(idPedido){
 
 }
 
-function EnvSigEtEmp(){
-  window.location.href = "./consultapedidos.php";
+function EnvSigEtEmp(idPedido){
+  redirectPost('./consultapedidos.php', {'idPedido': idPedido, 'haEnviadoASiguienteEtapa': true});
+}
+
+
+function EnvEtAntEnc(idPedido){
+  redirectPost('./detallesPedido.php', {'idPedido': idPedido, 'haEnviadoAEtapaAnterior': true});
+
+}
+
+function EnvEtAntEmp(idPedido){
+  redirectPost('./consultapedidos.php', {'idPedido': idPedido, 'haEnviadoAEtapaAnterior': true});
 }

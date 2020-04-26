@@ -45,7 +45,7 @@ function calcularTotalDescuento($precioBasePedido, $precioDesperfectos, $precioS
 
 
 
-$idPedido = 1;
+
 
 define('SERVIDOR_BD', 'localhost:3306');
 define('USUARIO_BD', 'webtintoreria');
@@ -94,17 +94,16 @@ LEFT JOIN (SELECT * FROM Etapa uE WHERE uE.idTipoEtapa = '7' AND uE.fechaFin IS 
 LEFT JOIN (SELECT * FROM Etapa pE WHERE pE.idTipoEtapa = '1') primeraEtapa
     ON primeraEtapa.idPedido = p.idPedido
 WHERE
-    p.idPedido = ?
+    p.idPedido =  35
         AND
     oe.idTipoPedido = p.idTipoPedido
         AND
     oe.ordenEtapa = (
-
-      SELECT MAX(oeB.ordenEtapa)
-      FROM Etapa eB, tipoEtapasportipopedido oeB
-      WHERE eB.idPedido = p.idPedido AND eB.idTipoEtapa = oeB.idTipoEtapa AND oeB.idTipoPedido = p.idTipoPedido
-
-    )"
+      SELECT IFNULL(MIN(oeB.ordenEtapa),7) FROM tipoetapasportipopedido oeB WHERE oeB.idTipoPedido = p.idTipoPedido AND oeB.idTipoEtapa IN (
+        SELECT e.idtipoetapa FROM etapa e
+        WHERE (e.fechafin IS NULL OR e.fechaini IS NULL) AND e.idPedido = p.idPedido)
+      )
+    "
   )) {
     $stmt->bind_param('s', $_POST["idPedido"]);
     $stmt->execute();
@@ -138,14 +137,14 @@ WHERE
 
       if ($etapaAnterior != null){
         if ($stmtB = $db->prepare(
-          "SELECT te.nombre nombreTipoEtapa
+          "SELECT te.nombre nombreTipoEtapa, te.idTipoEtapa idEtapa
           FROM  TipoEtapa te, TipoEtapasportipopedido oe, tipoPedido tp
           WHERE  oe.ordenEtapa = ? AND tp.idTipoPedido = ? AND te.idTipoEtapa = oe.idTipoEtapa AND tp.idTipoPedido = oe.idTipoPedido"
         )) {
           $stmtB->bind_param('ss', $etapaAnterior,$idTipoPedido);
           $stmtB->execute();
           $stmtB->store_result();
-          $stmtB->bind_result($nombreTipoEtapaAnterior);
+          $stmtB->bind_result($nombreTipoEtapaAnterior, $idEtapaAnterior);
           while ($stmtB->fetch()) {}}
       } else {$nombreTipoEtapaAnterior = null;}
 
@@ -153,14 +152,14 @@ WHERE
 
         if ($etapaPosterior != null){
           if ($stmtC = $db->prepare(
-            "SELECT te.nombre nombreTipoEtapa
+            "SELECT te.nombre nombreTipoEtapa, te.idTipoEtapa idEtapa
             FROM  TipoEtapa te, TipoEtapasportipopedido oe, tipoPedido tp
             WHERE  oe.ordenEtapa = ? AND tp.idTipoPedido = ? AND te.idTipoEtapa = oe.idTipoEtapa AND tp.idTipoPedido = oe.idTipoPedido"
           )) {
             $stmtC->bind_param('ss', $etapaPosterior,$idTipoPedido);
             $stmtC->execute();
             $stmtC->store_result();
-            $stmtC->bind_result($nombreTipoEtapaPosterior);
+            $stmtC->bind_result($nombreTipoEtapaPosterior, $idEtapaPosterior);
             while ($stmtC->fetch()) {}}
       } else {$nombreTipoEtapaPosterior = null;}
 
@@ -373,7 +372,8 @@ if($_SESSION['tipoCuentaSesión'] == "Cliente"){
 </div>
 ';
 } else if ($_SESSION['tipoCuentaSesión'] == "Encargado"){
-  if(!isset($_POST["haEnviadoASiguienteEtapa"]) || $_POST["haEnviadoASiguienteEtapa"] == false) {
+  if(!isset($_POST["haEnviadoASiguienteEtapa"]) || $_POST["haEnviadoASiguienteEtapa"] == false || !isset($_POST["haEnviadoAPago"])
+  || $_POST["haEnviadoAPago"] == false || !isset($_POST["haEnviadoAEtapaAnterior"]) || $_POST["haEnviadoAEtapaAnterior"] == false) {
   echo'
   <div class="container-fluid">
     <div class="row" style="margin-top:20px;">
@@ -406,7 +406,7 @@ if($_SESSION['tipoCuentaSesión'] == "Cliente"){
         echo'
         <div class="row" style="margin-top:65px;">
           <div class="col-12 text-center">
-            <button type="button" class="btn btn-warning" style="width:15vw; height:10vh;"><b>Devolver prenda a lavado</b></button>
+            <button type="button" class="btn btn-warning" style="width:15vw; height:10vh;" onclick="EnvEtAntEnc('.$_POST["idPedido"].')"><b>Devolver prenda a lavado</b></button>
           </div>
         </div>';
     }
@@ -636,7 +636,7 @@ if($_SESSION['tipoCuentaSesión'] == "Cliente"){
       echo'
             <div id="botones" class="row" style="margin-top:10vh;">
               <div class="col-12 text-center">
-                <button type="button" class="btn btn-info" style="width:15vw; height:30vh;" onclick="realizarPagos()"><b>Realizar Pago</b></button>
+                <button type="button" class="btn btn-info" style="width:15vw; height:30vh;" onclick="realizarPagos('.$_POST["idPedido"].')"><b>Realizar Pago</b></button>
               </div>
             </div>
           </div>
@@ -657,24 +657,44 @@ if($_SESSION['tipoCuentaSesión'] == "Cliente"){
   ';
     }
   }
-} else if(isset($_POST["haEnviadoASiguienteEtapa"]) && $_POST["haEnviadoASiguienteEtapa"] == true){
+} else if (isset($_POST["haEnviadoASiguienteEtapa"]) && $_POST["haEnviadoASiguienteEtapa"] == true){
 
       $systemDate= date("Y-m-d H:i:s");
 
-      $stmtE = $db->prepare("UPDATE etapa e SET e.fechaFin=? WHERE e.idPedido = ?  AND e.idTipoEtapa=?");
+      $stmtE = $db->prepare("UPDATE etapa e SET e.fechaFin=? WHERE e.idPedido = ?  AND e.idTipoEtapa= ?");
       $stmtE->bind_param('sss', $systemDate,$_POST["idPedido"],$idEtapa);
       $stmtE->execute();
-/* ESTO TODAVIA NO VA
-      $stmtE = $db->prepare("INSERT INTO etapa e VALUES (?,null,?,?,?)");
-      $stmtE->bind_param('ssss', $systemDate,$_POST["idPedido"],$empleadoSiguienteAsignado,$idSiguienteEtapa);
-      $stmtE->execute();
-*/
-      header("location:detallespedido");
+
+      $stmtF = $db->prepare("UPDATE etapa e SET e.fechaInicio=? WHERE e.idPedido = ?  AND e.idTipoEtapa= ?");
+      $stmtF->bind_param('sss', $systemDate,$_POST["idPedido"],$idEtapaPosterior);
+      $stmtF->execute();
+
+
+} else if (isset($_POST["haEnviadoAPago"]) && $_POST["haEnviadoAPago"] == true){
+
+      $systemDate= date("Y-m-d H:i:s");
+
+      $stmtG = $db->prepare("UPDATE etapa e SET e.fechaFin=? WHERE e.idPedido = ?  AND e.idTipoEtapa= ?");
+      $stmtG->bind_param('sss', $systemDate,$_POST["idPedido"],$idEtapa);
+      $stmtG->execute();
+
+} else if (isset($_POST["haEnviadoAEtapaAnterior"]) && $_POST["haEnviadoAEtapaAnterior"] == true){
+
+      $systemDate= date("Y-m-d H:i:s");
+
+      $stmtH = $db->prepare("UPDATE etapa e SET e.fechaInicio=null WHERE e.idPedido = ?  AND e.idTipoEtapa= ?");
+      $stmtH->bind_param('ss', $_POST["idPedido"],$idEtapa);
+      $stmtH->execute();
+
+      $stmtI = $db->prepare("UPDATE etapa e SET e.fechaInicio=? AND e.fechaFin=null WHERE e.idPedido = ?  AND e.idTipoEtapa= ?");
+      $stmtI->bind_param('sss', $systemDate,$_POST["idPedido"],$idEtapa);
+      $stmtI->execute();
 
 }
 
 
 } else if ($_SESSION['tipoCuentaSesión'] == "Empleado"){
+  if(!isset($_POST["haEnviadoASiguienteEtapa"]) || $_POST["haEnviadoASiguienteEtapa"] == false || !isset($_POST["haEnviadoAEtapaAnterior"]) || $_POST["haEnviadoAEtapaAnterior"] == false) {
   echo'
   <div class="container-fluid">
     <div class="row" style="margin-top:20px;">
@@ -707,7 +727,7 @@ if($_SESSION['tipoCuentaSesión'] == "Cliente"){
         echo'
         <div class="row" style="margin-top:65px;">
           <div class="col-12 text-center">
-            <button type="button" class="btn btn-warning" style="width:15vw; height:10vh;"><b>Devolver prenda a lavado</b></button>
+            <button type="button" class="btn btn-warning" style="width:15vw; height:10vh;" onclick="EnvEtAntEmp('.$_POST["idPedido"].')"><b>Devolver prenda a lavado</b></button>
           </div>
         </div>';
     }
@@ -852,13 +872,38 @@ if($_SESSION['tipoCuentaSesión'] == "Cliente"){
         <div class="separador-fba"></div>
         <div id="botones" class="row">
           <div class="col-12 text-center">
-            <button type="button" class="btn btn-info" style="width:15vw; height:10vh;" onclick="EnvSigEtEmp()"><b>Enviar a la siguiente etapa</b></button>
+            <button type="button" class="btn btn-info" style="width:15vw; height:10vh;" onclick="EnvSigEtEmp('.$_POST["idPedido"].')"><b>Enviar a la siguiente etapa</b></button>
           </div>
         </div>
       </div>
     </div>
   </div>
 ';
+} else if(isset($_POST["haEnviadoASiguienteEtapa"]) && $_POST["haEnviadoASiguienteEtapa"] == true){
+
+      $systemDate= date("Y-m-d H:i:s");
+
+      $stmtE = $db->prepare("UPDATE etapa e SET e.fechaFin=? WHERE e.idPedido = ?  AND e.idTipoEtapa= ?");
+      $stmtE->bind_param('sss', $systemDate,$_POST["idPedido"],$idEtapa);
+      $stmtE->execute();
+
+      $stmtF = $db->prepare("UPDATE etapa e SET e.fechaInicio=? WHERE e.idPedido = ?  AND e.idTipoEtapa= ?");
+      $stmtF->bind_param('sss', $systemDate,$_POST["idPedido"],$idEtapaPosterior);
+      $stmtF->execute();
+
+}  else if (isset($_POST["haEnviadoAEtapaAnterior"]) && $_POST["haEnviadoAEtapaAnterior"] == true){
+
+      $systemDate= date("Y-m-d H:i:s");
+
+      $stmtK = $db->prepare("UPDATE etapa e SET e.fechaInicio=null WHERE e.idPedido = ?  AND e.idTipoEtapa= ?");
+      $stmtK->bind_param('ss', $_POST["idPedido"],$idEtapa);
+      $stmtK->execute();
+
+      $stmtL = $db->prepare("UPDATE etapa e SET e.fechaInicio=? AND e.fechaFin=null WHERE e.idPedido = ?  AND e.idTipoEtapa= ?");
+      $stmtL->bind_param('sss', $systemDate,$_POST["idPedido"],$idEtapa);
+      $stmtL->execute();
+
+}
 }
 }}
 
