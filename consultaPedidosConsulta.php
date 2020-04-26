@@ -10,7 +10,7 @@ function bindParam($stmt, $tipoCuenta){
   if($tipoCuenta == "Cliente"){
     $stmt->bind_param("s", $_SESSION['idCuentaSesión']);
   } else if ($tipoCuenta == "Empleado") {
-    //TODO FALTA ARREGLAR CONSULTA PARA QUE EL ENCARGADO VEA SUS PEDIDOS + (MOSTRAR) FUNCIONE COMO DEBE PARA SUS PEDIDOS
+    $stmt->bind_param("s", $_SESSION['idCuentaSesión']);
   } else if ($tipoCuenta == "Encargado") {
     //No se añade ningún param (Encargado no lo necesita)
   }
@@ -50,13 +50,13 @@ function calcularTotalDescuento($precioBasePedido, $precioDesperfectos, $precioS
 
 function condicionTipoCuenta($tipoCuenta){
   if($tipoCuenta == "Cliente"){
-    return "and p.ClientePedido = ?";
+    return " and p.ClientePedido = ?";
   } else if ($tipoCuenta == "Empleado") {
-    return "";//TODO Alguna condición que indique que el empleado está involucrado en este pedido
+    return " and p.idPedido in (select distinct e.idPedido from etapa e where empleadoAsignado = ?)";//TODO Alguna condición que indique que el empleado está involucrado en este pedido
   } else if ($tipoCuenta == "Encargado") {
     return ""; //No se añade condición, devuelve todos los pedidos.
   } else { //Error al detectar tipoCuenta
-    return "and '0' == '1'"; //Si el tipo de cuenta no es válido entonces la consulta no devuelve nada de esta forma
+    return " and '0' == '1'"; //Si el tipo de cuenta no es válido entonces la consulta no devuelve nada de esta forma
   }
 }
 
@@ -113,59 +113,62 @@ function obtenerEtapas($ordenEtapaActual, $idTipoPedido ,$hayArreglos, $hayServi
 function consultaSQL(){
   $consulta = "
     SELECT
-    te.nombre nombreTipoEtapa,
-    p.tipoPrenda tipoPrenda,
-    tpedido.nombreTipoPedido nombreTipoPedido,
-    tpedido.idTipoPedido idTipoPedido,
-    p.esPedidoExpress esExpress,
-    tpedido.precio precioBasePedido,
-    desperfectos.coste precioDesperfectos,
-    serviciosAdicionales.coste precioServiciosAdicionales,
-    d.valor porcentajeDescuento,
-    primeraEtapa.fechaIni inicioPedido,
-    ultimaEtapa.fechaFin finPedido,
-    e.fechaIni inicioEtapa,
-    desperfectos.descripcion descArreglos,
-    serviciosAdicionales.descripcion descServAdic,
-    e.empleadoasignado empleadoAsignado,
-    oe.ordenEtapa ordenActual,
-    te.nombre nombreTipoEtapaActual,
-    e.idTipoEtapa idTipoEtapa,
-    p.precioAceptado precioAceptado,
-    p.idPedido idPedido,
-    c.nombre nombreCliente,
-    c.apellidos apellidosCliente
-  FROM
-    Pedido p INNER JOIN tipoPedido tpedido ON p.idTipoPedido = tpedido.idTipoPedido
-    INNER JOIN Cuenta c ON c.idCuenta = p.ClientePedido
-    INNER JOIN Etapa e ON e.idPedido = p.idPedido
-    INNER JOIN TipoEtapa te ON te.idTipoEtapa = e.idTipoEtapa
-    INNER JOIN tipoEtapasportipopedido oe ON oe.idTipoEtapa = e.idTipoEtapa
-  LEFT JOIN Descuento d
-    ON p.idDescuentos = d.idDescuentos
-  LEFT JOIN (SELECT aD.idPedido, aD.idTipoPedido, aD.ClientePedido, aD.coste, aD.descripcion
-        FROM Arreglos aD
-        WHERE aD.tipoArreglo = 'Desperfecto') desperfectos
-    ON desperfectos.idPedido = p.idPedido AND desperfectos.idTipoPedido = p.idTipoPedido AND desperfectos.ClientePedido = p.ClientePedido
-  LEFT JOIN (SELECT aSA.idPedido, aSA.idTipoPedido, aSA.ClientePedido, aSA.coste, aSA.descripcion
-        FROM Arreglos aSA
-        WHERE aSA.tipoArreglo = 'Servicio adicional') serviciosAdicionales
-    ON serviciosAdicionales.idPedido = p.idPedido AND serviciosAdicionales.idTipoPedido = p.idTipoPedido AND serviciosAdicionales.ClientePedido = p.ClientePedido
-  LEFT JOIN (SELECT * FROM Etapa uE WHERE uE.idTipoEtapa = '7' AND uE.fechaFin IS NOT NULL) ultimaEtapa
-    ON ultimaEtapa.idPedido = p.idPedido
-  LEFT JOIN (SELECT * FROM Etapa pE WHERE pE.idTipoEtapa = '1') primeraEtapa
-    ON primeraEtapa.idPedido = p.idPedido
-  WHERE
-    oe.idTipoPedido = p.idTipoPedido
+      te.nombre nombreTipoEtapa,
+      p.tipoPrenda tipoPrenda,
+      tpedido.nombreTipoPedido nombreTipoPedido,
+      tpedido.idTipoPedido idTipoPedido,
+      p.esPedidoExpress esExpress,
+      tpedido.precio precioBasePedido,
+      desperfectos.coste precioDesperfectos,
+      serviciosAdicionales.coste precioServiciosAdicionales,
+      d.valor porcentajeDescuento,
+      primeraEtapa.fechaIni inicioPedido,
+      ultimaEtapa.fechaFin finPedido,
+      e.fechaIni inicioEtapa,
+      desperfectos.descripcion descArreglos,
+      serviciosAdicionales.descripcion descServAdic,
+      e.empleadoasignado empleadoAsignado,
+      oe.ordenEtapa ordenActual,
+      te.nombre nombreTipoEtapaActual,
+      e.idTipoEtapa idTipoEtapa,
+      p.precioAceptado precioAceptado,
+      p.idPedido idPedido,
+      p.estaCancelado estaCancelado,
+      c.nombre nombreCliente,
+      c.apellidos apellidosCliente
+    FROM
+      Pedido p INNER JOIN tipoPedido tpedido ON p.idTipoPedido = tpedido.idTipoPedido
+      INNER JOIN Cuenta c ON c.idCuenta = p.ClientePedido
+      INNER JOIN Etapa e ON e.idPedido = p.idPedido
+      INNER JOIN TipoEtapa te ON te.idTipoEtapa = e.idTipoEtapa
+      INNER JOIN tipoEtapasportipopedido oe ON oe.idTipoEtapa = e.idTipoEtapa
+    LEFT JOIN Descuento d
+      ON p.idDescuentos = d.idDescuentos
+    LEFT JOIN (SELECT aD.idPedido, aD.idTipoPedido, aD.ClientePedido, aD.coste, aD.descripcion
+          FROM Arreglos aD
+          WHERE aD.tipoArreglo = 'Desperfecto') desperfectos
+      ON desperfectos.idPedido = p.idPedido AND desperfectos.idTipoPedido = p.idTipoPedido AND desperfectos.ClientePedido = p.ClientePedido
+    LEFT JOIN (SELECT aSA.idPedido, aSA.idTipoPedido, aSA.ClientePedido, aSA.coste, aSA.descripcion
+          FROM Arreglos aSA
+          WHERE aSA.tipoArreglo = 'Servicio adicional') serviciosAdicionales
+      ON serviciosAdicionales.idPedido = p.idPedido AND serviciosAdicionales.idTipoPedido = p.idTipoPedido AND serviciosAdicionales.ClientePedido = p.ClientePedido
+    LEFT JOIN (SELECT * FROM Etapa uE WHERE uE.idTipoEtapa = '7' AND uE.fechaFin IS NOT NULL) ultimaEtapa
+      ON ultimaEtapa.idPedido = p.idPedido
+    LEFT JOIN (SELECT * FROM Etapa pE WHERE pE.idTipoEtapa = '1') primeraEtapa
+      ON primeraEtapa.idPedido = p.idPedido
+    WHERE
+      oe.idTipoPedido = p.idTipoPedido
+      AND
+        p.estaCancelado = 0
       AND
 
-  oe.ordenEtapa = (
+    oe.ordenEtapa = (
 
-    SELECT MAX(oeB.ordenEtapa)
-    FROM Etapa eB, tipoEtapasportipopedido oeB
-    WHERE eB.idPedido = p.idPedido AND eB.idTipoEtapa = oeB.idTipoEtapa AND oeB.idTipoPedido = p.idTipoPedido
+      SELECT MAX(oeB.ordenEtapa)
+      FROM Etapa eB, tipoEtapasportipopedido oeB
+      WHERE eB.idPedido = p.idPedido AND eB.idTipoEtapa = oeB.idTipoEtapa AND oeB.idTipoPedido = p.idTipoPedido
 
-  ) ".condicionTipoCuenta($_SESSION["tipoCuentaSesión"]) . cSQLBusqueda($_POST["buscarPor"], $_POST["entradaBusqueda"]) . cSQLMostrarUnicamente($_POST["seMuestra"]) . cSQLOrdenarPor($_POST["ordenarPor"]) ;
+    ) ".condicionTipoCuenta($_SESSION["tipoCuentaSesión"]) . cSQLBusqueda($_POST["buscarPor"], $_POST["entradaBusqueda"]) . cSQLMostrarUnicamente($_POST["seMuestra"]) . cSQLOrdenarPor($_POST["ordenarPor"]) ;
   $db = mysqli_connect(SERVIDOR_BD,USUARIO_BD,CONTRASENA_BD,NOMBRE_BD);
   if ($stmt = $db->prepare($consulta)) {
     bindParam($stmt,$_SESSION["tipoCuentaSesión"]);
@@ -328,18 +331,44 @@ function mostrarPedido($resultadoConsulta){
             </div>
             <div class="container-fluid text-center mt-3 mb-2 h-25">
   ';
-  if($result["precioAceptado"]){
-  echo '
-              <form action="./detallesPedido" method="POST">
-                <input type="submit" class="btn btn-primary btn-lg" value="Detalles del pedido">
-                <input type="hidden" name="idPedido" value="'.$result["idPedido"].'">
-              </form>
-  ';
-  } else {
-  echo '
-              <button type="button" onclick="cancelarPedido('.$result["idPedido"].')" class="btn btn-danger btn-lg btn-cancelar-pedido">Cancelar pedido</button>
-              <button type="button" class="btn btn-primary btn-lg btn-aceptar-precio-actualizado">Aceptar precio actualizado</button>
-  ';
+  if($_SESSION["tipoCuentaSesión"] == "Cliente") {
+    if($result["precioAceptado"]){
+    echo '
+                <form action="./detallesPedido" method="POST">
+                  <input type="submit" class="btn btn-primary btn-lg" value="Detalles del pedido">
+                  <input type="hidden" name="idPedido" value="'.$result["idPedido"].'">
+                </form>
+    ';
+    } else {
+    echo '
+                <button type="button" onclick="cancelarPedido('.$result["idPedido"].')" class="btn btn-danger btn-lg btn-cancelar-pedido">Cancelar pedido</button>
+                <button type="button" class="btn btn-primary btn-lg btn-aceptar-precio-actualizado">Aceptar precio actualizado</button>
+    ';
+    }
+  } else if ($_SESSION["tipoCuentaSesión"] == "Empleado") {
+    echo '
+                <form action="./detallesPedido" method="POST">
+                  <input type="submit" class="btn btn-primary btn-lg" value="Detalles del pedido">
+                  <input type="hidden" name="idPedido" value="'.$result["idPedido"].'">
+                </form>
+    ';
+  } else if ($_SESSION["tipoCuentaSesión"] == "Encargado"){
+    if($result["precioAceptado"]){
+    echo '
+                <form action="./detallesPedido" method="POST">
+                  <input type="submit" class="btn btn-primary btn-lg" value="Detalles del pedido">
+                  <input type="hidden" name="idPedido" value="'.$result["idPedido"].'">
+                </form>
+    ';
+    } else {
+    echo '
+                <button type="button" onclick="cancelarPedido('.$result["idPedido"].')" class="btn btn-danger btn-lg btn-cancelar-pedido">Cancelar pedido</button>
+                <form action="./detallesPedido" method="POST">
+                  <input type="submit" class="btn btn-primary btn-lg btn-aceptar-precio-actualizado" value="Detalles del pedido">
+                  <input type="hidden" name="idPedido" value="'.$result["idPedido"].'">
+                </form>
+    ';
+    }
   }
   echo'
             </div>
@@ -351,7 +380,7 @@ function mostrarPedido($resultadoConsulta){
   }
 }
 
-function cSQLOrdenarPor($ordenarPor){//TODO En la consulta principal hay que hacer que fechaIni y fechaFin sean las del pedido y no las de las etapas
+function cSQLOrdenarPor($ordenarPor){
   if($ordenarPor == 'tipoPrenda'){
     return ' ORDER BY p.tipoPrenda ASC';
   } else if($ordenarPor == 'fechaIniAsc'){

@@ -19,20 +19,48 @@ function actualizarConsultaPedidos() {
 
 actualizarConsultaPedidos();
 
+var idPedidoDeshacer;
 
 function cancelarPedido(idPedido){
   //$.redirect('detallesPedido.php', {'idPedido': idPedido});
+  idPedidoDeshacer = idPedido;
+  document.getElementById("contenedor-alerta-eliminar").style.display = "block";
   document.getElementById("contenedor-alerta-eliminar").style.visibility = "visible";
+  document.getElementById("contenedor-eleccion-alerta-eliminar").style.visibility = "visible";
 }
 
 function confirmarCancelarPedido(){
   document.getElementById("contenedor-eleccion-alerta-eliminar").style.visibility = "hidden";
   document.getElementById("contenedor-alerta-eliminar").style.display = "none";
   document.getElementById("contenedor-deshacer").style.visibility = "visible";
-
-
+  $.post("./consultaPedidosEliminar.php",
+  {
+    idPedido: idPedidoDeshacer,
+    eliminarPedido: "Eliminar"
+  },
+  function(data, status){
+    console.log(data);
+    actualizarConsultaPedidos();
+  });
 }
 
 function noCancelarPedido(){
-  document.getElementById("contenedor-alerta-eliminar").style.visibility = "hidden";
+  document.getElementById("contenedor-eleccion-alerta-eliminar").style.visibility = "hidden";
+  document.getElementById("contenedor-alerta-eliminar").style.display = "none";
+}
+
+function cerrarDeshacer(){
+  document.getElementById("contenedor-deshacer").style.visibility = "hidden";
+}
+
+function deshacerCancelarPedido(){
+  $.post("./consultaPedidosEliminar.php",
+  {
+    idPedido: idPedidoDeshacer,
+    eliminarPedido: "Deshacer"
+  },
+  function(data, status){
+    actualizarConsultaPedidos();
+    cerrarDeshacer();
+  });
 }

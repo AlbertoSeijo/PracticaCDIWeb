@@ -10,18 +10,6 @@ if(!isset($_SESSION['sesionIniciada']) || $_SESSION['tipoCuentaSesión'] == "ERR
 $nombrePagina = "Consulta de pedidos";
 include './cabeceraContenido.php';
 ?>
-<?php
-if($_SESSION['tipoCuentaSesión'] != "Encargado"){
-
-
-} else if($_SESSION['tipoCuentaSesión'] != "Empleado"){
-
-
-} else if($_SESSION['tipoCuentaSesión'] != "Cliente"){
-  echo '';
-}
-
- ?>
 
 <div id="contenedor-alerta-eliminar" class="container-fluid w-100 h-100 contenedor-alerta-eliminar">
   <div id="fondo-contenedor-alerta-eliminar" class="container-fluid  w-100 h-100 fondo-contenedor-alerta-eliminar">
@@ -50,8 +38,8 @@ if($_SESSION['tipoCuentaSesión'] != "Encargado"){
 </div>
 <div class="container-fluid">
   <div id="contenedor-deshacer" class="row justify-content-center contenedor-deshacer w-100">
-    <div class="col-sm-6 col-md-5 col-lg-4 card text-center" style="border-bottom-left-radius: 0px; border-bottom-right-radius: 0px; display: inline;">
-      <a>Pedido eliminado. </a><a href="google.es"><img style="display: inline;"class="svg-icon" src="./img/undo.svg"></img>Deshacer</a> <img onclick="window.open(this.src)" class="svg-icon-close" src="./img/close.svg"></img>
+    <div class="col-sm-6 col-md-5 col-lg-4 card text-center bg-light" style="border-bottom-left-radius: 0px; border-bottom-right-radius: 0px; display: inline;">
+      <a>Pedido eliminado. </a><a href="javascript:deshacerCancelarPedido();"><img style="display: inline;"class="svg-icon" src="./img/undo.svg"></img>Deshacer</a> <button onclick="cerrarDeshacer()" style="border-color:transparent; background-color:transparent; padding: 0px; width: 28px; height: 28px; position: absolute; right: 8px; top: 2px;"><img  class="svg-icon-close" src="./img/close.svg"></img></button>
     </div>
   </div>
 </div>
@@ -105,131 +93,6 @@ if($_SESSION['tipoCuentaSesión'] != "Encargado"){
   </div>
 </div>
 <script src="./js/consultaPedidos.js"></script>
-<!--
-/* CLIENTES
-
-POR REALIZAR
-
-SELECT idTipoPedido, tipoPrenda, esPedidoExpress, fechaIni, fechaFin
-FROM pedidos p INNER JOIN etapa e ON p.idPedido = e.idPedido
-WHERE idEtapa = 1 AND fechaIni = 'null' AND clientepedido = ?;
-SELECT idTipoPedido, tipoPrenda, esPedidoExpress, fechaIni, fechaFin
-FROM pedidos p INNER JOIN etapa e ON p.idPedido = e.idPedido
-WHERE idEtapa = 7 AND fechaFin = 'null' AND clientepedido = ?;
-SELECT idTipoPedido, tipoPrenda, esPedidoExpress, fechaIni, fechaFin
-FROM pedidos p INNER JOIN etapa e ON p.idPedido = e.idPedido
-WHERE idEtapa = 7 AND fechaIni != 'null' AND clientepedido = ?;
-SELECT idTipoPedido, tipoPrenda, esPedidoExpress, fechaIni, fechaFin
-FROM pedidos p INNER JOIN etapa e ON p.idPedido = e.idPedido
-WHERE clientepedido = ?;
----------------------------------------------------------------------
-SELECT idTipoPedido, tipoPrenda, esPedidoExpress, fechaIni, fechaFin
-FROM pedidos p INNER JOIN etapa e ON p.idPedido = e.idPedido
-WHERE clientepedido = ?
-ORDER BY esPedidoExpress;
-SELECT idTipoPedido, tipoPrenda, esPedidoExpress, fechaIni, fechaFin
-FROM pedidos p INNER JOIN etapa e ON p.idPedido = e.idPedido
-WHERE clientepedido = ?
-ORDER BY fechaini ASC;
-SELECT idTipoPedido, tipoPrenda, esPedidoExpress, fechaIni, fechaFin
-FROM pedidos p INNER JOIN etapa e ON p.idPedido = e.idPedido
-WHERE clientepedido = ?
-ORDER BY fechaini DESC;
-SELECT idTipoPedido, tipoPrenda, esPedidoExpress, fechaIni, fechaFin
-FROM pedidos p INNER JOIN etapa e ON p.idPedido = e.idPedido
-WHERE clientepedido = ?
-ORDER BY fechafin ASC;
-SELECT idTipoPedido, tipoPrenda, esPedidoExpress, fechaIni, fechaFin
-FROM pedidos p INNER JOIN etapa e ON p.idPedido = e.idPedido
-WHERE clientepedido = ?
-ORDER BY fechafin DESC;
-SELECT idTipoPedido, tipoPrenda, esPedidoExpress, fechaIni, fechaFin
-FROM pedidos p INNER JOIN etapa e ON p.idPedido = e.idPedido
-WHERE clientepedido = ?
-ORDER BY tipoPrenda ASC;
-*/
-
-/* ENCARGADO
-SELECT idTipoPedido, tipoPrenda, esPedidoExpress, fechaIni, fechaFin
-FROM pedidos p INNER JOIN etapa e ON p.idPedido = e.idPedido
-WHERE idEtapa = 1 AND fechaIni = 'null';
-SELECT idTipoPedido, tipoPrenda, esPedidoExpress, fechaIni, fechaFin
-FROM pedidos p INNER JOIN etapa e ON p.idPedido = e.idPedido
-WHERE idEtapa = 7 AND fechaFin = 'null';
-SELECT idTipoPedido, tipoPrenda, esPedidoExpress, fechaIni, fechaFin
-FROM pedidos p INNER JOIN etapa e ON p.idPedido = e.idPedido
-WHERE idEtapa = 7 AND fechaIni != 'null';
-SELECT idTipoPedido, tipoPrenda, esPedidoExpress, fechaIni, fechaFin
-FROM pedidos p INNER JOIN etapa e ON p.idPedido = e.idPedido;
----------------------------------------------------------------------
-SELECT idTipoPedido, tipoPrenda, esPedidoExpress, fechaIni, fechaFin
-FROM pedidos p INNER JOIN etapa e ON p.idPedido = e.idPedido
-ORDER BY esPedidoExpress;
-SELECT idTipoPedido, tipoPrenda, esPedidoExpress, fechaIni, fechaFin
-FROM pedidos p INNER JOIN etapa e ON p.idPedido = e.idPedido
-ORDER BY fechaini ASC;
-SELECT idTipoPedido, tipoPrenda, esPedidoExpress, fechaIni, fechaFin
-FROM pedidos p INNER JOIN etapa e ON p.idPedido = e.idPedido
-ORDER BY fechaini DESC;
-SELECT idTipoPedido, tipoPrenda, esPedidoExpress, fechaIni, fechaFin
-FROM pedidos p INNER JOIN etapa e ON p.idPedido = e.idPedido
-ORDER BY fechafin ASC;
-SELECT idTipoPedido, tipoPrenda, esPedidoExpress, fechaIni, fechaFin
-FROM pedidos p INNER JOIN etapa e ON p.idPedido = e.idPedido
-ORDER BY fechafin DESC;
-SELECT idTipoPedido, tipoPrenda, esPedidoExpress, fechaIni, fechaFin
-FROM pedidos p INNER JOIN etapa e ON p.idPedido = e.idPedido
-ORDER BY tipoPrenda ASC;
----------------------------------------------------------------------
-SELECT idTipoPedido, tipoPrenda, esPedidoExpress, fechaIni, fechaFin
-FROM pedidos p INNER JOIN etapa e ON p.idPedido = e.idPedido INNER JOIN cuenta c ON c.idCuenta = p.idCuenta
-WHERE c.nombre LIKE ?%;
-*/
-
-/* EMPLEADO
-SELECT idTipoPedido, tipoPrenda, esPedidoExpress, fechaIni, fechaFin
-FROM pedidos p INNER JOIN etapa e ON p.idPedido = e.idPedido
-WHERE idEtapa = 1 AND fechaIni = 'null' AND empleadoasignado = ?;
-SELECT idTipoPedido, tipoPrenda, esPedidoExpress, fechaIni, fechaFin
-FROM pedidos p INNER JOIN etapa e ON p.idPedido = e.idPedido
-WHERE idEtapa = 7 AND fechaFin = 'null' AND empleadoasignado = ?;
-SELECT idTipoPedido, tipoPrenda, esPedidoExpress, fechaIni, fechaFin
-FROM pedidos p INNER JOIN etapa e ON p.idPedido = e.idPedido
-WHERE idEtapa = 7 AND fechaIni != 'null' AND empleadoasignado = ?;
-SELECT idTipoPedido, tipoPrenda, esPedidoExpress, fechaIni, fechaFin
-FROM pedidos p INNER JOIN etapa e ON p.idPedido = e.idPedido
-WHERE empleadoasignado = ?;
----------------------------------------------------------------------
-SELECT idTipoPedido, tipoPrenda, esPedidoExpress, fechaIni, fechaFin
-FROM pedidos p INNER JOIN etapa e ON p.idPedido = e.idPedido
-WHERE empleadoasignado = ?
-ORDER BY esPedidoExpress;
-SELECT idTipoPedido, tipoPrenda, esPedidoExpress, fechaIni, fechaFin
-FROM pedidos p INNER JOIN etapa e ON p.idPedido = e.idPedido
-WHERE empleadoasignado = ?
-ORDER BY fechaini ASC;
-SELECT idTipoPedido, tipoPrenda, esPedidoExpress, fechaIni, fechaFin
-FROM pedidos p INNER JOIN etapa e ON p.idPedido = e.idPedido
-WHERE empleadoasignado = ?
-ORDER BY fechaini DESC;
-SELECT idTipoPedido, tipoPrenda, esPedidoExpress, fechaIni, fechaFin
-FROM pedidos p INNER JOIN etapa e ON p.idPedido = e.idPedido
-WHERE empleadoasignado = ?
-ORDER BY fechafin ASC;
-SELECT idTipoPedido, tipoPrenda, esPedidoExpress, fechaIni, fechaFin
-FROM pedidos p INNER JOIN etapa e ON p.idPedido = e.idPedido
-WHERE empleadoasignado = ?
-ORDER BY fechafin DESC;
-SELECT idTipoPedido, tipoPrenda, esPedidoExpress, fechaIni, fechaFin
-FROM pedidos p INNER JOIN etapa e ON p.idPedido = e.idPedido
-WHERE empleadoasignado = ?
-ORDER BY tipoPrenda ASC;
-----------------------------------------------------------------------
-SELECT idTipoPedido, tipoPrenda, esPedidoExpress, fechaIni, fechaFin
-FROM pedidos p INNER JOIN etapa e ON p.idPedido = e.idPedido INNER JOIN cuenta c ON c.idCuenta = p.idCuenta
-WHERE empleadoasignado = ? AND c.nombre LIKE ?%;
-*/
--->
 <?php
 include './footer.php';
 ?>
