@@ -54,7 +54,7 @@ echo '
               <div class="row" style="height: 90px;">
                 <div class="col-2" style="padding: 0px;">
                 <div class="card bg-white" style="width: 70px; height: 70px; position: absolute; top: 50%; left: 50%; transform: translateX(-50%) translateY(-50%);">
-                  <img src="./img/canjePuntos/iconosTipoDescuento/iconoRegalo.svg" style="width: 25px; height: 25px; position: absolute; bottom: -7px; right: -7px;"></img>
+                  <img src="./img/canjePuntos/iconosTipoDescuento/iconoDescuento.svg" style="width: 25px; height: 25px; position: absolute; bottom: -7px; right: -7px;"></img>
                   ';if($result["aplicaATipoPedido"] == 1)
                   echo '
                   <img src="./img/tipoPedido/limpiezacompleta.svg" style="width: 50px; height: 50px; position: absolute; top: 50%; left: 50%; transform: translateX(-50%) translateY(-50%);"></img>
