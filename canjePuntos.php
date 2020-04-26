@@ -1,5 +1,9 @@
 <?php
-include './header.php';?>
+include './header.php';
+if(!isset($_SESSION['sesionIniciada']) || $_SESSION['tipoCuentaSesión'] != "Encargado"){
+  header("Location: ./");
+}
+?>
 <link href="./css/canjePuntos.css" rel="stylesheet">
 <?php
 $nombrePagina = "Canje de puntos";
@@ -36,8 +40,10 @@ include './cabeceraContenido.php';
   </div>
   <div class="row text-center contenedor-botones-continuar">
     <div class="col-12 text-center justify-content-center">
-      <button class="btn btn-primary btn-lg btn-continuar">Continuar</button><hr class="separadorBotones">
-      <button class="btn btn-primary btn-lg btn-sin-tarjeta">Tramitar pedido sin aplicar descuentos</button>
+      <?php echo '
+      <button class="btn btn-primary btn-lg btn-continuar" onclick="location.href=\'./tarjetaPuntos\'">Continuar</button>
+      <hr class="separadorBotones">
+      <button class="btn btn-primary btn-lg btn-sin-tarjeta" onclick="location.href=\'./resumenPedido\'">Tramitar pedido sin aplicar descuentos</button>';?>
     </div>
   </div>
 </div>

@@ -84,7 +84,7 @@ if ($stmt = $db->prepare('SELECT descripcion, puntos FROM descuento WHERE usadoP
 
 echo '
    <div class="col-xl-4 col-lg-6">
-      <h3><b>Descuentos</b></h3>
+      <h3><b>Regalos</b></h3>
       <div class="card bg-primary text-black contenedor-descuentos">
         <div class="card-body">';
 if ($stmt = $db->prepare('SELECT descripcion, puntos FROM descuento WHERE usadoPorTarjeta IS NULL and descripcion = "Servicio Gratuito"')) {
