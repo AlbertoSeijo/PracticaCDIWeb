@@ -94,7 +94,9 @@ LEFT JOIN (SELECT * FROM Etapa uE WHERE uE.idTipoEtapa = '7' AND uE.fechaFin IS 
 LEFT JOIN (SELECT * FROM Etapa pE WHERE pE.idTipoEtapa = '1') primeraEtapa
     ON primeraEtapa.idPedido = p.idPedido
 WHERE
-    p.idPedido =  35
+    p.idPedido =  ?
+        AND
+    p.estaCancelado = 0
         AND
     oe.idTipoPedido = p.idTipoPedido
         AND
