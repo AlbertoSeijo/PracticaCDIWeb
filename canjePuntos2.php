@@ -53,25 +53,25 @@ echo '
               echo'<div class="card espacios-descuentos container-fluid bg-light">
               <div class="row" style="height: 90px;">
                 <div class="col-2" style="padding: 0px;">
-                  <div class="card bg-white" style="width: 70px; height: 70px; position: absolute; top: 50%; left: 50%; transform: translateX(-50%) translateY(-50%);">
-                    <img src="./img/canjePuntos/iconosTipoDescuento/iconoRegalo.svg" style="width: 50px; height: 50px; position: absolute; top: 50%; left: 50%; transform: translateX(-50%) translateY(-50%);"></img>
-                    ';if($result["aplicaATipoPedido"] == 1)
-                    echo '
-                    <img src="./img/tipoPedido/limpiezacompleta.svg" style="width: 25px; height: 25px; position: absolute; bottom: -7px; right: -7px;"></img>
-                    ';else if ($result["aplicaATipoPedido"] == 2)
-                    echo'
-                    <img src="./img/tipoPedido/limpiezaenseco.svg" style="width: 25px; height: 25px; position: absolute; bottom: -7px; right: -7px;"></img>
-                    ';else if ($result["aplicaATipoPedido"] == 3)
-                    echo '
-                    <img src="./img/tipoPedido/tintado.svg" style="width: 25px; height: 25px; position: absolute; bottom: -7px; right: -7px;"></img>
-                    ';
-                    echo '
-                  </div>
+                <div class="card bg-white" style="width: 70px; height: 70px; position: absolute; top: 50%; left: 50%; transform: translateX(-50%) translateY(-50%);">
+                  <img src="./img/canjePuntos/iconosTipoDescuento/iconoRegalo.svg" style="width: 25px; height: 25px; position: absolute; bottom: -7px; right: -7px;"></img>
+                  ';if($result["aplicaATipoPedido"] == 1)
+                  echo '
+                  <img src="./img/tipoPedido/limpiezacompleta.svg" style="width: 50px; height: 50px; position: absolute; top: 50%; left: 50%; transform: translateX(-50%) translateY(-50%);"></img>
+                  ';else if ($result["aplicaATipoPedido"] == 2)
+                  echo'
+                  <img src="./img/tipoPedido/limpiezaenseco.svg" style="width: 50x; height: 50px; position: absolute; top: 50%; left: 50%; transform: translateX(-50%) translateY(-50%);"></img>
+                  ';else if ($result["aplicaATipoPedido"] == 3)
+                  echo '
+                  <img src="./img/tipoPedido/tintado.svg" style="width: 50px; height: 50px; position: absolute; top: 50%; left: 50%; transform: translateX(-50%) translateY(-50%);"></img>
+                  ';
+                  echo '
                 </div>
-                <div class="col-10 text-center align-middle" style="height: 100%; overflow: hidden;">
-                  <a style="display: block; width: 100%; font-weight: bold; font-size: 20px;">'.$result ["titulo"].'</a>
-                  <a style="display: block; width: 100%; font-weight: bold; font-size: 16px;">' .$result ["descripcion"].'</a>
-                  <a style="position: absolute; bottom: 6px; right: 6px; font-size: 14px;">'.$result ["puntos"].'</a>
+              </div>
+              <div class="col-10 text-center align-middle" style="height: 100%; overflow: hidden;">
+                <a style="display: block; width: 100%; font-weight: bold; font-size: 20px;">'.$result ["titulo"].'</a>
+                <a style="display: block; width: 100%; font-weight: bold; font-size: 16px;">' .$result ["descripcion"].'</a>
+                <a style="position: absolute; bottom: 6px; right: 6px; font-size: 14px;">'.$result ["puntos"].' puntos</a>
                 </div>
               </div>
               </div>';}
@@ -93,17 +93,17 @@ echo '
             echo'<div class="card espacios-descuentos container-fluid bg-light">
             <div class="row" style="height: 90px;">
               <div class="col-2" style="padding: 0px;">
-                <div class="card bg-white" style="width: 70px; height: 70px; position: absolute; top: 50%; left: 50%; transform: translateX(-50%) translateY(-50%);">
-                <img src="./img/canjePuntos/iconosTipoDescuento/iconoRegalo.svg" style="width: 50px; height: 50px; position: absolute; top: 50%; left: 50%; transform: translateX(-50%) translateY(-50%);"></img>
+              <div class="card bg-white" style="width: 70px; height: 70px; position: absolute; top: 50%; left: 50%; transform: translateX(-50%) translateY(-50%);">
+                <img src="./img/canjePuntos/iconosTipoDescuento/iconoRegalo.svg" style="width: 25px; height: 25px; position: absolute; bottom: -7px; right: -7px;"></img>
                 ';if($result["aplicaATipoPedido"] == 1)
                 echo '
-                <img src="./img/tipoPedido/limpiezacompleta.svg" style="width: 25px; height: 25px; position: absolute; bottom: -7px; right: -7px;"></img>
+                <img src="./img/tipoPedido/limpiezacompleta.svg" style="width: 50px; height: 50px; position: absolute; top: 50%; left: 50%; transform: translateX(-50%) translateY(-50%);"></img>
                 ';else if ($result["aplicaATipoPedido"] == 2)
                 echo'
-                <img src="./img/tipoPedido/limpiezaenseco.svg" style="width: 25px; height: 25px; position: absolute; bottom: -7px; right: -7px;"></img>
+                <img src="./img/tipoPedido/limpiezaenseco.svg" style="width: 50x; height: 50px; position: absolute; top: 50%; left: 50%; transform: translateX(-50%) translateY(-50%);"></img>
                 ';else if ($result["aplicaATipoPedido"] == 3)
                 echo '
-                <img src="./img/tipoPedido/tintado.svg" style="width: 25px; height: 25px; position: absolute; bottom: -7px; right: -7px;"></img>
+                <img src="./img/tipoPedido/tintado.svg" style="width: 50px; height: 50px; position: absolute; top: 50%; left: 50%; transform: translateX(-50%) translateY(-50%);"></img>
                 ';
                 echo '
               </div>
@@ -111,7 +111,7 @@ echo '
             <div class="col-10 text-center align-middle" style="height: 100%; overflow: hidden;">
               <a style="display: block; width: 100%; font-weight: bold; font-size: 20px;">'.$result ["titulo"].'</a>
               <a style="display: block; width: 100%; font-weight: bold; font-size: 16px;">' .$result ["descripcion"].'</a>
-              <a style="position: absolute; bottom: 6px; right: 6px; font-size: 14px;">'.$result ["puntos"].'</a>
+              <a style="position: absolute; bottom: 6px; right: 6px; font-size: 14px;">'.$result ["puntos"].' puntos</a>
             </div>
           </div>
           </div>';}
