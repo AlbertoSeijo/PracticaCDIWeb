@@ -161,14 +161,12 @@ function consultaSQL(){
       AND
         p.estaCancelado = 0
       AND
-
-    oe.ordenEtapa = (
-
-      SELECT MAX(oeB.ordenEtapa)
-      FROM Etapa eB, tipoEtapasportipopedido oeB
-      WHERE eB.idPedido = p.idPedido AND eB.idTipoEtapa = oeB.idTipoEtapa AND oeB.idTipoPedido = p.idTipoPedido
-
-    ) ".condicionTipoCuenta($_SESSION["tipoCuentaSesión"]) . cSQLBusqueda($_POST["buscarPor"], $_POST["entradaBusqueda"]) . cSQLMostrarUnicamente($_POST["seMuestra"]) . cSQLOrdenarPor($_POST["ordenarPor"]) ;
+      oe.ordenEtapa = (
+        SELECT IFNULL(MIN(oeB.ordenEtapa),7) FROM tipoetapasportipopedido oeB WHERE oeB.idTipoPedido = p.idTipoPedido AND oeB.idTipoEtapa IN (
+          SELECT e.idtipoetapa FROM etapa e
+          WHERE (e.fechafin IS NULL OR e.fechaini IS NULL) AND e.idPedido = p.idPedido)
+        )
+      ".condicionTipoCuenta($_SESSION["tipoCuentaSesión"]) . cSQLBusqueda($_POST["buscarPor"], $_POST["entradaBusqueda"]) . cSQLMostrarUnicamente($_POST["seMuestra"]) . cSQLOrdenarPor($_POST["ordenarPor"]) ;
   $db = mysqli_connect(SERVIDOR_BD,USUARIO_BD,CONTRASENA_BD,NOMBRE_BD);
   if ($stmt = $db->prepare($consulta)) {
     bindParam($stmt,$_SESSION["tipoCuentaSesión"]);
