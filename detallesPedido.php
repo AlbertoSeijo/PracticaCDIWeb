@@ -45,7 +45,7 @@ function calcularTotalDescuento($precioBasePedido, $precioDesperfectos, $precioS
 
 
 
-$idPedido = 1;
+
 
 define('SERVIDOR_BD', 'localhost:3306');
 define('USUARIO_BD', 'webtintoreria');
@@ -99,12 +99,11 @@ WHERE
     oe.idTipoPedido = p.idTipoPedido
         AND
     oe.ordenEtapa = (
-
-      SELECT MAX(oeB.ordenEtapa)
-      FROM Etapa eB, tipoEtapasportipopedido oeB
-      WHERE eB.idPedido = p.idPedido AND eB.idTipoEtapa = oeB.idTipoEtapa AND oeB.idTipoPedido = p.idTipoPedido
-
-    )"
+      SELECT IFNULL(MIN(oeB.ordenEtapa),7) FROM tipoetapasportipopedido oeB WHERE oeB.idTipoPedido = p.idTipoPedido AND oeB.idTipoEtapa IN (
+        SELECT e.idtipoetapa FROM etapa e
+        WHERE (e.fechafin IS NULL OR e.fechaini IS NULL) AND e.idPedido = p.idPedido)
+      )
+    "
   )) {
     $stmt->bind_param('s', $_POST["idPedido"]);
     $stmt->execute();
