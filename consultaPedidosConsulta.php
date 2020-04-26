@@ -392,7 +392,7 @@ function cSQLOrdenarPor($ordenarPor){
   } else if($ordenarPor == 'fechaFinDesc'){
     return ' ORDER BY ultimaEtapa.fechaFin DESC';
   } else if($ordenarPor == 'express'){
-    return ' ORDER BY p.esPedidoExpress DESC';
+    return ' ORDER BY p.esPedidoExpress DESC, primeraEtapa.fechaIni DESC';
   } else {
     return '';
   }
