@@ -19,8 +19,7 @@ function realizarPagos(idPedido){
 }
 
 function EnvSigEtEnc(idPedido){
-  redirectPost('./detallesPedido.php', {'idPedido': idPedido, 'haEnviadoASiguienteEtapa': true});
-
+  redirectPost('./consultapedidos.php', {'idPedido': idPedido, 'haEnviadoASiguienteEtapa': true});
 }
 
 function EnvSigEtEmp(idPedido){

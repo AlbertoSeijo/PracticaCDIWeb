@@ -190,7 +190,15 @@ if(!isset($_POST["peticionRealizada"]) || $_POST["peticionRealizada"] == false){
         $stmtC->store_result();
         $stmtC->bind_result($ordenEtapa, $idEtapa, $nombreEtapa);
         while ($stmtC->fetch()) {
-          if (normalizarTexto($nombreEtapa) != "recepcionado(revisiondelaprenda)" && normalizarTexto($nombreEtapa) != "arreglado"){
+          if (normalizarTexto($nombreEtapa) == "recepcionado"){
+            $systemDate= date("Y-m-d H:i:s");
+            if ($stmtD = $db->prepare('INSERT INTO etapa (fechaIni,fechaFin,idPedido,empleadoasignado,idtipoetapa) VALUES (?,null,?,?,?)')) {
+              $stmtD->bind_param('siii', $systemDate, $idPedido,$_SESSION['idCuentaSesión'],$idEtapa);
+              $stmtD->execute();
+              $stmtD->store_result();
+            }
+
+          }else if (normalizarTexto($nombreEtapa) != "recepcionado(revisiondelaprenda)" && normalizarTexto($nombreEtapa) != "arreglado"){
             if (normalizarTexto($nombreEtapa) == "findepedido"){
               if ($stmtD = $db->prepare('INSERT INTO etapa (fechaIni,fechaFin,idPedido,empleadoasignado,idtipoetapa) VALUES (null,null,?,?,?)')) {
                 $stmtD->bind_param('iii', $idPedido,$_SESSION['idCuentaSesión'],$idEtapa);

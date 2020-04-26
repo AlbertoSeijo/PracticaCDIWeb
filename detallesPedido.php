@@ -119,7 +119,11 @@ WHERE
       /* ETAPA ANTERIOR Y POSTERIOR */
       if ($ordenActual == 1){
         $etapaAnterior = null;
-        $etapaPosterior = $ordenActual +1;
+        if ($descServAdic != null){
+          $etapaPosterior = $ordenActual +1;
+        } else if ($descServAdic == null) {
+          $etapaPosterior = 4;
+        }
       } else if ($ordenActual == 4){
         $etapaPosterior = $ordenActual +1;
         if ($descArreglos != null || $descServAdic !=null){
@@ -374,8 +378,40 @@ if($_SESSION['tipoCuentaSesión'] == "Cliente"){
 </div>
 ';
 } else if ($_SESSION['tipoCuentaSesión'] == "Encargado"){
-  if(!isset($_POST["haEnviadoASiguienteEtapa"]) || $_POST["haEnviadoASiguienteEtapa"] == false || !isset($_POST["haEnviadoAPago"])
-  || $_POST["haEnviadoAPago"] == false || !isset($_POST["haEnviadoAEtapaAnterior"]) || $_POST["haEnviadoAEtapaAnterior"] == false) {
+  if (isset($_POST["haEnviadoASiguienteEtapa"]) && $_POST["haEnviadoASiguienteEtapa"] == true){
+
+        $systemDate= date("Y-m-d H:i:s");
+
+        $stmtE = $db->prepare("UPDATE etapa e SET e.fechaFin=? WHERE e.idPedido = ?  AND e.idTipoEtapa= ?");
+        $stmtE->bind_param('sss', $systemDate,$_POST["idPedido"],$idEtapa);
+        $stmtE->execute();
+
+        $stmtF = $db->prepare("UPDATE etapa e SET e.fechaIni=? WHERE e.idPedido = ?  AND e.idTipoEtapa= ?");
+        $stmtF->bind_param('sss', $systemDate,$_POST["idPedido"],$idEtapaPosterior);
+        $stmtF->execute();
+
+
+  } else if (isset($_POST["haEnviadoAPago"]) && $_POST["haEnviadoAPago"] == true){
+
+        $systemDate= date("Y-m-d H:i:s");
+
+        $stmtG = $db->prepare("UPDATE etapa e SET e.fechaFin=? WHERE e.idPedido = ?  AND e.idTipoEtapa= ?");
+        $stmtG->bind_param('sss', $systemDate,$_POST["idPedido"],$idEtapa);
+        $stmtG->execute();
+
+  } else if (isset($_POST["haEnviadoAEtapaAnterior"]) && $_POST["haEnviadoAEtapaAnterior"] == true){
+
+        $systemDate= date("Y-m-d H:i:s");
+
+        $stmtH = $db->prepare("UPDATE etapa e SET e.fechaIni=null WHERE e.idPedido = ?  AND e.idTipoEtapa= ?");
+        $stmtH->bind_param('ss', $_POST["idPedido"],$idEtapa);
+        $stmtH->execute();
+
+        $stmtI = $db->prepare("UPDATE etapa e SET e.fechaInio=? AND e.fechaFin=null WHERE e.idPedido = ?  AND e.idTipoEtapa= ?");
+        $stmtI->bind_param('sss', $systemDate,$_POST["idPedido"],$idEtapa);
+        $stmtI->execute();
+
+  }
   echo'
   <div class="container-fluid">
     <div class="row" style="margin-top:20px;">
@@ -659,40 +695,6 @@ if($_SESSION['tipoCuentaSesión'] == "Cliente"){
   ';
     }
   }
-} else if (isset($_POST["haEnviadoASiguienteEtapa"]) && $_POST["haEnviadoASiguienteEtapa"] == true){
-
-      $systemDate= date("Y-m-d H:i:s");
-
-      $stmtE = $db->prepare("UPDATE etapa e SET e.fechaFin=? WHERE e.idPedido = ?  AND e.idTipoEtapa= ?");
-      $stmtE->bind_param('sss', $systemDate,$_POST["idPedido"],$idEtapa);
-      $stmtE->execute();
-
-      $stmtF = $db->prepare("UPDATE etapa e SET e.fechaInicio=? WHERE e.idPedido = ?  AND e.idTipoEtapa= ?");
-      $stmtF->bind_param('sss', $systemDate,$_POST["idPedido"],$idEtapaPosterior);
-      $stmtF->execute();
-
-
-} else if (isset($_POST["haEnviadoAPago"]) && $_POST["haEnviadoAPago"] == true){
-
-      $systemDate= date("Y-m-d H:i:s");
-
-      $stmtG = $db->prepare("UPDATE etapa e SET e.fechaFin=? WHERE e.idPedido = ?  AND e.idTipoEtapa= ?");
-      $stmtG->bind_param('sss', $systemDate,$_POST["idPedido"],$idEtapa);
-      $stmtG->execute();
-
-} else if (isset($_POST["haEnviadoAEtapaAnterior"]) && $_POST["haEnviadoAEtapaAnterior"] == true){
-
-      $systemDate= date("Y-m-d H:i:s");
-
-      $stmtH = $db->prepare("UPDATE etapa e SET e.fechaInicio=null WHERE e.idPedido = ?  AND e.idTipoEtapa= ?");
-      $stmtH->bind_param('ss', $_POST["idPedido"],$idEtapa);
-      $stmtH->execute();
-
-      $stmtI = $db->prepare("UPDATE etapa e SET e.fechaInicio=? AND e.fechaFin=null WHERE e.idPedido = ?  AND e.idTipoEtapa= ?");
-      $stmtI->bind_param('sss', $systemDate,$_POST["idPedido"],$idEtapa);
-      $stmtI->execute();
-
-}
 
 
 } else if ($_SESSION['tipoCuentaSesión'] == "Empleado"){
@@ -889,7 +891,7 @@ if($_SESSION['tipoCuentaSesión'] == "Cliente"){
       $stmtE->bind_param('sss', $systemDate,$_POST["idPedido"],$idEtapa);
       $stmtE->execute();
 
-      $stmtF = $db->prepare("UPDATE etapa e SET e.fechaInicio=? WHERE e.idPedido = ?  AND e.idTipoEtapa= ?");
+      $stmtF = $db->prepare("UPDATE etapa e SET e.fechaIni=? WHERE e.idPedido = ?  AND e.idTipoEtapa= ?");
       $stmtF->bind_param('sss', $systemDate,$_POST["idPedido"],$idEtapaPosterior);
       $stmtF->execute();
 
@@ -897,11 +899,11 @@ if($_SESSION['tipoCuentaSesión'] == "Cliente"){
 
       $systemDate= date("Y-m-d H:i:s");
 
-      $stmtK = $db->prepare("UPDATE etapa e SET e.fechaInicio=null WHERE e.idPedido = ?  AND e.idTipoEtapa= ?");
+      $stmtK = $db->prepare("UPDATE etapa e SET e.fechaIni=null WHERE e.idPedido = ?  AND e.idTipoEtapa= ?");
       $stmtK->bind_param('ss', $_POST["idPedido"],$idEtapa);
       $stmtK->execute();
 
-      $stmtL = $db->prepare("UPDATE etapa e SET e.fechaInicio=? AND e.fechaFin=null WHERE e.idPedido = ?  AND e.idTipoEtapa= ?");
+      $stmtL = $db->prepare("UPDATE etapa e SET e.fechaIni=? AND e.fechaFin=null WHERE e.idPedido = ?  AND e.idTipoEtapa= ?");
       $stmtL->bind_param('sss', $systemDate,$_POST["idPedido"],$idEtapa);
       $stmtL->execute();
 
