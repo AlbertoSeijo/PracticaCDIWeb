@@ -1,4 +1,6 @@
 <?php
+  include './commonFunctions.php';
+
   $idTipoPedido = $_POST["idTipoPedido"];
 
   define('SERVIDOR_BD', 'localhost:3306');
@@ -20,12 +22,14 @@
         $stmtB->execute();
         $stmtB->store_result();
         $stmtB->bind_result($nombreEmpleado, $apellidosEmpleado, $idEmpleado);
-        echo '<label class="etiquetaElementosFormulario" for="aaaa">'.$nombreEtapa.'</label><select class="custom-select" style="margin-bottom:15px;">';
-        while ($stmtB->fetch()) {
-          echo '<option value="'.$idEmpleado.'">'.$nombreEmpleado.' '.$apellidosEmpleado.'</option>';
+        if(normalizarTexto($nombreEtapa) != "findepedido"){
+          echo '<label class="etiquetaElementosFormulario" for="aaaa">'.$nombreEtapa.'</label><select id="empleadoEtapa'.normalizarTexto($nombreEtapa).'" name="empleadoEtapa'.normalizarTexto($nombreEtapa).'" class="custom-select" form="peticionLimpiezaForm" style="margin-bottom:10px;">';
+          while ($stmtB->fetch()) {
+            echo '<option value="'.$idEmpleado.'">'.$nombreEmpleado.' '.$apellidosEmpleado.'</option>';
+          }
+          echo '</select>';
         }
       }
-      echo '</select>';
     }
   }
 ?>

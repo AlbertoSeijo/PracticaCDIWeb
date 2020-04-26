@@ -70,12 +70,12 @@ if(!isset($_POST["peticionRealizada"]) || $_POST["peticionRealizada"] == false){
               </button>
             </div>
             <div class="contenedor-tipo-prenda m-0 p-0">
-              <button type="button" class="btn btn-primary seleccion-tipo-prenda boton-personalizado" value="Trajes">
+              <button type="button" class="btn btn-primary seleccion-tipo-prenda boton-personalizado" value="Traje">
                 <img src="./img/tipoPrenda/traje.svg" style="width:3vw;"><a>Trajes</a>
               </button>
             </div>
             <div class="contenedor-tipo-prenda m-0 p-0">
-              <button type="button" class="btn btn-primary seleccion-tipo-prenda boton-personalizado" value="Vestidos">
+              <button type="button" class="btn btn-primary seleccion-tipo-prenda boton-personalizado" value="Vestido">
                 <img src="./img/tipoPrenda/vestido.svg" style="width:3vw;"><a>Vestidos</a>
               </button>
             </div>
@@ -121,7 +121,7 @@ if(!isset($_POST["peticionRealizada"]) || $_POST["peticionRealizada"] == false){
         <div class="col-3" style="height: 100%; margin-top:20px;">
           <div class="card bg-light" style="height: 17%;"><label class="etiquetaSubapartados" for="">Cliente del Pedido</label>
             <div class="card-body" id="clientePedido" style="height: 20%;">
-              <select name="idCliente" form="peticionLimpiezaForm" class="custom-select" style="margin-bottom:15px;">';
+              <select name="idCliente" form="peticionLimpiezaForm" class="custom-select" style="margin-top:-5vh;">';
                 while ($stmt->fetch()) {
                   echo'<option value="'.$idCliente.'">'.$nombreCliente.' '.$apellidoCliente.'</option>';
                 }
@@ -167,7 +167,46 @@ if(!isset($_POST["peticionRealizada"]) || $_POST["peticionRealizada"] == false){
         $stmtB->execute();
         $stmtB->store_result();
       }
+      if ($stmtC = $db->prepare('SELECT tEPTP.ordenEtapa, tEPTP.idTipoEtapa, tE.nombre FROM tipoEtapasPorTipoPedido tEPTP, tipoetapa tE
+        WHERE tE.idTipoEtapa = tEPTP.idTipoEtapa AND tEPTP.idTipoPedido = ? ORDER BY tEPTP.OrdenEtapa ASC')) {
+        $stmtC->bind_param('i', $_POST["idTipoPedido"]);
+        $stmtC->execute();
+        $stmtC->store_result();
+        $stmtC->bind_result($ordenEtapa, $idEtapa, $nombreEtapa);
+        while ($stmtC->fetch()) {
+          if ($stmtD = $db->prepare('INSERT INTO etapa (fechaIni,fechaFin,idPedido,empleadoasignado,idtipoetapa) VALUES (null,null,?,?,?)')) {
+            $stmtD->bind_param('iii', $idPedido,$_POST['empleadoEtapa'.normalizarTexto($nombreEtapa)],$idEtapa);
+            $stmtD->execute();
+            $stmtD->store_result();
+          }
+        }
+      }
+
+    } else {
+      if ($stmtC = $db->prepare('SELECT tEPTP.ordenEtapa, tEPTP.idTipoEtapa, tE.nombre FROM tipoEtapasPorTipoPedido tEPTP, tipoetapa tE
+        WHERE tE.idTipoEtapa = tEPTP.idTipoEtapa AND tEPTP.idTipoPedido = ? ORDER BY tEPTP.OrdenEtapa ASC')) {
+        $stmtC->bind_param('i', $_POST["idTipoPedido"]);
+        $stmtC->execute();
+        $stmtC->store_result();
+        $stmtC->bind_result($ordenEtapa, $idEtapa, $nombreEtapa);
+        while ($stmtC->fetch()) {
+          if (normalizarTexto($nombreEtapa) != "recepcionado(revisiondelaprenda)" && normalizarTexto($nombreEtapa) != "arreglado"){
+            if (normalizarTexto($nombreEtapa) == "findepedido"){
+              if ($stmtD = $db->prepare('INSERT INTO etapa (fechaIni,fechaFin,idPedido,empleadoasignado,idtipoetapa) VALUES (null,null,?,?,?)')) {
+                $stmtD->bind_param('iii', $idPedido,$_SESSION['idCuentaSesión'],$idEtapa);
+                $stmtD->execute();
+                $stmtD->store_result();
+            }}
+            if ($stmtD = $db->prepare('INSERT INTO etapa (fechaIni,fechaFin,idPedido,empleadoasignado,idtipoetapa) VALUES (null,null,?,?,?)')) {
+              $stmtD->bind_param('iii', $idPedido,$_POST['empleadoEtapa'.normalizarTexto($nombreEtapa)],$idEtapa);
+              $stmtD->execute();
+              $stmtD->store_result();
+            }
+          }
+        }
+      }
     }
+
 
     header("location: ./");
   }

@@ -24,8 +24,6 @@ $( ".seleccion-tipo-prenda" ).on( "click", function(){
 } );
 
 
-
-
 function setTipoPrendaPedido(prenda){
   document.getElementById("idTipoPrenda").value = prenda;
   if(document.getElementById("idTipoPedido").value && document.getElementById("idTipoPrenda").value){
