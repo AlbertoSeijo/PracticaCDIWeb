@@ -35,7 +35,9 @@
 }
 
 .carousel-tamanio {
-  width:100vw;
-  margin-left:-15px;
+  width:100%;
+  height: 100%;
   margin-right:-15px;
+  position: relative;
+   min-height: 300px;
 }

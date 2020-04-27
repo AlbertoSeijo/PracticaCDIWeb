@@ -5,7 +5,7 @@ include './header.php';?>
 $nombrePagina = "<a class='cabeceraContenido-title'>La Vandería</a><br><a style='font-size:16px; margin-top: 59px; display: inline-block;'>Tu lavandería de confianza</a>";
 include './cabeceraContenido.php';
 ?>
-<div class="web-content container-fluid" style="height: 72vh;">
+<div class="web-content container-fluid p-0">
 <?php
 if(!isset($_SESSION['sesionIniciada'])){
   echo'
@@ -15,37 +15,37 @@ if(!isset($_SESSION['sesionIniciada'])){
     <li data-target="#demo" data-slide-to="1"></li>
     <li data-target="#demo" data-slide-to="2"></li>
   </ul>
-  <div class="carousel-inner">
-    <div class="carousel-item active" style="height:677px;">
-      <img src="./img/laundry1.jpg" style="width:100%;" alt="">
+  <div class="carousel-inner h-100" style="position: absolute; bottom: 0;">
+    <div class="carousel-item active h-100" style=" position: absolute;  bottom: 0;  overflow: hidden;">
+      <img src="./img/laundry1.jpg" style="object-fit: cover; width: 100%; height: 100%;" alt="">
       <div class="carousel-caption text-center" >
-        <div class="card" style="filter: opacity(0.5); background-color: black; position: absolute; top: 0px; width: 100%; height: 300px; "><!--TODO Aquí falta arreglar esto -->
+        <div class="card" style="filter: opacity(0.5); background-color: black; position: absolute; top: 0px; width: 100%; height: 100%;">
         </div>
         <div class="" style="filter: opacity(1) !important; color: white;">
-        <h3>Tintoreria La Vanderia</h3>
-        <p>Satisfaciendo a nuestros clientes desde hace ya más de 20 años!!</p>
+        <h3>Tintorería La Vandería</h3>
+        <p>¡Satisfaciendo a nuestros clientes desde hace ya más de 20 años!</p>
         </div>
       </div>
     </div>
-    <div class="carousel-item" style="height:677px;">
-      <img src="./img/backgroundImage1.jpg" style="width:100%;" alt="">
+    <div class="carousel-item h-100" style="position: absolute; bottom: 0; overflow: hidden;">
+      <img src="./img/backgroundImage1.jpg" style="object-fit: cover; width: 100%; height: 100%;" alt="">
       <div class="carousel-caption text-center" >
-        <div class="card" style="filter: opacity(0.5); background-color: black; position: absolute; top: 0px; width: 100%; height: 300px; "><!--TODO Aquí falta arreglar esto -->
+        <div class="card" style="filter: opacity(0.5); background-color: black; position: absolute; top: 0px; width: 100%; height: 100%;"><!--TODO Aquí falta arreglar esto -->
         </div>
         <div class="" style="filter: opacity(1) !important; color: white;">
         <h3>Distintos Tipos de Prendas</h3>
-        <p>En La Vanderia trabajamos hasta con ocho tipo de prendas para poder abarcar el mayor rango de prendas a lavar para nuestros clientes.</p>
+        <p>En La Vandería trabajamos hasta con ocho tipo de prendas para poder abarcar el mayor rango de prendas a lavar para nuestros clientes.</p>
         </div>
       </div>
     </div>
-    <div class="carousel-item" style="height:677px;">
-      <img src="./img/laundryreception1.jpg" style="width:100%;" alt="">
+    <div class="carousel-item h-100" style="position: absolute; bottom: 0;  overflow: hidden;">
+      <img src="./img/laundryreception1.jpg" style="object-fit: cover; width: 100%; height: 100%;" alt="">
       <div class="carousel-caption text-center" >
-        <div class="card" style="filter: opacity(0.5); background-color: black; position: absolute; top: 0px; width: 100%; height: 300px; "><!--TODO Aquí falta arreglar esto -->
+        <div class="card" style="filter: opacity(0.5); background-color: black; position: absolute; top: 0px; width: 100%; height: 100%; "><!--TODO Aquí falta arreglar esto -->
         </div>
         <div class="" style="filter: opacity(1) !important; color: white;">
           <h3>Distintos Servicios</h3>
-          <p>En nuestra tintoreria disponemos de hasta 3 tipos de servicios, para un mayor abanico de posibilidades a elegir a nuestros usuarios.</p>
+          <p>En nuestra tintorería disponemos de hasta 3 tipos de servicios, para un mayor abanico de posibilidades a elegir a nuestros usuarios.</p>
         </div>
       </div>
     </div>
