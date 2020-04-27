@@ -349,7 +349,7 @@ function mostrarPedido($resultadoConsulta){
     } else {
     echo '
                 <button type="button" onclick="cancelarPedido('.$result["idPedido"].')" class="btn btn-danger btn-lg btn-cancelar-pedido">Cancelar pedido</button>
-                <button type="button" class="btn btn-primary btn-lg btn-aceptar-precio-actualizado">Aceptar precio actualizado</button>//TODO falta hacer lo de aceptar precio actualizado
+                <button type="button" class="btn btn-primary btn-lg btn-aceptar-precio-actualizado" onclick="aceptarPrecioActualizado('.$result["idPedido"].')">Aceptar precio actualizado</button>
     ';
     }
   } else if ($_SESSION["tipoCuentaSesión"] == "Empleado") {
