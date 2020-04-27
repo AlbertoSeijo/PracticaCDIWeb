@@ -1,8 +1,3 @@
-.separador-fba {
-  width:100%;
-  height: 30vh;
-}
-
 .separadorPrecio {
   margin: 0px;
   border-width: 2px;
@@ -17,4 +12,47 @@
 .totalPrecio {
   display:block;
   margin-left: 20px;
+}
+
+.contenedorFechaDato {
+  text-align: right;
+  min-height:24px;
+}
+
+.contenedorFechaNombre {
+  font-weight:bold;
+  font-style:italic;
+  text-decoration-line:underline;
+}
+.fechas {
+  min-height: 24px;
+}
+
+.etq-es-etapa-actual {
+  position: absolute;
+  top: -16px;
+  background-color: white;
+  width: 100px;
+  left: 0;
+  right: 0;
+}
+
+.marca-pedido-actual-real {
+  border-width: 8px;
+}
+
+#botones {
+  margin-bottom: 16px;
+}
+
+#etapaActualNombre {
+  background-color: white;
+}
+
+#etapaAnteriorNombre {
+  background-color: white;
+}
+
+#etapaSiguienteNombre {
+  background-color: white;
 }

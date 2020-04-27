@@ -273,7 +273,7 @@ function mostrarPedido($resultadoConsulta){
                     <a class="textoPrecio">Arreglos solicitados:</a>
                     <a class="textoPrecio">Arreglos extras:</a>
                     <a class="textoPrecio">Descuento:</a>
-                    <a class="font-weight-bold totalPrecio">Total:</a>
+                    <a class="font-weight-bold totalPrecio">Total (IVA no inc.):</a>
                   </div>
                   <div class="col-6 text-right h-100">
                     <a style="position: absolute; left: 10px; top: 20px; font-size: 20px;">+</a>
@@ -342,12 +342,14 @@ function mostrarPedido($resultadoConsulta){
                 <form action="./detallesPedido" method="POST">
                   <input type="submit" class="btn btn-primary btn-lg" value="Detalles del pedido">
                   <input type="hidden" name="idPedido" value="'.$result["idPedido"].'">
+                  <input type="hidden" name="ordenVerEtapa" value="'.$result["ordenActual"].'">
+                  <input type="hidden" name="ordenEtapaActual" value="'.$result["ordenActual"].'">
                 </form>
     ';
     } else {
     echo '
                 <button type="button" onclick="cancelarPedido('.$result["idPedido"].')" class="btn btn-danger btn-lg btn-cancelar-pedido">Cancelar pedido</button>
-                <button type="button" class="btn btn-primary btn-lg btn-aceptar-precio-actualizado">Aceptar precio actualizado</button>
+                <button type="button" class="btn btn-primary btn-lg btn-aceptar-precio-actualizado">Aceptar precio actualizado</button>//TODO falta hacer lo de aceptar precio actualizado
     ';
     }
   } else if ($_SESSION["tipoCuentaSesión"] == "Empleado") {
@@ -355,14 +357,18 @@ function mostrarPedido($resultadoConsulta){
                 <form action="./detallesPedido" method="POST">
                   <input type="submit" class="btn btn-primary btn-lg" value="Detalles del pedido">
                   <input type="hidden" name="idPedido" value="'.$result["idPedido"].'">
+                  <input type="hidden" name="ordenVerEtapa" value="'.$result["ordenActual"].'">
+                  <input type="hidden" name="ordenEtapaActual" value="'.$result["ordenActual"].'">
                 </form>
     ';
   } else if ($_SESSION["tipoCuentaSesión"] == "Encargado"){
     if($result["precioAceptado"]){
     echo '
-                <form action="./detallesPedido" method="POST">
+                <form action="./detallesPedido.php" method="POST">
                   <input type="submit" class="btn btn-primary btn-lg" value="Detalles del pedido">
                   <input type="hidden" name="idPedido" value="'.$result["idPedido"].'">
+                  <input type="hidden" name="ordenVerEtapa" value="'.$result["ordenActual"].'">
+                  <input type="hidden" name="ordenEtapaActual" value="'.$result["ordenActual"].'">
                 </form>
     ';
     } else {
@@ -371,6 +377,8 @@ function mostrarPedido($resultadoConsulta){
                 <form action="./detallesPedido" method="POST">
                   <input type="submit" class="btn btn-primary btn-lg btn-aceptar-precio-actualizado" value="Detalles del pedido">
                   <input type="hidden" name="idPedido" value="'.$result["idPedido"].'">
+                  <input type="hidden" name="ordenVerEtapa" value="'.$result["ordenActual"].'">
+                  <input type="hidden" name="ordenEtapaActual" value="'.$result["ordenActual"].'">
                 </form>
     ';
     }
