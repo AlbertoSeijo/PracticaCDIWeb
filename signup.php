@@ -10,7 +10,7 @@ if(isset($_SESSION['sesionIniciada'])){
   <div class="row margen-superior" align="center">
     <div class="col-12 my-auto" align="center"><h1 class="font-weight-bold text-white">Registro</h1></div>
   </div>
-  <div class="row justify-content-center">
+  <div class="row justify-content-center" style="margin-top:-25px;">
     <div class="col-lg-8 col-xl-4">
       <div class="card bg-light">
         <div class="card-body">
@@ -48,7 +48,7 @@ if(isset($_SESSION['sesionIniciada'])){
       <button type="submit" class="btn btn-primary btn-lg btn-registrarse" form="formRegistro" >Registrarse</button>
     </div>
   </div>
-</div>
+
 <?php
 //Primero comprobamos si se han enviado datos desde el formulario para ver si se debe intentar insertar al cargar la página o no.
 if(isset($_POST['triedRegistro'])  && $_POST['triedRegistro'] == true){
@@ -160,11 +160,12 @@ if(isset($_POST['triedRegistro'])  && $_POST['triedRegistro'] == true){
       ';
     }
   }
-  $db->close();
 } else {
 }
 
 ?>
+
+</div>
 <script src="./js/signup.js"></script>
 <?php
 include './footer.php';

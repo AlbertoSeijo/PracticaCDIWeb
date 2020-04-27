@@ -30,7 +30,7 @@ if(isset($_SESSION['sesionIniciada'])){
       <button type="submit" class="btn btn-primary btn-lg btn-login" form="formLogin">Iniciar sesión</button>
     </div>
   </div>
-</div>
+
 <?php
 //Primero comprobamos si se han enviado datos desde el formulario para ver si se debe intentar insertar al cargar la página o no.
 if(isset($_POST['triedLogin']) && $_POST['triedLogin'] == true){
@@ -49,6 +49,7 @@ if(isset($_POST['triedLogin']) && $_POST['triedLogin'] == true){
         </div>
       </div>
     </div>
+
     ';//TODO Echo Por favor rellena los campos, o algo así.
   } else {
     define('SERVIDOR_BD', 'localhost:3306');
@@ -144,6 +145,8 @@ if(isset($_POST['triedLogin']) && $_POST['triedLogin'] == true){
   }
 }
 ?>
+
+</div>
 
 <?php
 include './footer.php';

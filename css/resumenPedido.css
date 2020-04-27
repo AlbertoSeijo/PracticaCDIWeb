@@ -15,3 +15,11 @@
 .bg-table {
   background-color: #81D4FA;
 }
+
+.btn-facturar{
+  position:absolute;
+  left:0;
+  right:0;
+  bottom:0;
+  top:425px;
+}
