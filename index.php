@@ -5,8 +5,9 @@ include './header.php';?>
 $nombrePagina = "<a class='cabeceraContenido-title'>La Vandería</a><br><a style='font-size:16px; margin-top: 59px; display: inline-block;'>Tu lavandería de confianza</a>";
 include './cabeceraContenido.php';
 ?>
-<div class="web-content container-fluid p-0">
 <?php
+echo'
+<div class="web-content container-fluid '; echo !isset($_SESSION['sesionIniciada']) ? 'p-0">' : '">';
 if(!isset($_SESSION['sesionIniciada'])){
   echo'
   <div id="demo" class="carousel slide carousel-tamanio" data-ride="carousel">

@@ -6,7 +6,7 @@ if(isset($_SESSION['sesionIniciada'])){
 }
 ?>
 <link href="./css/signup.css" rel="stylesheet">
-<div class="container-fluid">
+<div class="web-content container-fluid">
   <div class="row margen-superior" align="center">
     <div class="col-12 my-auto" align="center"><h1 class="font-weight-bold text-white">Registro</h1></div>
   </div>
