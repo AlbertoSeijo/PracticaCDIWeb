@@ -1,4 +1,7 @@
 <?php
+if (!isset($_POST["cargadoDesdePagina"]) ) {//Así se sabe si se ha llamado directamente al fichero
+  header("Location: ./");
+}
 session_start();
 include './commonFunctions.php';
 define('SERVIDOR_BD', 'localhost:3306');
@@ -214,7 +217,7 @@ function mostrarPedido($resultadoConsulta){
         <h5 style="margin-top: 8px;">Cliente:</h5>
         <div class="row" style="height: 100%;">
           <div class="col-12 text-center h-100 p-0" style="white-space: nowrap;">
-            <img src="./img/avatar/avatarCliente.png" style="width: 35px;"></img> ' . $result["nombreCliente"] . ' ' . $result["apellidosCliente"] .'
+            <img src="./img/avatar/avatarCliente.svg" style="width: 35px;"></img> ' . $result["nombreCliente"] . ' ' . $result["apellidosCliente"] .'
           </div>
         </div>
       </div>

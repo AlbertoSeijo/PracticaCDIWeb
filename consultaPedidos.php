@@ -44,7 +44,7 @@ include './cabeceraContenido.php';
   </div>
 </div>
 
-<form id="consultaPedidosForm"></form>
+<form id="consultaPedidosForm"><input type="hidden" name="cargadoDesdePagina" value="true"></input></form>
 <div class="container-fluid">
   <div class="row justify-content-center contenedorFiltros">
     <div class="col-xl-2">

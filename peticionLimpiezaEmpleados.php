@@ -1,4 +1,7 @@
 <?php
+  if (!isset($_POST["cargadoDesdePagina"]) ) {//Así se sabe si se ha llamado directamente al fichero
+    header("Location: ./");
+  }
   include './commonFunctions.php';
 
   $idTipoPedido = $_POST["idTipoPedido"];

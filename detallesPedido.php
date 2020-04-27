@@ -1,6 +1,6 @@
 <?php
 include './header.php';
-if(!isset($_SESSION['sesionIniciada'])){
+if(!isset($_SESSION['sesionIniciada']) || !isset($_POST["idPedido"])){
   header("Location: ./");
 }
 ?>

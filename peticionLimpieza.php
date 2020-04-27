@@ -14,6 +14,7 @@ include './cabeceraContenido.php';
   <input type="hidden" id="idTipoPedido" name="idTipoPedido" value="">
   <input type="hidden" id="idTipoPrenda" name="tipoPrenda" value="">
   <input type="hidden" id="esExpress" name="esExpress" value="">
+  <input type="hidden" name="cargadoDesdePagina" value="true">
 </form>
 <?php
 
