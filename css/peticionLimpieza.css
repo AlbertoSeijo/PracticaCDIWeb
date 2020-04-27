@@ -17,8 +17,10 @@
   border-width: 4px;
 }
 
-.boton-personalizado .boton-seleccionado {
-  border-width: 12px;
+.boton-seleccionado {
+  border-width: 8px;
+  border-color: #0008FF;
+  border-radius:4px;
 }
 
 .contenedor-tipo-prenda {

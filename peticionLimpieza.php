@@ -41,42 +41,42 @@ if(!isset($_POST["peticionRealizada"]) || $_POST["peticionRealizada"] == false){
       <div class="card bg-light text-center h-100" style="overflow-x: hidden; overflow-y: auto;">
           <div class="row text-center justify-content-center">
             <div class="contenedor-tipo-prenda m-0 p-0">
-              <button type="button" class="btn btn-primary seleccion-tipo-prenda boton-personalizado" value="Lana">
+              <button type="button" class="btn btn-primary seleccion-tipo-prenda" value="Lana">
                 <img src="./img/tipoPrenda/lana.svg" style="width:3vw;"><a>Lana</a>
               </button>
             </div>
             <div class="contenedor-tipo-prenda m-0 p-0">
-              <button type="button" class="btn btn-primary seleccion-tipo-prenda boton-personalizado" value="Seda">
+              <button type="button" class="btn btn-primary seleccion-tipo-prenda" value="Seda">
                 <img src="./img/tipoPrenda/seda.svg" style="width:3vw;"><a>Seda</a>
               </button>
             </div>
             <div class="contenedor-tipo-prenda m-0 p-0">
-              <button type="button" class="btn btn-primary seleccion-tipo-prenda boton-personalizado" value="Cuero">
+              <button type="button" class="btn btn-primary seleccion-tipo-prenda" value="Cuero">
                 <img src="./img/tipoPrenda/cuero.svg" style="width:3vw;"><a>Cuero</a>
               </button>
             </div>
             <div class="contenedor-tipo-prenda m-0 p-0">
-              <button type="button" class="btn btn-primary seleccion-tipo-prenda boton-personalizado" value="Bambú">
+              <button type="button" class="btn btn-primary seleccion-tipo-prenda" value="Bambú">
                 <img src="./img/tipoPrenda/bambu.svg" style="width:3vw;"><a>Bambú</a>
               </button>
             </div>
             <div class="contenedor-tipo-prenda m-0 p-0">
-              <button type="button" class="btn btn-primary seleccion-tipo-prenda boton-personalizado" value="Algodón">
+              <button type="button" class="btn btn-primary seleccion-tipo-prenda" value="Algodón">
                 <img src="./img/tipoPrenda/algodon.svg" style="width:3vw;"><a>Algodón</a>
               </button>
             </div>
             <div class="contenedor-tipo-prenda m-0 p-0">
-              <button type="button" class="btn btn-primary seleccion-tipo-prenda boton-personalizado" value="Nailon">
+              <button type="button" class="btn btn-primary seleccion-tipo-prenda" value="Nailon">
                 <img src="./img/tipoPrenda/nailon.svg" style="width:3vw;"><a>Nailon</a>
               </button>
             </div>
             <div class="contenedor-tipo-prenda m-0 p-0">
-              <button type="button" class="btn btn-primary seleccion-tipo-prenda boton-personalizado" value="Traje">
+              <button type="button" class="btn btn-primary seleccion-tipo-prenda" value="Traje">
                 <img src="./img/tipoPrenda/traje.svg" style="width:3vw;"><a>Trajes</a>
               </button>
             </div>
             <div class="contenedor-tipo-prenda m-0 p-0">
-              <button type="button" class="btn btn-primary seleccion-tipo-prenda boton-personalizado" value="Vestido">
+              <button type="button" class="btn btn-primary seleccion-tipo-prenda" value="Vestido">
                 <img src="./img/tipoPrenda/vestido.svg" style="width:3vw;"><a>Vestidos</a>
               </button>
             </div>
