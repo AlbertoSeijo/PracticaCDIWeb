@@ -5,6 +5,7 @@ if(!isset($_SESSION['sesionIniciada']) || $_SESSION['tipoCuentaSesión'] != "Enc
 }
 ?>
 <link href="./css/canjePuntos.css" rel="stylesheet">
+
 <?php
 $nombrePagina = "Canje de puntos";
 include './cabeceraContenido.php';
@@ -41,7 +42,7 @@ include './cabeceraContenido.php';
   <div class="row text-center contenedor-botones-continuar">
     <div class="col-12 text-center justify-content-center">
       <?php echo '
-      <button class="btn btn-primary btn-lg btn-continuar" onclick="location.href=\'./tarjetaPuntos\'">Continuar</button>
+      <button class="btn btn-primary btn-lg btn-continuar" onclick="tarjetavalida();">Continuar</button>
       <hr class="separadorBotones">
       <button class="btn btn-primary btn-lg btn-sin-tarjeta" onclick="location.href=\'./resumenPedido\'">Tramitar pedido sin aplicar descuentos</button>';?>
     </div>
