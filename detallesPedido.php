@@ -48,11 +48,16 @@ if (isset($_SESSION['sesionIniciada'])){
         $stmtH->execute();
 
         $stmtI = $db->prepare("UPDATE tipoEtapasPorTipoPedido teptp,etapa e, pedido p SET e.fechaFin=null WHERE e.idPedido = ?  AND e.idTipoEtapa = teptp.idTipoEtapa AND teptp.OrdenEtapa = ? AND e.idPedido = p.idPedido AND p.idTipoPedido = teptp.idTipoPedido");
-        $stmtI->bind_param('ss',$_POST["idPedido"],$_POST["ordenEtapaAnterior"]);
+        $stmtI->bind_param('ss', $_POST["idPedido"],$_POST["ordenEtapaAnterior"]);
         $stmtI->execute();
 
   }
   echo'
+  <form id="idPedidoForm" method="POST" action="./canjePuntos" style="display: none">
+    <input type="hidden" name="idPedido" value="'.$_POST["idPedido"].'">
+    <input type="submit">
+  </form>
+
   <div class="container-fluid">
     <form id="detallesPedidoForm" method="POST"><input type="hidden" name="cargadoDesdePagina" value="true"><input id="idPedido" type="hidden" value="'.$_POST["idPedido"].'"><input id="ordenVerEtapa" type="hidden" value="'.$_POST["ordenVerEtapa"].'"><input id="ordenEtapaActual" type="hidden" value="'.$_POST["ordenEtapaActual"].'"><input id="tipoCuenta" type="hidden" value="'.$_SESSION['tipoCuentaSesión'].'"><input id="ordenEtapaAsignada" type="hidden" value=""><input id="idCuenta" type="hidden" value="'.$_SESSION['idCuentaSesión'].'"></form>
     <div id="botonesNavegacion" class="row">

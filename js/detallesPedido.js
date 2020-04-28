@@ -271,7 +271,8 @@ function enviarSiguienteEtapa(){
       $("#ordenEtapaActual")[0].value = ordenSiguienteVista;
       actualizarDetallesPedido();
       if(ultimaEtapa){
-        $.redirect('canjePuntos.php', {'idPedido': "'"+idPedido+"'"});
+        /*$.redirect('canjePuntos.php', {'idPedido': "'"+idPedido+"'"});*/
+        document.getElementById("idPedidoForm").submit();
       }
     }
   );

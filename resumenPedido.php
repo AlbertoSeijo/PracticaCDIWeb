@@ -1,6 +1,6 @@
 <?php
 include './header.php';
-if(!isset($_SESSION['sesionIniciada']) || $_SESSION['tipoCuentaSesión'] != "Encargado"){
+if(!isset($_SESSION['sesionIniciada']) || $_SESSION['tipoCuentaSesión'] != "Encargado" || !isset($_POST["idPedidoS"])){
   header("Location: ./");
 }
 ?>
@@ -9,7 +9,7 @@ if(!isset($_SESSION['sesionIniciada']) || $_SESSION['tipoCuentaSesión'] != "Enc
 <script src="./js/resumenPedido.js"></script>
 
 <?php
-
+$varIdPedido = $_POST["idPedidoS"];
 
 function calcularPrecioTotal($precioBasePedido, $precioDesperfectos, $precioServiciosAdicionales, $porcentajeDescuento, $IVA){
   $calculoPrecioTotal = $precioBasePedido;
@@ -102,14 +102,14 @@ LEFT JOIN (SELECT * FROM Etapa uE WHERE uE.idTipoEtapa = '7') ultimaEtapa
 LEFT JOIN (SELECT * FROM Etapa pE WHERE pE.idTipoEtapa = '1') primeraEtapa
     ON primeraEtapa.idPedido = p.idPedido
 WHERE
-    p.idPedido =  12
+    p.idPedido =  ?
         AND
     p.estaCancelado = 0
         AND
     e.idTipoEtapa = 7
     "
   )) {
-    /*$stmt->bind_param('s', $_POST["idPedido"]);*/
+    $stmt->bind_param('s', $varIdPedido);
     $stmt->execute();
     $stmt->store_result();
     $stmt->bind_result($tipoPrenda, $tipoServicio, $idTipoPedido, $esExpress, $precioBasePedido, $precioDesperfectos,
