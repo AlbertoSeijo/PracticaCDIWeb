@@ -251,8 +251,8 @@ echo'
       <div id="botones" class="row">
         <div class="col-12 text-center">
           <div class="btn-group-vertical">
-            <button type="button" class="btn btn-info" style="width:20vw; height:10vh; margin:5px;"><b>Pago en efectivo</b></button>
-            <button type="button" class="btn btn-info" style="width:20vw; height:10vh; margin:5px;"><b>Pago con tarjeta</b></button>
+            <button type="button" class="btn btn-info" style="width:20vw; height:10vh; margin:5px;" onclick="finalizar()"><b>Pago en efectivo</b></button>
+            <button type="button" class="btn btn-info" style="width:20vw; height:10vh; margin:5px;" onclick="finalizar()"><b>Pago con tarjeta</b></button>
           </div>
         </div>
       </div>
