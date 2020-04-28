@@ -69,7 +69,9 @@ $db = mysqli_connect(SERVIDOR_BD,USUARIO_BD,CONTRASENA_BD,NOMBRE_BD);
     e.empleadoasignado empleadoAsignado,
     oe.ordenEtapa ordenActual,
     e.idTipoEtapa idTipoEtapa,
-    eReal.nombre
+    eReal.nombre,
+    eReal.OrdenEtapa,
+    eReal.idTipoEtapa
 FROM
     Pedido p INNER JOIN tipoPedido tpedido ON p.idTipoPedido = tpedido.idTipoPedido
     INNER JOIN Cuenta c ON c.idCuenta = p.ClientePedido
@@ -90,7 +92,7 @@ LEFT JOIN (SELECT * FROM Etapa uE WHERE uE.idTipoEtapa = '7' AND uE.fechaFin IS 
     ON ultimaEtapa.idPedido = p.idPedido
 LEFT JOIN (SELECT * FROM Etapa pE WHERE pE.idTipoEtapa = '1') primeraEtapa
     ON primeraEtapa.idPedido = p.idPedido
-LEFT JOIN (SELECT tEPTPX.OrdenEtapa, tEX.nombre, tEPTPX.idTipoPedido FROM tipoEtapa tEX, tipoEtapasportipopedido tEPTPX WHERE tEX.idTipoEtapa = tEPTPX.idTipoEtapa) eReal
+LEFT JOIN (SELECT tEPTPX.OrdenEtapa, tEX.idTipoEtapa, tEX.nombre, tEPTPX.idTipoPedido FROM tipoEtapa tEX, tipoEtapasportipopedido tEPTPX WHERE tEX.idTipoEtapa = tEPTPX.idTipoEtapa) eReal
   ON (eReal.OrdenEtapa = ? AND eReal.idTipoPedido = p.idTipoPedido)
 WHERE
     p.idPedido =  ?
@@ -106,7 +108,7 @@ WHERE
     $stmt->execute();
     $stmt->store_result();
     $stmt->bind_result($nombreTipoEtapa, $tipoPrenda, $tipoServicio, $idTipoPedido, $esExpress, $precioBasePedido, $precioDesperfectos,
-    $precioServiciosAdicionales,$porcentajeDescuento,$inicioPedido,$inicioEtapa,$finEtapa,$descArreglos,$descServAdic,$empleadoAsignado,$ordenActual, $idEtapa,$nombreEtapaActualReal);
+    $precioServiciosAdicionales,$porcentajeDescuento,$inicioPedido,$inicioEtapa,$finEtapa,$descArreglos,$descServAdic,$empleadoAsignado,$ordenActual, $idEtapa,$nombreEtapaActualReal,$ordenEtapaActualReal,$idEtapaActualReal);
     echo "{";
     while ($stmt->fetch()) {
       $calculoPrecioTotal = calcularPrecioTotal($precioBasePedido, $precioDesperfectos, $precioServiciosAdicionales, $porcentajeDescuento);
@@ -128,6 +130,8 @@ WHERE
         '"empleadoAsignado":"'.$empleadoAsignado.'", '.
         '"ordenActualVista":"'.$ordenActual.'", '.
         '"nombreEtapaActualReal":"'.$nombreEtapaActualReal.'", '.
+        '"ordenEtapaActualReal":"'.$ordenEtapaActualReal.'", '.
+        '"idEtapaActualReal":"'.$idEtapaActualReal.'", '.
         '"idEtapaVista":"'.$idEtapa.'", ';
       /* ETAPA ANTERIOR Y POSTERIOR */
       if ($ordenActual == 1){

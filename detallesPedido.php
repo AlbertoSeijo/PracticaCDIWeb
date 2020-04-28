@@ -12,16 +12,22 @@ $nombrePagina = "<a id='tituloNombreEtapa'></a>"
     include './cabeceraContenido.php';
 
 if (isset($_SESSION['sesionIniciada'])){
+  define('SERVIDOR_BD', 'localhost:3306');
+  define('USUARIO_BD', 'webtintoreria');
+  define('CONTRASENA_BD', 'lavanderia');
+  define('NOMBRE_BD', 'tintoreria');
+
+  $db = mysqli_connect(SERVIDOR_BD,USUARIO_BD,CONTRASENA_BD,NOMBRE_BD);
   if (isset($_POST["haEnviadoASiguienteEtapa"]) && $_POST["haEnviadoASiguienteEtapa"] == true){
 
         $systemDate= date("Y-m-d H:i:s");
 
         $stmtE = $db->prepare("UPDATE etapa e SET e.fechaFin=? WHERE e.idPedido = ?  AND e.idTipoEtapa= ?");
-        $stmtE->bind_param('sss', $systemDate,$_POST["idPedido"],$idEtapa);
+        $stmtE->bind_param('sss', $systemDate,$_POST["idPedido"],$_POST["idEtapa"]);
         $stmtE->execute();
 
-        $stmtF = $db->prepare("UPDATE etapa e SET e.fechaIni=? WHERE e.idPedido = ?  AND e.idTipoEtapa= ?");
-        $stmtF->bind_param('sss', $systemDate,$_POST["idPedido"],$idEtapaPosterior);
+        $stmtF = $db->prepare("UPDATE tipoEtapasPorTipoPedido teptp,etapa e, pedido p SET e.fechaIni=? WHERE e.idPedido = ?  AND e.idTipoEtapa = teptp.idTipoEtapa AND teptp.OrdenEtapa = ? AND e.idPedido = p.idPedido AND p.idTipoPedido = teptp.idTipoPedido");
+        $stmtF->bind_param('sss', $systemDate,$_POST["idPedido"],$_POST["ordenEtapaSiguiente"]);
         $stmtF->execute();
 
 
@@ -30,7 +36,7 @@ if (isset($_SESSION['sesionIniciada'])){
         $systemDate= date("Y-m-d H:i:s");
 
         $stmtG = $db->prepare("UPDATE etapa e SET e.fechaFin=? WHERE e.idPedido = ?  AND e.idTipoEtapa= ?");
-        $stmtG->bind_param('sss', $systemDate,$_POST["idPedido"],$idEtapa);
+        $stmtG->bind_param('sss', $systemDate,$_POST["idPedido"],$_POST["idEtapaPago"]);
         $stmtG->execute();
 
   } else if (isset($_POST["haEnviadoAEtapaAnterior"]) && $_POST["haEnviadoAEtapaAnterior"] == true){
@@ -38,17 +44,25 @@ if (isset($_SESSION['sesionIniciada'])){
         $systemDate= date("Y-m-d H:i:s");
 
         $stmtH = $db->prepare("UPDATE etapa e SET e.fechaIni=null WHERE e.idPedido = ?  AND e.idTipoEtapa= ?");
-        $stmtH->bind_param('ss', $_POST["idPedido"],$idEtapa);
+        $stmtH->bind_param('ss', $_POST["idPedido"],$_POST["idEtapa"]);
         $stmtH->execute();
 
-        $stmtI = $db->prepare("UPDATE etapa e SET e.fechaInio=? AND e.fechaFin=null WHERE e.idPedido = ?  AND e.idTipoEtapa= ?");
-        $stmtI->bind_param('sss', $systemDate,$_POST["idPedido"],$idEtapa);
+        $stmtI = $db->prepare("UPDATE tipoEtapasPorTipoPedido teptp,etapa e, pedido p SET e.fechaFin=null WHERE e.idPedido = ?  AND e.idTipoEtapa = teptp.idTipoEtapa AND teptp.OrdenEtapa = ? AND e.idPedido = p.idPedido AND p.idTipoPedido = teptp.idTipoPedido");
+        $stmtI->bind_param('ss',$_POST["idPedido"],$_POST["ordenEtapaAnterior"]);
         $stmtI->execute();
 
   }
   echo'
   <div class="container-fluid">
-    <form id="detallesPedidoForm" method="POST"><input type="hidden" name="cargadoDesdePagina" value="true"><input id="idPedido" type="hidden" value="'.$_POST["idPedido"].'"><input id="ordenVerEtapa" type="hidden" value="'.$_POST["ordenVerEtapa"].'"><input id="ordenEtapaActual" type="hidden" value="'.$_POST["ordenEtapaActual"].'"></form>
+    <form id="detallesPedidoForm" method="POST"><input type="hidden" name="cargadoDesdePagina" value="true"><input id="idPedido" type="hidden" value="'.$_POST["idPedido"].'"><input id="ordenVerEtapa" type="hidden" value="'.$_POST["ordenVerEtapa"].'"><input id="ordenEtapaActual" type="hidden" value="'.$_POST["ordenEtapaActual"].'"><input id="tipoCuenta" type="hidden" value="'.$_SESSION['tipoCuentaSesión'].'"><input id="ordenEtapaAsignada" type="hidden" value=""><input id="idCuenta" type="hidden" value="'.$_SESSION['idCuentaSesión'].'"></form>
+    <div id="botonesNavegacion" class="row">
+      <div class="col-6 text-left">
+      <button type="button" class="btn btn-info" style="width:250px; height: 50px;" onclick="verAnteriorEtapa()">Ver anterior etapa</button>
+      </div>
+      <div class="col-6 text-right">
+        <button type="button" class="btn btn-info" style="width:250px; height: 50px;" onclick="verSiguienteEtapa()">Ver siguiente etapa</button>
+      </div>
+    </div>
     <div class="row" style="margin-top:20px;">
       <div id="col1" class="col-12 col-lg-3 order-1 order-lg-1" style="margin-top:20px;">
         <div class="row row d-flex justify-content-center">
@@ -76,16 +90,9 @@ if (isset($_SESSION['sesionIniciada'])){
             </div>
           </div>
         </div>
-        <div id="contenedorEnviarAtrásSiSyR" class="row" style="margin-top:65px;">
-          <div class="col-12 text-center">
-            <button type="button" class="btn btn-warning" style="width:15vw; height:10vh; visibility:hidden; onclick="EnvEtAntEmp('.$_POST["idPedido"].')"><b>Devolver prenda a lavado</b></button>
-          </div>
-        </div>
       </div>
       <div id="col2" class="col-12 col-lg-6 order-3 order-lg-2" style="margin-top:20px;">
         <div class="row d-flex align-items-center">
-          ';if(true){//$nombreTipoEtapaAnterior == null
-          echo'
           <div class="col-3">
             <div id="contenedorEtapaAnterior" class="row justify-content-center" style="visibility:hidden;">
               <div id="cardEtapaAnterior" class="card bg-light text-center" style="width: 140px; height: 140px;">
@@ -102,9 +109,6 @@ if (isset($_SESSION['sesionIniciada'])){
               <img src="./img/arrowRight.svg" style="width:50px;"></img>
             </div>
           </div>
-          ';
-          }
-        echo'
           <div class="col-4">
             <div class="row justify-content-center">
               <div id="cardEtapaActual" class="card bg-light text-center" style="width: 180px; height: 180px;">
@@ -116,8 +120,6 @@ if (isset($_SESSION['sesionIniciada'])){
               </div>
             </div>
           </div>
-          '; if (true){//$nombreTipoEtapaPosterior == null){
-            echo'
           <div class="col-1">
             <div id="contenedorFlechaDerecha" class="row justify-content-center d-flex align-items-center" style="visibility:hidden;">
               <img src="./img/arrowRight.svg" style="width:50px;"></img>
@@ -134,9 +136,6 @@ if (isset($_SESSION['sesionIniciada'])){
               </div>
             </div>
           </div>
-          ';
-        }
-          echo'
         </div>
         <div class="row justify-content-center" style="margin-top:65px;">
               <div class="col-5">
@@ -181,11 +180,12 @@ if (isset($_SESSION['sesionIniciada'])){
         </div>
       </div>
     </div>
-    <div id="botones" class="row">
+    <div id="botonesPasoEtapas" class="row">
       <div class="col-6 text-left">
+        <button id="botonEnviarAnteriorEtapa"type="button" class="btn btn-warning" style="width:250px; height:80px; visibility:hidden;" onclick="enviarAnteriorEtapa()">Enviar a la etapa anterior</button>
       </div>
       <div class="col-6 text-right">
-        <button type="button" class="btn btn-info" style="width:50%;" onclick="EnvSigEtEmp('.$_POST["idPedido"].')"><b>Enviar a la siguiente etapa</b></button>
+        <button id="botonEnviarSiguienteEtapa" type="button" class="btn btn-info" style="width:250px; height:80px; visibility:hidden;" onclick="enviarSiguienteEtapa()">Enviar a la siguiente etapa</button>
       </div>
     </div>
   </div>

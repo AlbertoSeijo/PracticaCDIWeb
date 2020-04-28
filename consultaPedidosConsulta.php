@@ -241,25 +241,33 @@ function mostrarPedido($resultadoConsulta){
             <div class="row" style="height: 65%;">
             ';
               $anchoColumnaTipoPedidoTipoPrenda = "col-12 col-sm-6";
+              $anchoSubcolumnas = "col-6";
               if($_SESSION['tipoCuentaSesión'] == "Empleado"){
                 $anchoColumnaTipoPedidoTipoPrenda = "col-12";
+                $anchoSubcolumnas = "col-4";
               }
             echo '
               <div class="'.$anchoColumnaTipoPedidoTipoPrenda.'"><!-- TODO Esta fila puede ser col-6 o col-12 según haya factura o no -->
                 <div class="row h-100">
-                  <div class="col-6 text-center h-100" style="padding-top: 25px;">
+                  <div class="'.$anchoSubcolumnas.' text-center h-100" style="padding-top: 25px;">
                     <h5>Tipo de prenda</h5>
                     <div class="card bg-white mx-auto contenedorTipoServicioTipoPrenda">
                       <img src="./img/tipoPrenda/'.normalizarTexto($result["tipoPrenda"]).'.svg" class="mx-auto my-auto w-75"></img>
                     </div>
                     <div class="text-center" style="position: absolute; width: 69px; background-color: white; height: 12px; left:0; right: 0; margin-left: auto; margin-right: auto; margin-top: -12px; line-height: 18px;">'.$result["tipoPrenda"].'</div>
                   </div>
-                  <div class="col-6 text-center h-100" style="padding-top: 25px;">
+                  <div class="'.$anchoSubcolumnas.' text-center h-100" style="padding-top: 25px;">
                     <h5>Tipo de servicio</h5>
                     <div class="card bg-white mx-auto contenedorTipoServicioTipoPrenda">
                       <img src="./img/tipoPedido/'.normalizarTexto($result["nombreTipoPedido"]).'.svg" class="mx-auto my-auto w-75"></img>
                     </div>
                     <div class="text-center" style="position: absolute; width: 69px; background-color: white; height: 12px; left:0; right: 0; margin-left: auto; margin-right: auto; margin-top: -12px; line-height: 18px;">'.$result["nombreTipoPedido"].'</div>
+                  </div>
+                  <div class="'.$anchoSubcolumnas.' text-center h-100" style="padding-top: 25px;">
+                    <h5>Etapa asignada</h5>
+                    <div class="card bg-white mx-auto contenedorTipoServicioTipoPrenda">';
+                    include './consultaPedidosConsultaEtapaAsignada.php';echo'
+                    </div>
                   </div>
                 </div>
               </div>';

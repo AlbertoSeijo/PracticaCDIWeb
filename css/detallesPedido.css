@@ -41,8 +41,16 @@
   border-width: 8px;
 }
 
-#botones {
+.marca-pedido-asignado{
+  border-color: gold;
+}
+
+#botonesPasoEtapas {
   margin-bottom: 16px;
+}
+
+#botonesNavegacion {
+  margin-top: 16px;
 }
 
 #etapaActualNombre {
