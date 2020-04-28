@@ -1,17 +1,25 @@
 <?php
 include './header.php';
-if(!isset($_SESSION['sesionIniciada']) || $_SESSION['tipoCuentaSesión'] != "Encargado" || !isset($_POST["idPedido"]) || !isset($_POST["tarjetaPuntos"])){
+if(!isset($_SESSION['sesionIniciada']) || $_SESSION['tipoCuentaSesión'] != "Encargado" || !isset($_POST["idPedidoC"])){
   header("Location: ./");
 }
 ?>
 <?php
+$varIdPedido = $_POST["idPedidoC"];
 $nombrePagina = "Canjeo de regalos y descuentos";
 include './cabeceraContenido.php';
+
+echo'
+  <form id="idPedidoSinDesc" method="POST" action="./resumenPedido" style="display: none">
+    <input type="hidden" name="idPedidoS" value='.$varIdPedido.'>
+    <input type="submit">
+  </form>
+';
+
 ?>
 
 <link rel=stylesheet type="text/css" href="./css/canjePuntos.css">
 <script src="./js/canjePuntos.js" language="javascript" type="text/javascript"></script>
-
 
 
 <div class="container-fluid">
@@ -28,7 +36,7 @@ include './cabeceraContenido.php';
           <h6><b>2350</b></h6>
         </div>
       </div>
-      <button type="button" class="btn btn-info btn-continuarPedido"><h4>Continuar con el pedido</h4></button>
+      <button type="button" class="btn btn-info btn-continuarPedido" onclick="pasarResumen()"><h4>Continuar con el pedido</h4></button>
       </div>
    </div>
 

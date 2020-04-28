@@ -10,6 +10,8 @@ if(!isset($_SESSION['sesionIniciada']) || $_SESSION['tipoCuentaSesión'] != "Enc
 $varIdPedido = $_POST["idPedido"];
 $nombrePagina = "Canje de puntos";
 include './cabeceraContenido.php';
+
+
 ?>
 
 <div class="container-fluid">
@@ -59,6 +61,7 @@ include './cabeceraContenido.php';
   </div>
 </div>
 <script src="./js/canjePuntos.js"></script>
+
 <?php
 include './footer.php';
 ?>

@@ -86,23 +86,12 @@ $(".input-tarjetaCliente").inputFilter(function(value) {
 /* FIN - Sólo permitir números como entrada */
 
 function tarjetavalida(idPedido){
-var in1 = document.getElementById("tarjetaInput1").value;
-var in2 = document.getElementById("tarjetaInput2").value;
-var in3 = document.getElementById("tarjetaInput3").value;
+  var in1 = document.getElementById("tarjetaInput1").value;
+  var in2 = document.getElementById("tarjetaInput2").value;
+  var in3 = document.getElementById("tarjetaInput3").value;
 
-if ((in1.length == 4 && in2.length == 4 && in3.length == 4)){
-    window.location='./canjepuntos2.php';
-    $.post("./canjePuntos2.php",
-      {
-        idCuenta: $("#idCuenta")[0].value,
-        puntos: $("#puntos")[0].value,
-        numTarjeta: $("#numTarjeta")
-      }, function(respuesta) {
-        ordenEtapaAsignada = respuesta.oEtapaAsignada;
-      }
-    );
-  } else {
-    /*ERROR AL INSERTAR TARJETA*/
+  if ((in1.length == 4 && in2.length == 4 && in3.length == 4)){
+    document.getElementById("idPedidoContinuar").submit();
   }
 }
 
