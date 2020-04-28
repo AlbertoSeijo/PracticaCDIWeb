@@ -39,7 +39,6 @@ function confirmarCancelarPedido(){
     eliminarPedido: "Eliminar"
   },
   function(data, status){
-    console.log(data);
     actualizarConsultaPedidos();
   });
 }
@@ -62,5 +61,15 @@ function deshacerCancelarPedido(){
   function(data, status){
     actualizarConsultaPedidos();
     cerrarDeshacer();
+  });
+}
+
+function aceptarPrecioActualizado(idPedido){
+  $.post("./consultaPedidosAceptarPrecio.php",
+  {
+    idPedido: idPedido
+  },
+  function(data, status){
+    actualizarConsultaPedidos();
   });
 }

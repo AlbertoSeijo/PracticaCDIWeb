@@ -35,6 +35,7 @@ function setTipoPrendaPedido(prenda){
   if(document.getElementById("idTipoPedido").value && document.getElementById("idTipoPrenda").value){
     document.getElementById("pednormalbot").disabled = false;
     document.getElementById("pedexpressbot").disabled = false;
+    actualizarEmpleadosLimpieza();
   }
 }
 
@@ -43,8 +44,8 @@ function limpiezacompleta(){
   if(document.getElementById("idTipoPedido").value && document.getElementById("idTipoPrenda").value){
     document.getElementById("pednormalbot").disabled = false;
     document.getElementById("pedexpressbot").disabled = false;
+    actualizarEmpleadosLimpieza();
   }
-  actualizarEmpleadosLimpieza();
 }
 
 function limpiezaseco(){
@@ -52,8 +53,8 @@ function limpiezaseco(){
   if(document.getElementById("idTipoPedido").value && document.getElementById("idTipoPrenda").value){
     document.getElementById("pednormalbot").disabled = false;
     document.getElementById("pedexpressbot").disabled = false;
+    actualizarEmpleadosLimpieza();
   }
-  actualizarEmpleadosLimpieza();
 }
 
 function limpiezatintado(){
@@ -61,8 +62,8 @@ function limpiezatintado(){
   if(document.getElementById("idTipoPedido").value && document.getElementById("idTipoPrenda").value){
     document.getElementById("pednormalbot").disabled = false;
     document.getElementById("pedexpressbot").disabled = false;
+    actualizarEmpleadosLimpieza();
   }
-  actualizarEmpleadosLimpieza();
 }
 
 function realizarPedido(esExpress){

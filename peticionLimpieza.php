@@ -155,6 +155,7 @@ if(!isset($_POST["peticionRealizada"]) || $_POST["peticionRealizada"] == false){
 ';
 } else if(isset($_POST["peticionRealizada"]) && $_POST["peticionRealizada"] == true) {
 
+
   if ($stmtA = $db->prepare('INSERT INTO Pedido (idTipoPedido,ClientePedido,idDescuentos,tipoPrenda,esPedidoExpress,precioAceptado) VALUES (?,?,null,?,?,false)')) {
     $stmtA->bind_param('iisi', $_POST['idTipoPedido'],$_POST['idCliente'],$_POST['tipoPrenda'],$_POST['esExpress']);
     $stmtA->execute();
