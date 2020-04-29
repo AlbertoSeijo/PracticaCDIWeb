@@ -46,13 +46,9 @@ include './cabeceraContenido.php';
     <div class="col-12 text-center justify-content-center">
       <?php
       echo '
-      <form id="idPedidoSinDesc" method="POST" action="./resumenPedido" style="display: none">
-        <input type="hidden" name="idPedidoS" value='.$varIdPedido.'>
-        <input type="submit" style="visibility:hidden;">
-      </form>
-      <button class="btn btn-primary btn-lg btn-continuar" onclick="tarjetavalida('.$varIdPedido.');">Continuar</button>
-      <hr class="separadorBotones">
-      <button class="btn btn-primary btn-lg btn-sin-tarjeta" onclick="pasarResumen()">Tramitar pedido sin aplicar descuentos</button>';?>
+      <button class="btn btn-primary btn-lg btn-sin-tarjeta" onclick="pasarSinTarjeta('.$varIdPedido.')">Tramitar pedido sin tarjeta</button>
+      <button class="btn btn-info btn-lg btn-continuar" onclick="tarjetavalida('.$varIdPedido.',true)">Continuar</button>
+      <button class="btn btn-primary btn-lg btn-sin-descuentos" onclick="tarjetavalida('.$varIdPedido.',false)">Tramitar pedido sin aplicar descuentos</button>';?>
     </div>
   </div>
 </div>

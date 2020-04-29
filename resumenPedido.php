@@ -1,6 +1,6 @@
 <?php
 include './header.php';
-if(!isset($_SESSION['sesionIniciada']) || $_SESSION['tipoCuentaSesión'] != "Encargado" || !isset($_POST["idPedidoS"])){
+if(!isset($_SESSION['sesionIniciada']) || $_SESSION['tipoCuentaSesión'] != "Encargado" || !isset($_POST["idPedido"])){
   header("Location: ./");
 }
 ?>
@@ -9,7 +9,7 @@ if(!isset($_SESSION['sesionIniciada']) || $_SESSION['tipoCuentaSesión'] != "Enc
 <script src="./js/resumenPedido.js"></script>
 
 <?php
-$varIdPedido = $_POST["idPedidoS"];
+$varIdPedido = $_POST["idPedido"];
 
 function calcularPrecioTotal($precioBasePedido, $precioDesperfectos, $precioServiciosAdicionales, $porcentajeDescuento, $IVA){
   $calculoPrecioTotal = $precioBasePedido;

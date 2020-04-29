@@ -85,33 +85,75 @@ $(".input-tarjetaCliente").inputFilter(function(value) {
   return /^\d*$/.test(value); });
 /* FIN - Sólo permitir números como entrada */
 
-function tarjetavalida(idPedido){
+function tarjetavalida(idPedido,descuentos){
   var in1 = document.getElementById("tarjetaInput1").value;
   var in2 = document.getElementById("tarjetaInput2").value;
   var in3 = document.getElementById("tarjetaInput3").value;
 
   if ((in1.length == 4 && in2.length == 4 && in3.length == 4)){
+
     var tarjeta = in1 + in2 + in3;
 
-    form = document.createElement('form');
-    form.setAttribute('method', 'POST');
-    form.setAttribute('action', './canjePuntos2');
-    form.setAttribute('style', 'display:none');
-    tarj = document.createElement('input');
-    tarj.setAttribute('name', 'tarjeta');
-    tarj.setAttribute('value', tarjeta);
-    form.appendChild(tarj);
-    document.body.appendChild(form);
-    idpe = document.createElement('input');
-    idpe.setAttribute('name', 'idPedidoC');
-    idpe.setAttribute('value', idPedido);
-    form.appendChild(idpe);
-    document.body.appendChild(form);
-    form.submit();
+      if (!descuentos){
+        pasarSinDescuentos (idPedido,tarjeta);
+      } else {
+        pasarConDescuentos (idPedido,tarjeta);
+      }
+
   }
 }
 
 
+function pasarSinDescuentos(idPedido,tarjeta) {
+  form = document.createElement('form');
+  form.setAttribute('method', 'POST');
+  form.setAttribute('action', './resumenPedido');
+  form.setAttribute('style', 'display:none');
+  tarj = document.createElement('input');
+  tarj.setAttribute('name', 'tarjeta');
+  tarj.setAttribute('value', tarjeta);
+  form.appendChild(tarj);
+  document.body.appendChild(form);
+  idpe = document.createElement('input');
+  idpe.setAttribute('name', 'idPedido');
+  idpe.setAttribute('value', idPedido);
+  form.appendChild(idpe);
+  document.body.appendChild(form);
+  form.submit();
+}
+
+function pasarConDescuentos(idPedido,tarjeta) {
+  form = document.createElement('form');
+  form.setAttribute('method', 'POST');
+  form.setAttribute('action', './canjePuntos2');
+  form.setAttribute('style', 'display:none');
+  tarj = document.createElement('input');
+  tarj.setAttribute('name', 'tarjeta');
+  tarj.setAttribute('value', tarjeta);
+  form.appendChild(tarj);
+  document.body.appendChild(form);
+  idpe = document.createElement('input');
+  idpe.setAttribute('name', 'idPedido');
+  idpe.setAttribute('value', idPedido);
+  form.appendChild(idpe);
+  document.body.appendChild(form);
+  form.submit();
+}
+
+function pasarSinTarjeta(idPedido) {
+  form = document.createElement('form');
+  form.setAttribute('method', 'POST');
+  form.setAttribute('action', './resumenPedido');
+  form.setAttribute('style', 'display:none');
+  idpe = document.createElement('input');
+  idpe.setAttribute('name', 'idPedido');
+  idpe.setAttribute('value', idPedido);
+  form.appendChild(idpe);
+  document.body.appendChild(form);
+  form.submit();
+}
+
+/*
 function pasarResumenTarjeta (){
   document.getElementById("idPedidoSinDesc").submit();
 }
@@ -119,5 +161,5 @@ function pasarResumenTarjeta (){
 function pasarResumenDescuentos (){
   document.getElementById("idPedidoSinDesc").submit();
 }
-
+*/
 /* A partir de aquí el código es de canjePuntos2 */

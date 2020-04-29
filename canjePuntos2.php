@@ -1,12 +1,13 @@
 <?php
 include './header.php';
-if(!isset($_SESSION['sesionIniciada']) || $_SESSION['tipoCuentaSesión'] != "Encargado" || !isset($_POST["idPedidoC"]) || !isset($_POST["tarjeta"])){
+if(!isset($_SESSION['sesionIniciada']) || $_SESSION['tipoCuentaSesión'] != "Encargado" || !isset($_POST["idPedido"]) || !isset($_POST["tarjeta"])){
   header("Location: ./");
 }
 ?>
+
 <?php
 $varTarjeta = $_POST["tarjeta"];
-$varIdPedido = $_POST["idPedidoC"];
+$varIdPedido = $_POST["idPedido"];
 $nombrePagina = "Canjeo de regalos y descuentos";
 include './cabeceraContenido.php';
 
