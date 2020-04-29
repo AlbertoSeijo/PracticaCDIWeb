@@ -38,7 +38,7 @@ echo '
     <div class="col-xl-4 col-lg-12 margen-superior-col1">
       <div class="text-center">
         <img src="./img/tarjetaPuntos.svg" width="350" height="auto" alt="" class="rounded">
-        <h4><b>'. $numtarjeta .'</b></h4>
+        <h4><b>'. str_split($numtarjeta, 4)[0] .' - '.str_split($numtarjeta, 4)[1].' - '.str_split($numtarjeta, 4)[2].'</b></h4>
       <div class="row margen-puntos">
         <div class="col">
           <h6><b>Puntos:</b></h6>
@@ -53,7 +53,7 @@ echo '
 
 }
 echo '
-   <div class="col-xl-4 col-lg-6">
+   <div class="col-xl-4 col-lg-6 mt-4">
       <h3><b>Descuentos</b></h3>
       <div class="card bg-primary text-black contenedor-descuentos">
         <div class="card-body">';
@@ -64,7 +64,7 @@ if ($stmt = $db->prepare('SELECT descripcion, puntos, titulo, aplicaATipoPedido 
       echo'<div class="card espacios-descuentos container-fluid bg-light">
       <div class="row" style="height: 90px;">
         <div class="col-2" style="padding: 0px;">
-          <div class="card bg-white" style="width: 70px; height: 70px; position: absolute; top: 50%; left: 50%; transform: translateX(-50%) translateY(-50%);">
+          <div class="card bg-white" style="width: 70px; height: 70px; position: absolute; top: 50%; left: 8px; transform: translateY(-50%);">
             <img src="./img/canjePuntos/iconosTipoDescuento/iconoDescuento.svg" style="width: 25px; height: 25px; position: absolute; bottom: -7px; right: -7px;"></img>
             ';if($result["aplicaATipoPedido"] == 1)
             echo '
@@ -93,9 +93,9 @@ if ($stmt = $db->prepare('SELECT descripcion, puntos, titulo, aplicaATipoPedido 
 
 
 echo '
-   <div class="col-xl-4 col-lg-6">
+   <div class="col-xl-4 col-lg-6 mt-4">
       <h3><b>Regalos</b></h3>
-      <div class="card bg-primary text-black contenedor-descuentos">
+      <div class="card bg-primary text-black contenedor-descuentos mb-4">
         <div class="card-body">';
 if ($stmt = $db->prepare('SELECT descripcion, puntos, titulo, aplicaATipoPedido FROM descuento WHERE usadoPorTarjeta IS NULL and titulo = "Servicio Gratuito"')) {
   $stmt->execute();
@@ -104,7 +104,7 @@ if ($stmt = $db->prepare('SELECT descripcion, puntos, titulo, aplicaATipoPedido 
     echo'<div class="card espacios-descuentos container-fluid bg-light">
     <div class="row" style="height: 90px;">
       <div class="col-2" style="padding: 0px;">
-      <div class="card bg-white" style="width: 70px; height: 70px; position: absolute; top: 50%; left: 50%; transform: translateX(-50%) translateY(-50%);">
+      <div class="card bg-white" style="width: 70px; height: 70px; position: absolute; top: 50%; left: 8px; transform: translateY(-50%);">
         <img src="./img/canjePuntos/iconosTipoDescuento/iconoRegalo.svg" style="width: 25px; height: 25px; position: absolute; bottom: -7px; right: -7px;"></img>
         ';if($result["aplicaATipoPedido"] == 1)
         echo '
