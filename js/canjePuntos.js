@@ -91,12 +91,32 @@ function tarjetavalida(idPedido){
   var in3 = document.getElementById("tarjetaInput3").value;
 
   if ((in1.length == 4 && in2.length == 4 && in3.length == 4)){
-    document.getElementById("idPedidoContinuar").submit();
+    var tarjeta = in1 + in2 + in3;
+
+    form = document.createElement('form');
+    form.setAttribute('method', 'POST');
+    form.setAttribute('action', './canjePuntos2');
+    form.setAttribute('style', 'display:none');
+    tarj = document.createElement('input');
+    tarj.setAttribute('name', 'tarjeta');
+    tarj.setAttribute('value', tarjeta);
+    form.appendChild(tarj);
+    document.body.appendChild(form);
+    idpe = document.createElement('input');
+    idpe.setAttribute('name', 'idPedidoC');
+    idpe.setAttribute('value', idPedido);
+    form.appendChild(idpe);
+    document.body.appendChild(form);
+    form.submit();
   }
 }
 
 
-function pasarResumen (){
+function pasarResumenTarjeta (){
+  document.getElementById("idPedidoSinDesc").submit();
+}
+
+function pasarResumenDescuentos (){
   document.getElementById("idPedidoSinDesc").submit();
 }
 

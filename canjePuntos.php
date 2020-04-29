@@ -28,15 +28,15 @@ include './cabeceraContenido.php';
       <form>
         <div class="form-row">
           <div class="col">
-            <input type="text" class="form-control text-center input-tarjetaCliente" id="tarjetaInput1" placeholder="XXXX" maxlength="4">
+            <input type="text" class="form-control text-center input-tarjetaCliente" form="idPedidoContinuar" id="tarjetaInput1" name="tarjetaInput1" placeholder="XXXX" maxlength="4">
           </div>
           <div class="col contenedor-entradaTarjeta-central">
             <a class="separador-numTarjeta-izquierdo" style="margin-top:10px;">-</a>
-            <input type="text" class="form-control text-center input-tarjetaCliente" id="tarjetaInput2"  placeholder="XXXX" maxlength="4">
+            <input type="text" class="form-control text-center input-tarjetaCliente" form="idPedidoContinuar" id="tarjetaInput2" name="tarjetaInput2" placeholder="XXXX" maxlength="4">
             <a class="separador-numTarjeta-derecho" style="margin-top:10px;">-</a>
           </div>
           <div class="col">
-            <input type="text" class="form-control text-center input-tarjetaCliente" id="tarjetaInput3" placeholder="XXXX" maxlength="4">
+            <input type="text" class="form-control text-center input-tarjetaCliente" form="idPedidoContinuar" id="tarjetaInput3" name="tarjetaInput3" placeholder="XXXX" maxlength="4">
           </div>
         </div>
       </form>
@@ -46,15 +46,11 @@ include './cabeceraContenido.php';
     <div class="col-12 text-center justify-content-center">
       <?php
       echo '
-      <form id="idPedidoContinuar" method="POST" action="./canjePuntos2" style="display: none">
-        <input type="hidden" name="idPedidoC" value='.$varIdPedido.'>
-        <input type="submit" style="visibility:hidden;">
-      </form>
       <form id="idPedidoSinDesc" method="POST" action="./resumenPedido" style="display: none">
         <input type="hidden" name="idPedidoS" value='.$varIdPedido.'>
         <input type="submit" style="visibility:hidden;">
       </form>
-      <button class="btn btn-primary btn-lg btn-continuar" onclick="tarjetavalida();">Continuar</button>
+      <button class="btn btn-primary btn-lg btn-continuar" onclick="tarjetavalida('.$varIdPedido.');">Continuar</button>
       <hr class="separadorBotones">
       <button class="btn btn-primary btn-lg btn-sin-tarjeta" onclick="pasarResumen()">Tramitar pedido sin aplicar descuentos</button>';?>
     </div>

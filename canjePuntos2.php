@@ -1,13 +1,36 @@
 <?php
 include './header.php';
-if(!isset($_SESSION['sesionIniciada']) || $_SESSION['tipoCuentaSesión'] != "Encargado" || !isset($_POST["idPedidoC"])){
+if(!isset($_SESSION['sesionIniciada']) || $_SESSION['tipoCuentaSesión'] != "Encargado" || !isset($_POST["idPedidoC"]) || !isset($_POST["tarjeta"])){
   header("Location: ./");
 }
 ?>
 <?php
+$varTarjeta = $_POST["tarjeta"];
 $varIdPedido = $_POST["idPedidoC"];
 $nombrePagina = "Canjeo de regalos y descuentos";
 include './cabeceraContenido.php';
+
+define('SERVIDOR_BD', 'localhost:3306');
+define('USUARIO_BD', 'webtintoreria');
+define('CONTRASENA_BD', 'lavanderia');
+define('NOMBRE_BD', 'tintoreria');
+
+$db = mysqli_connect(SERVIDOR_BD,USUARIO_BD,CONTRASENA_BD,NOMBRE_BD);
+
+if ($stmtA = $db->prepare("SELECT t.puntos FROM  Tarjeta t WHERE t.numTarjeta = ?")) {
+  $stmtA->bind_param('s', $varTarjeta);
+  $stmtA->execute();
+  $stmtA->store_result();
+  $stmtA->bind_result($puntosTarjeta);
+  $stmtA->fetch();
+}
+
+?>
+
+<link rel=stylesheet type="text/css" href="./css/canjePuntos.css">
+<script src="./js/canjePuntos.js" language="javascript" type="text/javascript"></script>
+
+<?php
 
 echo'
   <form id="idPedidoSinDesc" method="POST" action="./resumenPedido" style="display: none">
@@ -16,39 +39,28 @@ echo'
   </form>
 ';
 
-?>
-
-<link rel=stylesheet type="text/css" href="./css/canjePuntos.css">
-<script src="./js/canjePuntos.js" language="javascript" type="text/javascript"></script>
-
-
+echo'
 <div class="container-fluid">
   <div class="row">
     <div class="col margen-superior-col1">
       <div class="text-center">
         <img src="./img/tarjetaPuntos.svg" width="350" height="auto" alt="" class="rounded">
-        <h4><b>1234 - 5678 - 9012</b></h4>
+        <h4><b>'.$varTarjeta.'</b></h4>
       <div class="row margen-puntos">
         <div class="col">
           <h6><b>Puntos:</b></h6>
         </div>
         <div class="col">
-          <h6><b>2350</b></h6>
+          <h6><b>'; if($puntosTarjeta == null){echo'0';}else{echo $puntosTarjeta;} echo '</b></h6>
         </div>
       </div>
-      <button type="button" class="btn btn-info btn-continuarPedido" onclick="pasarResumen()"><h4>Continuar con el pedido</h4></button>
+      <button type="button" class="btn btn-info btn-continuarPedido" onclick="pasarResumenDescuentos()"><h4>Continuar con el pedido</h4></button>
       </div>
    </div>
-
+';
+?>
 
 <?php
-define('SERVIDOR_BD', 'localhost:3306');
-define('USUARIO_BD', 'webtintoreria');
-define('CONTRASENA_BD', 'lavanderia');
-define('NOMBRE_BD', 'tintoreria');
-
-$db = mysqli_connect(SERVIDOR_BD,USUARIO_BD,CONTRASENA_BD,NOMBRE_BD);
-
 echo '
    <div class="col-xl-4 col-lg-6">
       <h3><b>Descuentos</b></h3>
