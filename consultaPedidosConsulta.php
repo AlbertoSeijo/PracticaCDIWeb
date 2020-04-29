@@ -31,6 +31,9 @@ function calcularPrecioTotal($precioBasePedido, $precioDesperfectos, $precioServ
     $calculoPrecioTotal *= 1 - ($porcentajeDescuento / 100.0);
   }
   $calculoPrecioTotal = round($calculoPrecioTotal,2);
+  if($calculoPrecioTotal == 0){
+    $calculoPrecioTotal = "0.00";
+  }
   return $calculoPrecioTotal;
 }
 
@@ -262,13 +265,19 @@ function mostrarPedido($resultadoConsulta){
                       <img src="./img/tipoPedido/'.normalizarTexto($result["nombreTipoPedido"]).'.svg" class="mx-auto my-auto w-75"></img>
                     </div>
                     <div class="text-center" style="position: absolute; width: 69px; background-color: white; height: 12px; left:0; right: 0; margin-left: auto; margin-right: auto; margin-top: -12px; line-height: 18px;">'.$result["nombreTipoPedido"].'</div>
-                  </div>
+                  </div>';
+
+                  if($_SESSION['tipoCuentaSesión'] == "Empleado"){
+                  echo '
                   <div class="'.$anchoSubcolumnas.' text-center h-100" style="padding-top: 25px;">
                     <h5>Etapa asignada</h5>
                     <div class="card bg-white mx-auto contenedorTipoServicioTipoPrenda">';
                     include './consultaPedidosConsultaEtapaAsignada.php';echo'
                     </div>
-                  </div>
+                  </div>';
+                  }
+
+                  echo '
                 </div>
               </div>';
             if($_SESSION['tipoCuentaSesión'] == "Encargado" || $_SESSION['tipoCuentaSesión'] == "Cliente") {
@@ -290,7 +299,7 @@ function mostrarPedido($resultadoConsulta){
                     <a class="textoPrecio">'.$result["precioServiciosAdicionales"].' €</a>
                     <a class="textoPrecio">(-'.$result["porcentajeDescuento"].'%) -'.number_format(calcularTotalDescuento($result["precioBasePedido"], $result["precioDesperfectos"], $result["precioServiciosAdicionales"], $result["porcentajeDescuento"]), 2, ',', '.').' €</a>
                     <hr class="separadorPrecio">
-                    <a class="font-weight-bold totalPrecio">'.calcularPrecioTotal($result["precioBasePedido"], $result["precioDesperfectos"], $result["precioServiciosAdicionales"], $result["porcentajeDescuento"]).'</a>
+                    <a class="font-weight-bold totalPrecio">'.calcularPrecioTotal($result["precioBasePedido"], $result["precioDesperfectos"], $result["precioServiciosAdicionales"], $result["porcentajeDescuento"]).' €</a>
                   </div>
                 </div>
               </div>';
