@@ -9,6 +9,7 @@ function actualizarEmpleadosLimpieza() {
   xmlhttp.onreadystatechange = function() {
     if (this.readyState == 4 && this.status == 200) {
       document.getElementById("empleadosTipoLimpieza").innerHTML = this.responseText;
+      cambiarEmpleadosParaSerDistintos(null);
     }
   };
 
@@ -29,6 +30,40 @@ $( ".seleccion-tipo-limpieza" ).on( "click", function(){
   $(this).addClass("boton-seleccionado");
 } );
 
+$(document).on('change', '.seleccion-empleados', function() {
+  cambiarEmpleadosParaSerDistintos(this);//TODO EN ESTE ORDEN A VECES NO VA A FUNCIONAR
+});
+
+function cambiarEmpleadosParaSerDistintos(excepcionSelect){
+  var eSelectVal = excepcionSelect == null ? excepcionSelect.value : -1;
+  $(".seleccion-empleados").not(excepcionSelect).each(
+    function(i) {
+      if(eSelectVal == this.value){
+        var changed = false;
+        var valSelect = this.value;
+        $(this).find("option").each(
+          function() {
+            if(this.value != valSelect && !changed){
+              valSelect = this.value;
+              changed = true;
+            }
+          }
+        );
+        this.value = valSelect;
+      }
+    }
+  );
+}
+
+function empleadosActualmenteSeleccionados(){
+  var empleados = new Array();
+  $(".seleccion-empleados").each(
+    function(i) {
+      empleados[i] = this.value;
+    }
+  );
+  return empleados;
+}
 
 function setTipoPrendaPedido(prenda){
   document.getElementById("idTipoPrenda").value = prenda;
@@ -70,3 +105,5 @@ function realizarPedido(esExpress){
   document.getElementById("esExpress").value = esExpress ? 1 : 0;
   document.getElementById("peticionLimpiezaForm").submit();
 }
+
+cambiarEmpleadosParaSerDistintos();

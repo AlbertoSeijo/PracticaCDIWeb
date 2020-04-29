@@ -26,12 +26,12 @@
         $stmtB->store_result();
         $stmtB->bind_result($nombreEmpleado, $apellidosEmpleado, $idEmpleado);
         $hidden = normalizarTexto($nombreEtapa) == "findepedido" ? "hidden" : "";
-          echo '<a class="etiquetaElementosFormulario '.$hidden.'">'.$nombreEtapa.'</a><select id="empleadoEtapa'.normalizarTexto($nombreEtapa).'" name="empleadoEtapa'.normalizarTexto($nombreEtapa).'" class="custom-select '.$hidden.'" form="peticionLimpiezaForm" style="margin-bottom:10px;">';
+          echo '<a class="etiquetaElementosFormulario '.$hidden.'">'.$nombreEtapa.'</a><select id="empleadoEtapa'.normalizarTexto($nombreEtapa).'" name="empleadoEtapa'.normalizarTexto($nombreEtapa).'" class="custom-select '.$hidden.' seleccion-empleados" form="peticionLimpiezaForm" style="margin-bottom:10px;">';
           while ($stmtB->fetch()) {
             echo '<option value="'.$idEmpleado.'">'.$nombreEmpleado.' '.$apellidosEmpleado.'</option>';
           }
           echo '</select>';
-        
+
       }
     }
   }

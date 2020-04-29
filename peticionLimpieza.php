@@ -209,11 +209,13 @@ if(!isset($_POST["peticionRealizada"]) || $_POST["peticionRealizada"] == false){
                 $stmtD->bind_param('iii', $idPedido,$_SESSION['idCuentaSesión'],$idEtapa);
                 $stmtD->execute();
                 $stmtD->store_result();
-            }}
-            if ($stmtD = $db->prepare('INSERT INTO etapa (fechaIni,fechaFin,idPedido,empleadoasignado,idtipoetapa) VALUES (null,null,?,?,?)')) {
-              $stmtD->bind_param('iii', $idPedido,$_POST['empleadoEtapa'.normalizarTexto($nombreEtapa)],$idEtapa);
-              $stmtD->execute();
-              $stmtD->store_result();
+              }
+            } else {
+              if ($stmtD = $db->prepare('INSERT INTO etapa (fechaIni,fechaFin,idPedido,empleadoasignado,idtipoetapa) VALUES (null,null,?,?,?)')) {
+                $stmtD->bind_param('iii', $idPedido,$_POST['empleadoEtapa'.normalizarTexto($nombreEtapa)],$idEtapa);
+                $stmtD->execute();
+                $stmtD->store_result();
+              }
             }
           }
         }
