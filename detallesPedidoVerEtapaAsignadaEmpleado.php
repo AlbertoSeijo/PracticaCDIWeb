@@ -12,8 +12,7 @@ header("Content-Type: application/json", true);
     $stmt->execute();
     $stmt->store_result();
     $stmt->bind_result($eAo, $eAn);
-    while ($stmt->fetch()) {
-      echo '{"oEtapaAsignada":"'.$eAo.'","nEtapaAsignada":"'.$eAn.'"}';
-    }
+    $stmt->fetch();
+    echo '{"oEtapaAsignada":"'.$eAo.'","nEtapaAsignada":"'.$eAn.'"}';
   }
 ?>

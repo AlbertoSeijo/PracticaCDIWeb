@@ -22,6 +22,10 @@ if (isset($_SESSION['sesionIniciada'])){
 
         $systemDate= date("Y-m-d H:i:s");
 
+        $stmtY = $db->prepare("INSERT INTUPDATE etapa e SET e.fechaFin=? WHERE e.idPedido = ?  AND e.idTipoEtapa= ?");
+        $stmtY->bind_param('sss', $systemDate,$_POST["idPedido"],$_POST["idEtapa"]);
+        $stmtY->execute();
+
         $stmtE = $db->prepare("UPDATE etapa e SET e.fechaFin=? WHERE e.idPedido = ?  AND e.idTipoEtapa= ?");
         $stmtE->bind_param('sss', $systemDate,$_POST["idPedido"],$_POST["idEtapa"]);
         $stmtE->execute();

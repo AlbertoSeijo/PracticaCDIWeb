@@ -31,3 +31,8 @@
   height: 80px;
   font-weight: bold;
 }
+
+.hidden {
+  display: none;
+  visibility: hidden;
+}

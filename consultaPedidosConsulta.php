@@ -31,9 +31,6 @@ function calcularPrecioTotal($precioBasePedido, $precioDesperfectos, $precioServ
     $calculoPrecioTotal *= 1 - ($porcentajeDescuento / 100.0);
   }
   $calculoPrecioTotal = round($calculoPrecioTotal,2);
-  if($calculoPrecioTotal == 0){
-    $calculoPrecioTotal = "0.00";
-  }
   return $calculoPrecioTotal;
 }
 
@@ -294,12 +291,12 @@ function mostrarPedido($resultadoConsulta){
                   </div>
                   <div class="col-6 text-right h-100">
                     <a style="position: absolute; left: 10px; top: 20px; font-size: 20px;">+</a>
-                    <a class="textoPrecio">'.$result["precioBasePedido"].' €</a>
-                    <a class="textoPrecio">'.$result["precioDesperfectos"].' €</a>
-                    <a class="textoPrecio">'.$result["precioServiciosAdicionales"].' €</a>
-                    <a class="textoPrecio">(-'.$result["porcentajeDescuento"].'%) -'.number_format(calcularTotalDescuento($result["precioBasePedido"], $result["precioDesperfectos"], $result["precioServiciosAdicionales"], $result["porcentajeDescuento"]), 2, ',', '.').' €</a>
+                    <a class="textoPrecio">'.number_format($result["precioBasePedido"], 2, ',', '.').' €</a>
+                    <a class="textoPrecio">'.number_format($result["precioDesperfectos"], 2, ',', '.').' €</a>
+                    <a class="textoPrecio">'.number_format($result["precioServiciosAdicionales"], 2, ',', '.').' €</a>
+                    <a class="textoPrecio">(-'.number_format($result["porcentajeDescuento"],0,"","").'%) -'.number_format(calcularTotalDescuento($result["precioBasePedido"], $result["precioDesperfectos"], $result["precioServiciosAdicionales"], $result["porcentajeDescuento"]), 2, ',', '.').' €</a>
                     <hr class="separadorPrecio">
-                    <a class="font-weight-bold totalPrecio">'.calcularPrecioTotal($result["precioBasePedido"], $result["precioDesperfectos"], $result["precioServiciosAdicionales"], $result["porcentajeDescuento"]).' €</a>
+                    <a class="font-weight-bold totalPrecio">'.number_format(calcularPrecioTotal($result["precioBasePedido"], $result["precioDesperfectos"], $result["precioServiciosAdicionales"], $result["porcentajeDescuento"]), 2, ',', '.').'</a>
                   </div>
                 </div>
               </div>';

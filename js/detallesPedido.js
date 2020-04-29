@@ -25,6 +25,7 @@ function actualizarDetallesPedido() {
       ordenVerEtapa: $("#ordenVerEtapa")[0].value,
       ordenEtapaActual: $("#ordenEtapaActual")[0].value
     }, function(respuestaDetallesPedido) {
+      console.log(ordenActualVista + " aaa" + nombretipoEtapaVista);
       nombreEtapaActualReal = respuestaDetallesPedido.nombreEtapaActualReal;
       ordenActualVista = respuestaDetallesPedido.ordenActualVista;
       nombretipoEtapaVista = respuestaDetallesPedido.nombretipoEtapaVista;
@@ -32,9 +33,12 @@ function actualizarDetallesPedido() {
       idEtapaActualReal = respuestaDetallesPedido.idEtapaActualReal;
       nombreTipoEtapaAnterior = respuestaDetallesPedido.nombreTipoEtapaAnterior;
       nombreTipoEtapaPosterior = respuestaDetallesPedido.nombreTipoEtapaPosterior;
+      descArreglos = respuestaDetallesPedido.descArreglos;
+      descServAdic = respuestaDetallesPedido.descServAdic;
       actualizarVariablesEtapas();
 
       actualizarEtapas(nombreTipoEtapaAnterior,nombretipoEtapaVista,nombreTipoEtapaPosterior);
+      console.log(ordenActualVista + " eee" + nombretipoEtapaVista);
       actualizarFechas(respuestaDetallesPedido.inicioEtapa,respuestaDetallesPedido.finEtapa,respuestaDetallesPedido.inicioPedido,null);
       actualizarEmpleadoAsignado(respuestaDetallesPedido.empleadoNombre + " " + respuestaDetallesPedido.empleadoApellidos);
       actualizarDatosPrenda(respuestaDetallesPedido.tipoServicio, respuestaDetallesPedido.tipoPrenda);
@@ -121,17 +125,17 @@ function mostrarBotonesAccionSobrePedidoSegunTipoCuenta(){
 function actualizarVariablesEtapas(){
   if (ordenActualVista == 1){
     ordenAnteriorVista = null;
-    if (descArreglos != null || descServAdic != null || descArreglos != "" || descServAdic != ""){
-      ordenSiguienteVista = parseInt(ordenActualVista) + 1;
-    } else {
+    if ((descArreglos == null || descArreglos == "") || (descServAdic == null || descServAdic == "")){
       ordenSiguienteVista = 4;
+    } else {
+      ordenSiguienteVista = parseInt(ordenActualVista) + 1;
     }
   } else if (ordenActualVista == 4){
     ordenSiguienteVista = parseInt(ordenActualVista) + 1;
-    if (descArreglos != null || descServAdic != null || descArreglos != "" || descServAdic != ""){
-      ordenAnteriorVista = 3;
-    } else {
+    if ((descArreglos == null || descArreglos == "") || (descServAdic == null || descServAdic == "")){
       ordenAnteriorVista = 1;
+    } else {
+      ordenAnteriorVista = 3;
     }
   } else if (ordenActualVista == 7) {
     ordenAnteriorVista = parseInt(ordenActualVista) - 1;
@@ -249,12 +253,21 @@ function enviarSiguienteEtapa(){
   var datos;
   var ultimaEtapa = false;
   if(ordenSiguienteVista != null){
-    datos = {
-      idPedido: $("#idPedido")[0].value,
-      haEnviadoAPago: true,
-      idEtapa: idEtapaActualReal,
-      ordenEtapaSiguiente:  ordenSiguienteVista
-    };
+    if(descArreglos == ""){
+      datos = {
+        idPedido: $("#idPedido")[0].value,
+        haEnviadoAPago: true,
+        idEtapa: idEtapaActualReal,
+        ordenEtapaSiguiente:  ordenSiguienteVista
+      };
+    } else { //TODO Esto hay que ver como hacerlo
+      datos = {
+        idPedido: $("#idPedido")[0].value,
+        haEnviadoAPago: true,
+        idEtapa: idEtapaActualReal,
+        ordenEtapaSiguiente:  ordenSiguienteVista
+      };
+    }
   } else {
     datos = {
       idPedido: $("#idPedido")[0].value,
@@ -305,6 +318,7 @@ function verAnteriorEtapa(){
     $("#ordenVerEtapa")[0].value = ordenActualVista;
     actualizarVariablesEtapas();
     actualizarDetallesPedido();
+    console.log(ordenAnteriorVista + " " + ordenActualVista + " " + ordenSiguienteVista );
   }
 }
 
@@ -314,6 +328,7 @@ function verSiguienteEtapa(){
     $("#ordenVerEtapa")[0].value = ordenActualVista;
     actualizarVariablesEtapas();
     actualizarDetallesPedido();
+    console.log(ordenAnteriorVista + " " + ordenActualVista + " " + ordenSiguienteVista );
   }
 }
 

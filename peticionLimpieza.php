@@ -177,8 +177,10 @@ if(!isset($_POST["peticionRealizada"]) || $_POST["peticionRealizada"] == false){
         $stmtC->store_result();
         $stmtC->bind_result($ordenEtapa, $idEtapa, $nombreEtapa);
         while ($stmtC->fetch()) {
-          if ($stmtD = $db->prepare('INSERT INTO etapa (fechaIni,fechaFin,idPedido,empleadoasignado,idtipoetapa) VALUES (null,null,?,?,?)')) {
-            $stmtD->bind_param('iii', $idPedido,$_POST['empleadoEtapa'.normalizarTexto($nombreEtapa)],$idEtapa);
+          echo $nombreEtapa;
+          if ($stmtD = $db->prepare('INSERT INTO etapa (fechaIni,fechaFin,idPedido,empleadoasignado,idtipoetapa) VALUES (?,null,?,?,?)')) {
+            $systemDate = normalizarTexto($nombreEtapa) == "recepcionado" ? date("Y-m-d H:i:s") : null;
+            $stmtD->bind_param('siii', $systemDate, $idPedido,$_POST['empleadoEtapa'.normalizarTexto($nombreEtapa)],$idEtapa);
             $stmtD->execute();
             $stmtD->store_result();
           }
