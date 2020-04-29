@@ -9,13 +9,7 @@ if(!isset($_SESSION['sesionIniciada']) || $_SESSION['tipoCuentaSesión'] != "Enc
 $nombrePagina = "Petición de limpieza";
 include './cabeceraContenido.php';
 ?>
-<form id="peticionLimpiezaForm" method="POST">
-  <input type="hidden" id="peticionRealizada" name="peticionRealizada" value="false">
-  <input type="hidden" id="idTipoPedido" name="idTipoPedido" value="">
-  <input type="hidden" id="idTipoPrenda" name="tipoPrenda" value="">
-  <input type="hidden" id="esExpress" name="esExpress" value="">
-  <input type="hidden" name="cargadoDesdePagina" value="true">
-</form>
+
 <?php
 
   define('SERVIDOR_BD', 'localhost:3306');
@@ -34,6 +28,13 @@ include './cabeceraContenido.php';
 
 if(!isset($_POST["peticionRealizada"]) || $_POST["peticionRealizada"] == false){
   echo'
+  <form id="peticionLimpiezaForm" method="POST">
+    <input type="hidden" id="peticionRealizada" name="peticionRealizada" value="false">
+    <input type="hidden" id="idTipoPedido" name="idTipoPedido" value="">
+    <input type="hidden" id="idTipoPrenda" name="tipoPrenda" value="">
+    <input type="hidden" id="esExpress" name="esExpress" value="">
+    <input type="hidden" name="cargadoDesdePagina" value="true">
+  </form>
 <div class="container-fluid" style="height:60vh; margin-top: 25px;">
   <div class="row h-100">
     <div class="col-lg-2 col-md-12 h-100">
