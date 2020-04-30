@@ -35,21 +35,27 @@ $(document).on('change', '.seleccion-empleados', function() {
 });
 
 function cambiarEmpleadosParaSerDistintos(excepcionSelect){
-  var eSelectVal = excepcionSelect == null ? excepcionSelect.value : -1;
+  var valSelect = new Array();
+  if(excepcionSelect != null){
+    valSelect.push(excepcionSelect.value);
+  }
   $(".seleccion-empleados").not(excepcionSelect).each(
     function(i) {
-      if(eSelectVal == this.value){
+      if($.inArray(this.value,valSelect) != -1){
         var changed = false;
-        var valSelect = this.value;
+        var valSelectAct = this.value;
         $(this).find("option").each(
           function() {
-            if(this.value != valSelect && !changed){
-              valSelect = this.value;
+            if($.inArray(this.value,valSelect) == -1 && !changed){
+              valSelectAct = this.value;
               changed = true;
             }
           }
         );
-        this.value = valSelect;
+        this.value = valSelectAct;
+        valSelect.push(valSelectAct);
+      } else {
+        valSelect.push(this.value);
       }
     }
   );
