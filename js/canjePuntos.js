@@ -85,21 +85,25 @@ $(".input-tarjetaCliente").inputFilter(function(value) {
   return /^\d*$/.test(value); });
 /* FIN - Sólo permitir números como entrada */
 
-function tarjetavalida(idPedido,descuentos){
+function tarjetavalida(idPedido,boton,numTarjeta,idCuenta){
+
   var in1 = document.getElementById("tarjetaInput1").value;
   var in2 = document.getElementById("tarjetaInput2").value;
   var in3 = document.getElementById("tarjetaInput3").value;
 
   if ((in1.length == 4 && in2.length == 4 && in3.length == 4)){
-
     var tarjeta = in1 + in2 + in3;
-
-      if (!descuentos){
-        pasarSinDescuentos (idPedido,tarjeta);
-      } else {
-        pasarConDescuentos (idPedido,tarjeta);
+    if (boton == 0){
+      crearnuevatarjeta (tarjeta,idCuenta,idPedido);
+    } else {
+      if (numTarjeta == tarjeta){
+        if (boton == 2){
+          pasarSinDescuentos (idPedido,tarjeta);
+        } else {
+          pasarConDescuentos (idPedido,tarjeta);
+        }
       }
-
+    }
   }
 }
 
@@ -153,13 +157,27 @@ function pasarSinTarjeta(idPedido) {
   form.submit();
 }
 
-/*
-function pasarResumenTarjeta (){
-  document.getElementById("idPedidoSinDesc").submit();
+function crearnuevatarjeta(tarjeta,idCuenta,idPedido){
+  form = document.createElement('form');
+  form.setAttribute('method', 'POST');
+  form.setAttribute('action', './canjePuntosNuevaTarjeta');
+  form.setAttribute('style', 'display:none');
+  tarj = document.createElement('input');
+  tarj.setAttribute('name', 'tarjeta');
+  tarj.setAttribute('value', tarjeta);
+  form.appendChild(tarj);
+  document.body.appendChild(form);
+  idcu = document.createElement('input');
+  idcu.setAttribute('name', 'idCuenta');
+  idcu.setAttribute('value', idCuenta);
+  form.appendChild(idcu);
+  document.body.appendChild(form);
+  idpe = document.createElement('input');
+  idpe.setAttribute('name', 'idPedido');
+  idpe.setAttribute('value', idPedido);
+  form.appendChild(idpe);
+  document.body.appendChild(form);
+  form.submit();
 }
 
-function pasarResumenDescuentos (){
-  document.getElementById("idPedidoSinDesc").submit();
-}
-*/
 /* A partir de aquí el código es de canjePuntos2 */
