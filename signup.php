@@ -17,30 +17,31 @@ if(isset($_SESSION['sesionIniciada'])){
           <form action="./signup" method="POST" id="formRegistro">
             <div class="form-row">
               <div class="form-group col-md-6">
-                <label for="nombreRegistro">Nombre</label>
+                <label for="nombreRegistro">Nombre</label><a style="color:red;"> *</a>
                 <input type="text" class="form-control" name="nombreRegistro" id="nombreRegistro">
               </div>
               <div class="form-group col-md-6">
-                <label for="apellidosRegistro">Apellidos</label>
+                <label for="apellidosRegistro">Apellidos</label><a style="color:red;"> *</a>
                 <input type="text" class="form-control" name="apellidosRegistro" id="apellidosRegistro">
               </div>
             </div>
             <div class="form-group">
-              <label for="dniRegistro">DNI</label>
+              <label for="dniRegistro">DNI</label><a style="color:red;"> *</a>
               <input type="text" class="form-control" name="dniRegistro" id="dniRegistro">
             </div>
             <div class="form-group">
-              <label for="correoElectronicoRegistro">Correo electrónico</label>
+              <label for="correoElectronicoRegistro">Correo electrónico</label><a style="color:red;"> *</a>
               <input type="text" class="form-control" name="correoElectronicoRegistro" id="correoElectronicoRegistro">
             </div>
             <div class="form-group">
-              <label for="contraseñaRegistro">Contraseña</label>
+              <label for="contraseñaRegistro">Contraseña</label><a style="color:red;"> *</a>
               <input type="password" class="form-control" name="contraseñaRegistro" id="contraseñaRegistro">
             </div>
             <div class="form-group">
-              <label for="confirmaciónContraseñaRegistro">Repetir contraseña</label>
+              <label for="confirmaciónContraseñaRegistro">Repetir contraseña</label><a style="color:red;"> *</a>
               <input type="password" class="form-control" name="confirmaciónContraseñaRegistro" id="confirmaciónContraseñaRegistro">
             </div>
+            <a style="color:red; font-size:10px;">Los campos marcados con * son obligatorios</a>
             <input type="hidden" name="triedRegistro" id="triedRegistro" value="true">
           </form>
         </div>
