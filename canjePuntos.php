@@ -8,7 +8,7 @@ if(!isset($_SESSION['sesionIniciada']) || $_SESSION['tipoCuentaSesión'] != "Enc
 
 <?php
 $varIdPedido = $_POST["idPedido"];
-$nombrePagina = "Canje de puntos";
+$nombrePagina = "Aplicar Tarjeta";
 
 $numtarjeta = false;
 $idCuenta = false;
