@@ -26,7 +26,7 @@ if(isset($_POST['tarjeta'])){
 ?>
 
  <link rel="stylesheet" type="text/css" href="./css/congratulations.css">
- <link rel="stylesheet" href="./css/animaciones/animate.css/animate.min.css">
+ <link rel="stylesheet" href="./css/animaciones/animate.min.css">
 
 
 <div class="page-container web-content">
