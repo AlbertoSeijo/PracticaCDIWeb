@@ -44,8 +44,10 @@ function calcularTotalDescuento($precioBasePedido, $precioDesperfectos, $precioS
   return $calculoTotalDescuento;
 }
 
-function calculoIVA($precioBasePedido, $precioDesperfectos, $precioServiciosAdicionales){
-  $calculoIVA = $precioBasePedido*0.21;
+function calculoIVA($precioBasePedido, $precioDesperfectos, $precioServiciosAdicionales, $porcentajeDescuento){
+  if($porcentajeDescuento == 100){
+    $calculoIVA = 0;
+  } else {$calculoIVA = $precioBasePedido*0.21;}
   if(isset($precioDesperfectos) && !is_null($precioDesperfectos)){
     $calculoIVA = $calculoIVA + $precioDesperfectos*0.21;
   }
@@ -66,6 +68,13 @@ define('CONTRASENA_BD', 'lavanderia');
 define('NOMBRE_BD', 'tintoreria');
 
 $db = mysqli_connect(SERVIDOR_BD,USUARIO_BD,CONTRASENA_BD,NOMBRE_BD);
+
+if(isset($_POST['descuento'])){
+  $idDescuento = $_POST['descuento'];
+  $stmt0 = $db->prepare("UPDATE pedido SET idDescuentos=? WHERE idPedido = ?");
+  $stmt0->bind_param('ii', $idDescuento,$varIdPedido);
+  $stmt0->execute();
+}
   //echo $consulta;
   if ($stmt = $db->prepare(
     "SELECT
@@ -116,7 +125,7 @@ WHERE
     $precioServiciosAdicionales,$porcentajeDescuento,$inicioPedido,$finPedido,$descArreglos,$descServAdic,$descDescuento);
     while ($stmt->fetch()) {
 
-      $IVA = calculoIVA($precioBasePedido, $precioDesperfectos, $precioServiciosAdicionales);
+      $IVA = calculoIVA($precioBasePedido, $precioDesperfectos, $precioServiciosAdicionales, $porcentajeDescuento);
       $calculoPrecioTotal = calcularPrecioTotal($precioBasePedido, $precioDesperfectos, $precioServiciosAdicionales, $porcentajeDescuento, $IVA);
 
       if (isset($_POST['tarjeta'])){
@@ -128,7 +137,12 @@ WHERE
           $stmt->bind_result($varPuntos);
           $stmt->fetch();
         }
-        $varNewPuntos = $varPuntos + intval($calculoPrecioTotal*50);
+        $varNewPuntos = $varPuntos + intval($calculoPrecioTotal*20);
+
+        if (isset($_POST['puntosGastados'])){
+          $varPuntosGastados = $_POST['puntosGastados'];
+          $varNewPuntos = $varNewPuntos - $varPuntosGastados;
+        }
       }
 
 
@@ -214,16 +228,16 @@ echo'
                 <td class="text-right">+';if($precioDesperfectos==null){echo'0.00';}else{echo $precioDesperfectos;} echo'€</td>
               </tr>
               <tr>
-                <td>Descuentos'; if($descDescuento!=null){echo'"'.$descDescuento.'"';} echo'</td>
+                <td>Descuentos'; if($descDescuento!=null){echo' "'.$descDescuento.'"';} echo'</td>
                 <td class="text-right">';if($porcentajeDescuento==0){echo'-0.00€';}else{echo'(-'.$porcentajeDescuento.'%) -'.number_format(calcularTotalDescuento($precioBasePedido, $precioDesperfectos, $precioServiciosAdicionales, $porcentajeDescuento), 2, ',', '.').'€';}echo'</td>
               </tr>
               <tr>
                 <td>IVA (21%)</td>
-                <td class="text-right">+'.$IVA.'€</td>
+                <td class="text-right">+'.number_format($IVA, 2, ',', '.').'€</td>
               </tr>
               <tr class="bg-table-special">
                 <th>TOTAL</th>
-                <th class="text-right">'.$calculoPrecioTotal.'€</th>
+                <th class="text-right">'.number_format($calculoPrecioTotal, 2, ',', '.').'€</th>
               </tr>
             </tbody>
           </table>

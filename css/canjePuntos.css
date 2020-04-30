@@ -105,3 +105,9 @@
   margin-top: 45px;
   text-align: center;
 }
+
+.boton-seleccionado {
+  border-width: 8px;
+  border-color: #0008FF;
+  border-radius:4px;
+}

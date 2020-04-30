@@ -165,3 +165,49 @@ function crearnuevatarjeta(tarjeta,idCuenta,idPedido){
 }
 
 /* A partir de aquí el código es de canjePuntos2 */
+
+var idDescuentos = false;
+var puntosGastados = false;
+
+$(document).on('click', '.espacios-descuentos', function() {
+  if (($(this).data("punt") <= $(this).data("canj")) && ($(this).data("apltp") == $(this).data("tped"))){
+    idDescuentos = $(this).data("desc");
+    puntosGastados = $(this).data("punt");
+    $(".espacios-descuentos").removeClass("boton-seleccionado");
+    $(this).addClass("boton-seleccionado");
+  }
+});
+
+function continuarResumen (idPedido,tarjeta,puntosaGastar){
+  if (puntosGastados <= puntosaGastar && puntosGastados!=false && idDescuentos!=false){
+    pasarResumenConDescuentos(idPedido,tarjeta,idDescuentos,puntosGastados);
+  }
+}
+
+function pasarResumenConDescuentos(idPedido,tarjeta,idDescuentos,puntosGastados) {
+  form = document.createElement('form');
+  form.setAttribute('method', 'POST');
+  form.setAttribute('action', './resumenPedido');
+  form.setAttribute('style', 'display:none');
+  tarj = document.createElement('input');
+  tarj.setAttribute('name', 'tarjeta');
+  tarj.setAttribute('value', tarjeta);
+  form.appendChild(tarj);
+  document.body.appendChild(form);
+  idpe = document.createElement('input');
+  idpe.setAttribute('name', 'idPedido');
+  idpe.setAttribute('value', idPedido);
+  form.appendChild(idpe);
+  document.body.appendChild(form);
+  desc = document.createElement('input');
+  desc.setAttribute('name', 'descuento');
+  desc.setAttribute('value', idDescuentos);
+  form.appendChild(desc);
+  document.body.appendChild(form);
+  punt = document.createElement('input');
+  punt.setAttribute('name', 'puntosGastados');
+  punt.setAttribute('value', puntosGastados);
+  form.appendChild(punt);
+  document.body.appendChild(form);
+  form.submit();
+}
