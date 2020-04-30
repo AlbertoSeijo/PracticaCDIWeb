@@ -71,7 +71,8 @@ $db = mysqli_connect(SERVIDOR_BD,USUARIO_BD,CONTRASENA_BD,NOMBRE_BD);
     e.idTipoEtapa idTipoEtapa,
     eReal.nombre,
     eReal.OrdenEtapa,
-    eReal.idTipoEtapa
+    eReal.idTipoEtapa,
+    p.ClientePedido
 FROM
     Pedido p INNER JOIN tipoPedido tpedido ON p.idTipoPedido = tpedido.idTipoPedido
     INNER JOIN Cuenta c ON c.idCuenta = p.ClientePedido
@@ -108,7 +109,7 @@ WHERE
     $stmt->execute();
     $stmt->store_result();
     $stmt->bind_result($nombreTipoEtapa, $tipoPrenda, $tipoServicio, $idTipoPedido, $esExpress, $precioBasePedido, $precioDesperfectos,
-    $precioServiciosAdicionales,$porcentajeDescuento,$inicioPedido,$inicioEtapa,$finEtapa,$descArreglos,$descServAdic,$empleadoAsignado,$ordenActual, $idEtapa,$nombreEtapaActualReal,$ordenEtapaActualReal,$idEtapaActualReal);
+    $precioServiciosAdicionales,$porcentajeDescuento,$inicioPedido,$inicioEtapa,$finEtapa,$descArreglos,$descServAdic,$empleadoAsignado,$ordenActual, $idEtapa,$nombreEtapaActualReal,$ordenEtapaActualReal,$idEtapaActualReal,$clientePedido);
     echo "{";
     while ($stmt->fetch()) {
       $calculoPrecioTotal = calcularPrecioTotal($precioBasePedido, $precioDesperfectos, $precioServiciosAdicionales, $porcentajeDescuento);
@@ -132,6 +133,7 @@ WHERE
         '"nombreEtapaActualReal":"'.$nombreEtapaActualReal.'", '.
         '"ordenEtapaActualReal":"'.$ordenEtapaActualReal.'", '.
         '"idEtapaActualReal":"'.$idEtapaActualReal.'", '.
+        '"clientePedido":"'.$clientePedido.'", '.
         '"idEtapaVista":"'.$idEtapa.'", ';
       /* ETAPA ANTERIOR Y POSTERIOR */
       if ($ordenActual == 1){

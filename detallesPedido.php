@@ -11,6 +11,8 @@ $nombrePagina = "<a id='tituloNombreEtapa'></a>"
 <?php
     include './cabeceraContenido.php';
 
+    $servAdic = false;
+
 if (isset($_SESSION['sesionIniciada'])){
   define('SERVIDOR_BD', 'localhost:3306');
   define('USUARIO_BD', 'webtintoreria');
@@ -22,17 +24,106 @@ if (isset($_SESSION['sesionIniciada'])){
 
         $systemDate= date("Y-m-d H:i:s");
 
-        $stmtY = $db->prepare("INSERT INTUPDATE etapa e SET e.fechaFin=? WHERE e.idPedido = ?  AND e.idTipoEtapa= ?");
+        if(isset($_POST["nombreEtapaActual"])){
+          if(normalizarTexto($_POST["nombreEtapaActual"]) == "recepcionado"){
+            $stmtHayDesperfecto = $db->prepare("SELECT * FROM Arreglos a WHERE a.idPedido = ?  AND a.tipoArreglo = 'Desperfecto'");
+            $stmtHayDesperfecto ->bind_param('s',$_POST["idPedido"]);
+            $stmtHayDesperfecto ->execute();
+            $stmtHayDesperfecto->store_result();
+            if($stmtHayDesperfecto->num_rows > 0){ //Hay desperfecto
+              if($_POST["descArreglos"] != ""){
+                $stmtEC = $db->prepare("UPDATE Arreglos a SET a.descripcion = ? WHERE a.idPedido = ?  AND a.tipoArreglo = 'Desperfecto'");
+                $stmtEC->bind_param('ss',$_POST["descArreglos"],$_POST["idPedido"]);
+                $stmtEC->execute();
+                $stmtEC->store_result();
+              } else {
+                $stmtECA = $db->prepare("DELETE FROM Arreglos WHERE idPedido = ? AND tipoArreglo = 'Desperfecto'");
+                $stmtECA->bind_param('s',$_POST["idPedido"]);
+                $stmtECA->execute();
+                $stmtECA->store_result();
+
+                // aqui se borran las dos etapas solo si no hay servicio adicional
+
+                $stmtAAAA = $db->prepare("SELECT idArreglos FROM Arreglos WHERE idPedido = ?  AND tipoArreglo = 'Servicio adicional'");
+                $stmtAAAA->bind_param('i',$_POST["idPedido"]);
+                $stmtAAAA->execute();
+                $stmtAAAA->store_result();
+                if($stmtAAAA->num_rows > 0){
+                  $stmtAAAA->bind_result($servAdic);
+                  $stmtAAAA->fetch();
+                } else {
+                  $stmt2E = $db->prepare("DELETE FROM etapa WHERE idPedido = ? AND idTipoEtapa = 2");
+                  $stmt2E->bind_param('i',$_POST["idPedido"]);
+                  $stmt2E->execute();
+                  $stmt2E->store_result();
+
+                  $stmt3E = $db->prepare("DELETE FROM etapa WHERE idPedido = ? AND idTipoEtapa = 3");
+                  $stmt3E->bind_param('i',$_POST["idPedido"]);
+                  $stmt3E->execute();
+                  $stmt3E->store_result();
+                }
+              }
+            } else {
+              if (isset($_POST['descArreglos']) &&  !is_null($_POST['descArreglos']) && !empty($_POST['descArreglos'])){
+                $stmtED = $db->prepare("INSERT INTO Arreglos (descripcion, coste, tipoArreglo, idPedido, idTipoPedido, ClientePedido) VALUES (?, null, ?, ?, ?, ?)");
+                $despfto = 'Desperfecto';
+                $stmtED->bind_param('ssiii',$_POST["descArreglos"],$despfto,$_POST["idPedido"],$_POST["idTipoPedido"],$_POST["clientePedido"]);
+                $stmtED->execute();
+                $stmtED->store_result();
+
+              //Aquí se crean las dos etapas, si no están creadas
+                if($servAdic==false){
+                  $stmtE1 = $db->prepare("SELECT eprte.idCuenta FROM empleadopuederealizartipoetapa eprte WHERE eprte.idTipoEtapa = 2 AND eprte.idCuenta NOT IN (SELECT e.EmpleadoAsignado FROM etapa e WHERE e.idPedido = ?) LIMIT 0,1");
+                  $stmtE1->bind_param('i',$_POST["idPedido"]);
+                  $stmtE1->execute();
+                  $stmtE1->store_result();
+                  $stmtE1->bind_result($empleadoAsignado1);
+                  $stmtE1->fetch();
+
+                  $stmtE2 = $db->prepare("SELECT eprte.idCuenta FROM empleadopuederealizartipoetapa eprte WHERE eprte.idTipoEtapa = 3 AND eprte.idCuenta NOT IN (SELECT e.EmpleadoAsignado FROM etapa e WHERE e.idPedido = ?) LIMIT 0,1");
+                  $stmtE2->bind_param('i',$_POST["idPedido"]);
+                  $stmtE2->execute();
+                  $stmtE2->store_result();
+                  $stmtE2->bind_result($empleadoAsignado2);
+                  $stmtE2->fetch();
+
+                  $stmt2C = $db->prepare("INSERT INTO etapa VALUES (null,null,?,?,2)");
+                  $stmt2C->bind_param('ii',$_POST["idPedido"],$empleadoAsignado1);
+                  $stmt2C->execute();
+                  $stmt2C->store_result();
+
+                  $stmt3C = $db->prepare("INSERT INTO etapa VALUES (null,null,?,?,3)");
+                  $stmt3C->bind_param('ii',$_POST["idPedido"],$empleadoAsignado2);
+                  $stmt3C->execute();
+                  $stmt3C->store_result();
+                }
+
+              }
+            }
+          } else if (normalizarTexto($_POST["nombreEtapaActual"]) == "recepcionado(revisiondelaprenda)"){
+            $stmtEA = $db->prepare("UPDATE Arreglos a SET a.coste = ? WHERE a.idPedido = ?  AND a.tipoArreglo = 'Desperfecto'");
+            $stmtEA->bind_param('ss',$_POST["precioDesperfectos"],$_POST["idPedido"]);
+            $stmtEA->execute();
+            $stmtEA->store_result();
+            $stmtEB = $db->prepare("UPDATE Arreglos a SET a.coste = ? WHERE a.idPedido = ?  AND a.tipoArreglo = 'Servicio adicional'");
+            $stmtEB->bind_param('ss',$_POST["precioServiciosAdicionales"],$_POST["idPedido"]);
+            $stmtEB->execute();
+            $stmtEB->store_result();
+          }
+        }
+        /*$stmtY = $db->prepare("INSERT INTUPDATE etapa e SET e.fechaFin=? WHERE e.idPedido = ?  AND e.idTipoEtapa= ?");
         $stmtY->bind_param('sss', $systemDate,$_POST["idPedido"],$_POST["idEtapa"]);
-        $stmtY->execute();
+        $stmtY->execute();*/
 
         $stmtE = $db->prepare("UPDATE etapa e SET e.fechaFin=? WHERE e.idPedido = ?  AND e.idTipoEtapa= ?");
         $stmtE->bind_param('sss', $systemDate,$_POST["idPedido"],$_POST["idEtapa"]);
         $stmtE->execute();
+        $stmtE->store_result();
 
         $stmtF = $db->prepare("UPDATE tipoEtapasPorTipoPedido teptp,etapa e, pedido p SET e.fechaIni=? WHERE e.idPedido = ?  AND e.idTipoEtapa = teptp.idTipoEtapa AND teptp.OrdenEtapa = ? AND e.idPedido = p.idPedido AND p.idTipoPedido = teptp.idTipoPedido");
         $stmtF->bind_param('sss', $systemDate,$_POST["idPedido"],$_POST["ordenEtapaSiguiente"]);
         $stmtF->execute();
+        $stmtF->store_result();
 
 
   } else if (isset($_POST["haEnviadoAPago"]) && $_POST["haEnviadoAPago"] == true){ //TODO ESTO SOLO ES DE ENCARGADO HAY QUE TOCARLO!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -42,6 +133,7 @@ if (isset($_SESSION['sesionIniciada'])){
         $stmtG = $db->prepare("UPDATE etapa e SET e.fechaFin=? WHERE e.idPedido = ?  AND e.idTipoEtapa= ?");
         $stmtG->bind_param('sss', $systemDate,$_POST["idPedido"],$_POST["idEtapaPago"]);
         $stmtG->execute();
+        $stmtG>store_result();
 
   } else if (isset($_POST["haEnviadoAEtapaAnterior"]) && $_POST["haEnviadoAEtapaAnterior"] == true){
 
@@ -50,12 +142,22 @@ if (isset($_SESSION['sesionIniciada'])){
         $stmtH = $db->prepare("UPDATE etapa e SET e.fechaIni=null WHERE e.idPedido = ?  AND e.idTipoEtapa= ?");
         $stmtH->bind_param('ss', $_POST["idPedido"],$_POST["idEtapa"]);
         $stmtH->execute();
+        $stmtH->store_result();
 
         $stmtI = $db->prepare("UPDATE tipoEtapasPorTipoPedido teptp,etapa e, pedido p SET e.fechaFin=null WHERE e.idPedido = ?  AND e.idTipoEtapa = teptp.idTipoEtapa AND teptp.OrdenEtapa = ? AND e.idPedido = p.idPedido AND p.idTipoPedido = teptp.idTipoPedido");
         $stmtI->bind_param('ss', $_POST["idPedido"],$_POST["ordenEtapaAnterior"]);
         $stmtI->execute();
+        $stmtI->store_result();
+        if(isset($_POST["nombreEtapaAnterior"])){
+          if(normalizarTexto($_POST["nombreEtapaAnterior"]) == "recepcionado"){
+            $stmtO = $db->prepare("UPDATE Arreglos a SET coste = null WHERE a.idPedido = ?");
+            $stmtO->bind_param('s', $_POST["idPedido"]);
+            $stmtO->execute();
+            $stmtO->store_result();
+          }
+        }
 
-  }
+  } else {
   echo'
   <form id="idPedidoForm" method="POST" action="./canjePuntos" style="display: none">
     <input type="hidden" name="idPedido" value="'.$_POST["idPedido"].'">
@@ -167,7 +269,7 @@ if (isset($_SESSION['sesionIniciada'])){
         <div class="row justify-content-center" id="contenedorSelecPrecios" style="margin-top:0px; visibility: hidden;">
               <div class="col-5">
                 <div class="input-group mb-3" id="ServiciosAdicPrecio">
-                  <input type="text" class="form-control input-dinero"/>
+                  <input type="text" class="form-control input-dinero" id="inputCosteServiciosAdicionales">
                   <div class="input-group-append">
                     <span class="input-group-text">€</span>
                   </div>
@@ -175,7 +277,7 @@ if (isset($_SESSION['sesionIniciada'])){
               </div>
               <div class="col-5">
                 <div class="input-group mb-3" id="DesperfectosPrecio">
-                  <input type="text" class="form-control  input-dinero"/>
+                  <input type="text" class="form-control input-dinero" id="inputCosteDesperfectos">
                   <div class="input-group-append">
                     <span class="input-group-text">€</span>
                   </div>
@@ -227,6 +329,7 @@ if (isset($_SESSION['sesionIniciada'])){
     </div>
   </div>
 ';
+}
 }
 
 ?>

@@ -18,6 +18,12 @@ var nombretipoEtapaVista = "";
 var nombreTipoEtapaPosterior = "";
 var nombreTipoEtapaAnterior = "";
 
+var precioDesperfectos = "";
+var precioServiciosAdicionales = "";
+
+var clientePedido = "";
+var idTipoPedido = "";
+
 function actualizarDetallesPedido() {
   $.post("./detallesPedidoConsulta.php",
     {
@@ -35,6 +41,18 @@ function actualizarDetallesPedido() {
       nombreTipoEtapaPosterior = respuestaDetallesPedido.nombreTipoEtapaPosterior;
       descArreglos = respuestaDetallesPedido.descArreglos;
       descServAdic = respuestaDetallesPedido.descServAdic;
+      precioDesperfectos = respuestaDetallesPedido.precioDesperfectos;
+      precioServiciosAdicionales = respuestaDetallesPedido.precioServiciosAdicionales;
+      clientePedido = respuestaDetallesPedido.clientePedido;
+      idTipoPedido = respuestaDetallesPedido.idTipoPedido;
+
+      if(document.getElementById("inputCosteDesperfectos") != null){
+        document.getElementById("inputCosteDesperfectos").value = respuestaDetallesPedido.precioDesperfectos;
+      }
+      if(document.getElementById("inputCosteServiciosAdicionales") != null){
+        document.getElementById("inputCosteServiciosAdicionales").value = respuestaDetallesPedido.precioServiciosAdicionales;
+      }
+
       actualizarVariablesEtapas();
 
       actualizarEtapas(nombreTipoEtapaAnterior,nombretipoEtapaVista,nombreTipoEtapaPosterior);
@@ -45,6 +63,7 @@ function actualizarDetallesPedido() {
       //actualizarServicios debe ir ultimo porque se refiere a elementos que se deben actualizar primero
       actualizarServicios(respuestaDetallesPedido.descServAdic, respuestaDetallesPedido.descArreglos);
       mostrarBotonesAccionSobrePedidoSegunTipoCuenta();
+      $(".input-dinero").maskMoney();
   });
 }
 
@@ -293,25 +312,24 @@ function enviarSiguienteEtapa(){
   var datos;
   var ultimaEtapa = false;
   if(ordenSiguienteVista != null){
-    if(descArreglos == ""){
       datos = {
         idPedido: $("#idPedido")[0].value,
-        haEnviadoAPago: true,
+        idTipoPedido: idTipoPedido,
+        haEnviadoASiguienteEtapa: true,
         idEtapa: idEtapaActualReal,
-        ordenEtapaSiguiente:  ordenSiguienteVista
+        ordenEtapaSiguiente:  ordenSiguienteVista,
+        nombreEtapaSiguiente: nombreTipoEtapaPosterior,
+        nombreEtapaActual: nombreEtapaActualReal,
+        descArreglos: document.getElementById("Desperfectos").value,
+        descServAdic: document.getElementById("ServiciosAdic").value,
+        precioDesperfectos: precioDesperfectos,
+        precioServiciosAdicionales: precioServiciosAdicionales,
+        clientePedido: clientePedido
       };
-    } else { //TODO Esto hay que ver como hacerlo
-      datos = {
-        idPedido: $("#idPedido")[0].value,
-        haEnviadoAPago: true,
-        idEtapa: idEtapaActualReal,
-        ordenEtapaSiguiente:  ordenSiguienteVista
-      };
-    }
   } else {
     datos = {
       idPedido: $("#idPedido")[0].value,
-      haEnviadoASiguienteEtapa: true,
+      haEnviadoAPago: true,
       idEtapaPago: "7"
     };
     ultimaEtapa = true;
@@ -338,7 +356,8 @@ function enviarAnteriorEtapa(){
       idPedido: $("#idPedido")[0].value,
       haEnviadoAEtapaAnterior: true,
       idEtapa: idEtapaActualReal,
-      ordenEtapaAnterior:  ordenAnteriorVista
+      ordenEtapaAnterior:  ordenAnteriorVista,
+      nombreEtapaAnterior: nombreTipoEtapaAnterior
     };
     $.post("./detallesPedido.php",
       datos,
@@ -375,3 +394,21 @@ function verSiguienteEtapa(){
 actualizarDetallesPedido();
 
 $(".input-dinero").maskMoney();
+
+$('#Desperfectos').on('keydown keyup change', function(event){
+  descArreglos = this.value;
+  actualizarVariablesEtapas();
+  if(ordenSiguienteVista == 2){
+    actualizarEtapas(nombreTipoEtapaAnterior,nombretipoEtapaVista,"Recepcionado (revisión de la prenda)");
+  } else {
+    actualizarEtapas(nombreTipoEtapaAnterior,nombretipoEtapaVista,nombreTipoEtapaPosterior);
+  }
+});
+
+$('#inputCosteDesperfectos').on('keydown change', function(event){
+  precioDesperfectos = this.value.replace(",","");
+});
+
+$('#inputCosteServiciosAdicionales').on('keydown change', function(event){
+  precioServiciosAdicionales = this.value.replace(",","");
+});
