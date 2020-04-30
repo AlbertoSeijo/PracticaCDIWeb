@@ -119,12 +119,24 @@ WHERE
       $IVA = calculoIVA($precioBasePedido, $precioDesperfectos, $precioServiciosAdicionales);
       $calculoPrecioTotal = calcularPrecioTotal($precioBasePedido, $precioDesperfectos, $precioServiciosAdicionales, $porcentajeDescuento, $IVA);
 
+      if (isset($_POST['tarjeta'])){
+        $varTarjeta = $_POST["tarjeta"];
+        if ($stmt = $db->prepare('SELECT puntos FROM tarjeta WHERE numTarjeta = ?')) {
+          $stmt->bind_param('s', $varTarjeta);
+          $stmt->execute();
+          $stmt->store_result();
+          $stmt->bind_result($varPuntos);
+          $stmt->fetch();
+        }
+        $varNewPuntos = $varPuntos + intval($calculoPrecioTotal*50);
+      }
+
 
 $nombrePagina = "Resumen del Pedido";
 include './cabeceraContenido.php';
 
-
 echo'
+<form id="finform" method="POST" action="./congratulations.php" style="display:none"></form>
 <div class="container-fluid">
   <div class="row" style="margin-top:20px;">
     <div id="col1" class="col-3" style="margin-top:20px;">
@@ -250,9 +262,19 @@ echo'
       </div>
       <div id="botones" class="row">
         <div class="col-12 text-center">
-          <div class="btn-group-vertical">
-            <button type="button" class="btn btn-info" style="width:20vw; height:10vh; margin:5px;" onclick="finalizar()"><b>Pago en efectivo</b></button>
-            <button type="button" class="btn btn-info" style="width:20vw; height:10vh; margin:5px;" onclick="finalizar()"><b>Pago con tarjeta</b></button>
+          <div class="btn-group-vertical">';
+          if(isset($_POST['tarjeta'])){
+            echo'
+              <button type="button" class="btn btn-info" style="width:20vw; height:10vh; margin:5px;" onclick="finalizarcontarjeta('.$varTarjeta.','.$varNewPuntos.')"><b>Pago en efectivo</b></button>
+              <button type="button" class="btn btn-info" style="width:20vw; height:10vh; margin:5px;" onclick="finalizarcontarjeta('.$varTarjeta.','.$varNewPuntos.')"><b>Pago con tarjeta</b></button>
+            ';
+          } else {
+            echo'
+              <button type="button" class="btn btn-info" style="width:20vw; height:10vh; margin:5px;" onclick="finalizarsintarjeta()"><b>Pago en efectivo</b></button>
+              <button type="button" class="btn btn-info" style="width:20vw; height:10vh; margin:5px;" onclick="finalizarsintarjeta()"><b>Pago con tarjeta</b></button>
+            ';
+          }
+          echo'
           </div>
         </div>
       </div>

@@ -1,10 +1,28 @@
 <?php
 include './header.php';?>
 <link href="./css/index.css" rel="stylesheet">
+
 <?php
 $nombrePagina = "<a class='cabeceraContenido-title'>La Vandería</a><br><a style='font-size:16px; margin-top: 59px; display: inline-block;'>Tu lavandería de confianza</a>";
 include './cabeceraContenido.php';
+
+define('SERVIDOR_BD', 'localhost:3306');
+define('USUARIO_BD', 'webtintoreria');
+define('CONTRASENA_BD', 'lavanderia');
+define('NOMBRE_BD', 'tintoreria');
+
+$db = mysqli_connect(SERVIDOR_BD,USUARIO_BD,CONTRASENA_BD,NOMBRE_BD);
+
+if ($stmt = $db->prepare('SELECT numTarjeta FROM tarjeta WHERE idCuenta = ?')) {
+  $stmt->bind_param('i', $_SESSION['idCuentaSesión']);
+  $stmt->execute();
+  $stmt->store_result();
+  if ($stmt->num_rows > 0) {
+    $tarjeta = true;
+  } else {$tarjeta = false;}
+}
 ?>
+
 <?php
 echo'
 <div class="web-content container-fluid '; echo !isset($_SESSION['sesionIniciada']) ? 'p-0">' : '">';
@@ -75,7 +93,7 @@ if(!isset($_SESSION['sesionIniciada'])){
             <div class="card-body carta-menu-principal">
               <h5 class="card-title">Consulta de Pedidos</h5>
               <p class="card-text m-3">Accede al panel de consulta de pedidos para ver todos tus pedidos realizados.</p>
-              <a href="#" class="btn btn-primary boton-menu-principal" onclick="location.href=\'./consultaPedidos\'">Acceder a consulta de pedidos</a>
+              <button class="btn btn-primary boton-menu-principal" onclick="location.href=\'./consultaPedidos\'">Acceder a consulta de pedidos</button>
             </div>
           </div>
         </div>
@@ -84,8 +102,14 @@ if(!isset($_SESSION['sesionIniciada'])){
             <img src="./img/index/cardTarjetaPuntos.jpg" class="card-img-top" alt="...">
             <div class="card-body carta-menu-principal">
               <h5 class="card-title">Tarjeta de puntos</h5>
-              <p class="card-text m-3">Comprueba los puntos que tienes acumulados en tu tarjeta así como los descuentos disponibles, canjeables al realizar el pago de tus pedidos.</p>
-              <a href="#" class="btn btn-primary boton-menu-principal" onclick="location.href=\'./tarjetaPuntos\'">Consultar tarjeta de puntos</a>
+              <p class="card-text m-3">Comprueba los puntos que tienes acumulados en tu tarjeta así como los descuentos disponibles, canjeables al realizar el pago de tus pedidos.</p>';
+              if (!$tarjeta){
+                echo'
+                <button disabled class="btn btn-primary boton-menu-principal" data-placement="bottom" title="Necesitas tener tarjeta" onclick="location.href=\'./tarjetaPuntos\'">Consultar tarjeta de puntos</button>';
+              } else {
+                echo'<button class="btn btn-primary boton-menu-principal" onclick="location.href=\'./tarjetaPuntos\'">Consultar tarjeta de puntos</button>';
+              }
+              echo'
             </div>
           </div>
         </div>

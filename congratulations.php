@@ -7,6 +7,22 @@ if(!isset($_SESSION['sesionIniciada']) || $_SESSION['tipoCuentaSesión'] != "Enc
 
 $nombrePagina = "¡¡ ENHORABUENA !!";
 include './cabeceraContenido.php';
+
+if(isset($_POST['tarjeta'])){
+  define('SERVIDOR_BD', 'localhost:3306');
+  define('USUARIO_BD', 'webtintoreria');
+  define('CONTRASENA_BD', 'lavanderia');
+  define('NOMBRE_BD', 'tintoreria');
+
+  $db = mysqli_connect(SERVIDOR_BD,USUARIO_BD,CONTRASENA_BD,NOMBRE_BD);
+
+  if ($stmt = $db->prepare('UPDATE tarjeta t SET t.puntos = ? WHERE t.numTarjeta = ?')) {
+    $stmt->bind_param('ss', $_POST['puntos'],$_POST['tarjeta']);
+    $stmt->execute();
+    $stmt->store_result();
+  }
+}
+
 ?>
 
  <link rel="stylesheet" type="text/css" href="./css/congratulations.css">
