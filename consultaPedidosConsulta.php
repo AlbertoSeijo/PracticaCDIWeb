@@ -428,7 +428,7 @@ function cSQLOrdenarPor($ordenarPor){
 function cSQLBusqueda($nombreColumna, $texto){
   $sqlColumna = "";
   if ($nombreColumna == "tipoPrenda"){
-    $sqlColumna = "primeraEtapa.fechaIni";
+    $sqlColumna = "p.tipoPrenda";
   } else if ($nombreColumna == "fechaPedido"){
     $sqlColumna = "e.fechaIni";
   } else if ($nombreColumna == "nombreCliente"){
