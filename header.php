@@ -20,6 +20,7 @@
     <link href="./css/header.css" rel="stylesheet">
     <script src="./js/jquery-3.4.1.min.js"></script>
     <script src="./js/jquery.redirect.js"></script>
+    <script src="./js/jquery.maskMoney.js"></script>
     <script src="./js/bootstrap.bundle.min.js"></script>
     <script src="./js/common.js"></script>
     <title>La Vandería</title>

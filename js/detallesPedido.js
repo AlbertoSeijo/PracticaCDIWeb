@@ -198,12 +198,53 @@ function actualizarEtapas(etapaAnterior, etapaActual, etapaSiguiente){
   }
   document.getElementById("etapaActualNombre").innerText = etapaActual;
   document.getElementById("etapaActualImagen").src = "./img/etapas/"+normalizarString(etapaActual)+".svg";
+  if(normalizarString(nombreEtapaActualReal) == "recepcionado(revisiondelaprenda)"){
+    $('#DesperfectosPrecio > input').prop( "disabled", false );
+    $('#ServiciosAdicPrecio > input').prop( "disabled", false );
+  } else {
+    $('#DesperfectosPrecio > input').prop( "disabled", true );
+    $('#ServiciosAdicPrecio > input').prop( "disabled", true );
+  }
   if(normalizarString(etapaActual) == normalizarString(nombreEtapaActualReal)){
     $('#cardEtapaActual .card-body .etq-es-etapa-actual').css('visibility', 'visible');
     $('#cardEtapaActual').addClass("marca-pedido-actual-real");
+    if(normalizarString(etapaActual) == "recepcionado(revisiondelaprenda)"){
+      $('#contenedorSelecPrecios').css('visibility', 'visible');
+      if(descArreglos != ""){
+        $('#DesperfectosPrecio').css('visibility', 'visible');
+      } else {
+        $('#DesperfectosPrecio').css('visibility', 'hidden');
+      }
+      if(descServAdic != ""){
+        $('#ServiciosAdicPrecio').css('visibility', 'visible');
+      } else {
+        $('#ServiciosAdicPrecio').css('visibility', 'hidden');
+      }
+    } else {
+      $('#contenedorSelecPrecios').css('visibility', 'hidden');
+      $('#DesperfectosPrecio').css('visibility', 'hidden');
+      $('#ServiciosAdicPrecio').css('visibility', 'hidden');
+    }
   } else {
     $('#cardEtapaActual .card-body .etq-es-etapa-actual').css('visibility', 'hidden');
     $('#cardEtapaActual').removeClass("marca-pedido-actual-real");
+    if(normalizarString(etapaActual) == "recepcionado(revisiondelaprenda)"){
+      $('#contenedorSelecPrecios').css('visibility', 'visible');
+      if(descArreglos != ""){
+        $('#DesperfectosPrecio').css('visibility', 'visible');
+      } else {
+        $('#DesperfectosPrecio').css('visibility', 'hidden');
+      }
+      if(descServAdic != ""){
+        $('#ServiciosAdicPrecio').css('visibility', 'visible');
+      } else {
+        $('#ServiciosAdicPrecio').css('visibility', 'hidden');
+      }
+    } else {
+      $('#contenedorSelecPrecios').css('visibility', 'hidden');
+      $('#DesperfectosPrecio').css('visibility', 'hidden');
+      $('#ServiciosAdicPrecio').css('visibility', 'hidden');
+    }
   }
   if(normalizarString(etapaActual) == normalizarString(nombreEtapaAsignada)){
     $('#cardEtapaActual').addClass("marca-pedido-asignado");
@@ -332,3 +373,5 @@ function verSiguienteEtapa(){
 }
 
 actualizarDetallesPedido();
+
+$(".input-dinero").maskMoney();

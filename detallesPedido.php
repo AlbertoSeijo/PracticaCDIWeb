@@ -150,16 +150,44 @@ if (isset($_SESSION['sesionIniciada'])){
               <div class="col-5">
                 <div class="form-group">
                   <label for="ServiciosAdic">Servicios adicionales</label>
-                  <textarea disabled class="form-control" id="ServiciosAdic" rows="6" style="resize: none;"></textarea>
+                  <textarea disabled class="form-control" id="ServiciosAdic" rows="5" style="resize: none;"></textarea>
                 </div>
               </div>
               <div class="col-5">
                 <div class="form-group">
                   <label for="Desperfectos">Desperfectos</label>
-                  <textarea class="form-control" id="Desperfectos" rows="6" style="resize: none;"></textarea>
-            </div>
-          </div>
+                  <textarea class="form-control" id="Desperfectos" rows="5" style="resize: none;"></textarea>
+                </div>
+              </div>
+        </div>';
+
+
+        if($_SESSION['tipoCuentaSesión'] == "Encargado"){
+          echo '
+        <div class="row justify-content-center" id="contenedorSelecPrecios" style="margin-top:0px; visibility: hidden;">
+              <div class="col-5">
+                <div class="input-group mb-3" id="ServiciosAdicPrecio">
+                  <input type="text" class="form-control input-dinero"/>
+                  <div class="input-group-append">
+                    <span class="input-group-text">€</span>
+                  </div>
+                </div>
+              </div>
+              <div class="col-5">
+                <div class="input-group mb-3" id="DesperfectosPrecio">
+                  <input type="text" class="form-control  input-dinero"/>
+                  <div class="input-group-append">
+                    <span class="input-group-text">€</span>
+                  </div>
+                </div>
+              </div>
         </div>
+        ';
+      }
+
+
+
+      echo '
       </div>
       <div id="col3" class="col-12 col-lg-3 order-2 order-lg-3" style="margin-top:20px;">
         <div class="row justify-content-center">
