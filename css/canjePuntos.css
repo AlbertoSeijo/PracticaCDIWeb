@@ -52,6 +52,12 @@
   left: 48px;
 }
 
+.btn-nueva-tarjeta {
+  position: absolute;
+  right: 48px;
+  bottom: 57vh;
+}
+
 .separadorBotones {
   display: none;
   visibility: hidden;

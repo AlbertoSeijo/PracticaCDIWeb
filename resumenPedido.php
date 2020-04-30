@@ -202,7 +202,7 @@ echo'
                 <td class="text-right">+';if($precioDesperfectos==null){echo'0.00';}else{echo $precioDesperfectos;} echo'€</td>
               </tr>
               <tr>
-                <td>Descuento "'.$descDescuento.'"</td>
+                <td>Descuentos'; if($descDescuento!=null){echo'"'.$descDescuento.'"';} echo'</td>
                 <td class="text-right">';if($porcentajeDescuento==0){echo'-0.00€';}else{echo'(-'.$porcentajeDescuento.'%) -'.number_format(calcularTotalDescuento($precioBasePedido, $precioDesperfectos, $precioServiciosAdicionales, $porcentajeDescuento), 2, ',', '.').'€';}echo'</td>
               </tr>
               <tr>
