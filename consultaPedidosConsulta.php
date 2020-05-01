@@ -354,7 +354,7 @@ function mostrarPedido($resultadoConsulta){
     if($result["precioAceptado"]){
     echo '
                 <form action="./detallesPedido" method="POST">
-                  <input type="submit" class="btn btn-primary btn-lg" value="Detalles del pedido">
+                  <input type="submit" class="btn btn-primary btn-lg" value="Estado del pedido">
                   <input type="hidden" name="idPedido" value="'.$result["idPedido"].'">
                   <input type="hidden" name="ordenVerEtapa" value="'.$result["ordenActual"].'">
                   <input type="hidden" name="ordenEtapaActual" value="'.$result["ordenActual"].'">
@@ -369,7 +369,7 @@ function mostrarPedido($resultadoConsulta){
   } else if ($_SESSION["tipoCuentaSesión"] == "Empleado") {
     echo '
                 <form action="./detallesPedido" method="POST">
-                  <input type="submit" class="btn btn-primary btn-lg" value="Detalles del pedido">
+                  <input type="submit" class="btn btn-primary btn-lg" value="Estado del pedido">
                   <input type="hidden" name="idPedido" value="'.$result["idPedido"].'">
                   <input type="hidden" name="ordenVerEtapa" value="'.$result["ordenActual"].'">
                   <input type="hidden" name="ordenEtapaActual" value="'.$result["ordenActual"].'">
@@ -379,7 +379,7 @@ function mostrarPedido($resultadoConsulta){
     if($result["precioAceptado"]){
     echo '
                 <form action="./detallesPedido.php" method="POST">
-                  <input type="submit" class="btn btn-primary btn-lg" value="Detalles del pedido">
+                  <input type="submit" class="btn btn-primary btn-lg" value="Estado del pedido">
                   <input type="hidden" name="idPedido" value="'.$result["idPedido"].'">
                   <input type="hidden" name="ordenVerEtapa" value="'.$result["ordenActual"].'">
                   <input type="hidden" name="ordenEtapaActual" value="'.$result["ordenActual"].'">
@@ -389,7 +389,7 @@ function mostrarPedido($resultadoConsulta){
     echo '
                 <button type="button" onclick="cancelarPedido('.$result["idPedido"].')" class="btn btn-danger btn-lg btn-cancelar-pedido">Cancelar pedido</button>
                 <form action="./detallesPedido" method="POST">
-                  <input type="submit" class="btn btn-primary btn-lg btn-aceptar-precio-actualizado" value="Detalles del pedido">
+                  <input type="submit" class="btn btn-primary btn-lg btn-aceptar-precio-actualizado" value="Estado del pedido">
                   <input type="hidden" name="idPedido" value="'.$result["idPedido"].'">
                   <input type="hidden" name="ordenVerEtapa" value="'.$result["ordenActual"].'">
                   <input type="hidden" name="ordenEtapaActual" value="'.$result["ordenActual"].'">
