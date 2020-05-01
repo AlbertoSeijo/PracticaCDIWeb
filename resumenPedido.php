@@ -200,7 +200,7 @@ echo'
       </div>
       <div class="row btn-facturar" style="margin-top:8vh;">
         <div class="col-12 text-center">
-          <button id="facturar" type="button" class="btn btn-info" style="width:15vw; height:10vh;" onclick="facturacion()"><b>Emitir Factura</b></button>
+<button id="facturar" type="button" class="btn btn-info" style="width:15vw; height:10vh; position: relative;" onclick="facturacion()"><b>Emitir Factura </b><img src="./img/pago/factura.svg" style="width: 56px; position: absolute; right:20px;  top: 20px;"></img></button>
         </div>
       </div>
     </div>
@@ -279,13 +279,13 @@ echo'
           <div class="btn-group-vertical">';
           if(isset($_POST['tarjeta'])){
             echo'
-              <button type="button" class="btn btn-info" style="width:20vw; height:10vh; margin:5px;" onclick="finalizarcontarjeta('.$varTarjeta.','.$varNewPuntos.')"><b>Pago en efectivo</b></button>
-              <button type="button" class="btn btn-info" style="width:20vw; height:10vh; margin:5px;" onclick="finalizarcontarjeta('.$varTarjeta.','.$varNewPuntos.')"><b>Pago con tarjeta</b></button>
+              <button type="button" class="btn btn-info" style="width:20vw; height:10vh; margin:5px;" onclick="finalizarcontarjeta('.$varTarjeta.','.$varNewPuntos.')"><b>Pago en efectivo</b><img src="./img/pago/pagoEfectivo.svg" style="width: 48px; position: absolute; right:20px; top: 30px;"></img></button>
+              <button type="button" class="btn btn-info" style="width:20vw; height:10vh; margin:5px;" onclick="finalizarcontarjeta('.$varTarjeta.','.$varNewPuntos.')"><b>Pago con tarjeta</b><img src="./img/pago/pagoTarjeta.svg" style="width: 48px; position: absolute; right:20px; top: 24px;"></img></button>
             ';
           } else {
             echo'
-              <button type="button" class="btn btn-info" style="width:20vw; height:10vh; margin:5px;" onclick="finalizarsintarjeta()"><b>Pago en efectivo</b></button>
-              <button type="button" class="btn btn-info" style="width:20vw; height:10vh; margin:5px;" onclick="finalizarsintarjeta()"><b>Pago con tarjeta</b></button>
+            <button type="button" class="btn btn-info" style="width:20vw; height:10vh; margin:5px;" onclick="finalizarsintarjeta()"><b>Pago en efectivo</b><img src="./img/pago/pagoEfectivo.svg" style="width: 48px; position: absolute; right:20px; top: 30px;"></img></button>
+            <button type="button" class="btn btn-info" style="width:20vw; height:10vh; margin:5px;" onclick="finalizarsintarjeta()"><b>Pago con tarjeta</b><img src="./img/pago/pagoTarjeta.svg" style="width: 48px; position: absolute; right:20px; top: 24px;"></img></button>
             ';
           }
           echo'
