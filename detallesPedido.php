@@ -285,6 +285,27 @@ if (isset($_SESSION['sesionIniciada'])){
               </div>
         </div>
         ';
+      } else if ($_SESSION['tipoCuentaSesión'] == "Empleado"){
+        echo '
+      <div class="row justify-content-center" style="margin-top:0px; visibility: hidden;">
+            <div class="col-5">
+              <div class="input-group mb-3">
+                <input type="text" class="form-control input-dinero">
+                <div class="input-group-append">
+                  <span class="input-group-text">€</span>
+                </div>
+              </div>
+            </div>
+            <div class="col-5">
+              <div class="input-group mb-3">
+                <input type="text" class="form-control input-dinero">
+                <div class="input-group-append">
+                  <span class="input-group-text">€</span>
+                </div>
+              </div>
+            </div>
+      </div>
+      ';
       }
 
 
