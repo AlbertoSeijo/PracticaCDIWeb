@@ -25,5 +25,10 @@ if ($stmt = $db->prepare('INSERT INTO tarjeta VALUES (?,0,?)')) {
   $stmt->store_result();
 }
 
-echo '<script>pasarSinDescuentos('.$varIdPedido.','.$varTarjeta.');</script>';
+if ($stmt->error){
+  echo '<script>tarjetamalcreada('.$varIdPedido.',true);</script>';
+} else {
+  echo '<script>pasarSinDescuentos('.$varIdPedido.','.$varTarjeta.');</script>';
+}
+
 ?>

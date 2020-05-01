@@ -12,6 +12,10 @@ $nombrePagina = "Aplicar Tarjeta";
 
 $numtarjeta = false;
 $idCuenta = false;
+$malacreacion = false;
+
+if (isset($_POST['malacreacion'])) {$malacreacion = $_POST['malacreacion'];}
+
 include './cabeceraContenido.php';
 
 define('SERVIDOR_BD', 'localhost:3306');
@@ -67,10 +71,23 @@ if ($stmt = $db->prepare('SELECT ClientePedido FROM pedido WHERE idPedido = ?'))
       </form>
     </div>
   </div>
+  <?php
+  if($malacreacion == true){
+    echo'
+    <div class="row justify-content-center" align="center">
+      <div class="col-lg-8 col-xl-4" style="position:absolute; bottom:95px;">
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+          La tarjeta introducida ya existe en la base de datos.
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+      </div>
+    </div>';
+  }
+  echo'
   <div class="row text-center contenedor-botones-continuar">
     <div class="col-12 text-center justify-content-center">
-      <?php
-      echo '
         <button '; if($numtarjeta != false) {echo'disabled';} echo' class="btn btn-warning btn-lg btn-nueva-tarjeta" onclick="tarjetavalida('.$varIdPedido.',0,0,'.$idCuenta.')"><b>Crear Nueva Tarjeta</b></button>
         <button class="btn btn-primary btn-lg btn-sin-tarjeta" onclick="pasarSinTarjeta('.$varIdPedido.')">Tramitar pedido sin tarjeta</button>
         <button '; if($numtarjeta == false) {echo'disabled';} echo' class="btn btn-info btn-lg btn-continuar" onclick="tarjetavalida('.$varIdPedido.',1,'.$numtarjeta.','.$idCuenta.')">Continuar</button>
