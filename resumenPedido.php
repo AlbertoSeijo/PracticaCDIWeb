@@ -13,28 +13,22 @@ $varIdPedido = $_POST["idPedido"];
 
 function calcularPrecioTotal($precioBasePedido, $precioDesperfectos, $precioServiciosAdicionales, $porcentajeDescuento, $IVA){
   $calculoPrecioTotal = $precioBasePedido;
+  if(isset($porcentajeDescuento) && !is_null($porcentajeDescuento)){
+    $calculoPrecioTotal *= 1 - ($porcentajeDescuento / 100.0);
+  }
   if(isset($precioDesperfectos) && !is_null($precioDesperfectos)){
     $calculoPrecioTotal += $precioDesperfectos;
   }
   if(isset($precioServiciosAdicionales) && !is_null($precioServiciosAdicionales)){
     $calculoPrecioTotal += $precioServiciosAdicionales;
   }
-  if(isset($porcentajeDescuento) && !is_null($porcentajeDescuento)){
-    $calculoPrecioTotal *= 1 - ($porcentajeDescuento / 100.0);
-  }
   $calculoPrecioTotal += $IVA;
   $calculoPrecioTotal = round($calculoPrecioTotal,2);
   return $calculoPrecioTotal;
 }
 
-function calcularTotalDescuento($precioBasePedido, $precioDesperfectos, $precioServiciosAdicionales, $porcentajeDescuento){
+function calcularTotalDescuento($precioBasePedido, $porcentajeDescuento){
   $calculoTotalDescuento = $precioBasePedido;
-  if(isset($precioDesperfectos) && !is_null($precioDesperfectos)){
-    $calculoTotalDescuento += $precioDesperfectos;
-  }
-  if(isset($precioServiciosAdicionales) && !is_null($precioServiciosAdicionales)){
-    $calculoTotalDescuento += $precioServiciosAdicionales;
-  }
   if(isset($porcentajeDescuento) && !is_null($porcentajeDescuento)){
     $calculoTotalDescuento *= ($porcentajeDescuento / 100.0);
   } else {
@@ -229,7 +223,7 @@ echo'
               </tr>
               <tr>
                 <td>Descuentos'; if($descDescuento!=null){echo' "'.$descDescuento.'"';} echo'</td>
-                <td class="text-right">';if($porcentajeDescuento==0){echo'-0.00€';}else{echo'(-'.$porcentajeDescuento.'%) -'.number_format(calcularTotalDescuento($precioBasePedido, $precioDesperfectos, $precioServiciosAdicionales, $porcentajeDescuento), 2, ',', '.').'€';}echo'</td>
+                <td class="text-right">';if($porcentajeDescuento==0){echo'-0.00€';}else{echo'(-'.$porcentajeDescuento.'%) -'.number_format(calcularTotalDescuento($precioBasePedido, $porcentajeDescuento), 2, ',', '.').'€';}echo'</td>
               </tr>
               <tr>
                 <td>IVA (21%)</td>
