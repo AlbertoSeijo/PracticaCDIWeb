@@ -10,6 +10,7 @@ function facturacion(){
 
 
 function finalizarcontarjeta(tarjeta,puntos){
+  setTimeout(function(){
     form = document.createElement('form');
     form.setAttribute('method', 'POST');
     form.setAttribute('action', './congratulations');
@@ -25,9 +26,12 @@ function finalizarcontarjeta(tarjeta,puntos){
     form.appendChild(punt);
     document.body.appendChild(form);
     form.submit();
+  },4000);
 }
 
 
 function finalizarsintarjeta(){
-   window.location.href = "./congratulations.php";
+  setTimeout(function(){
+   window.location.href = "./congratulations.php";}
+   ,4000);
 }
