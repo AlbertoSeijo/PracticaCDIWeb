@@ -18,28 +18,28 @@ if(isset($_SESSION['sesionIniciada'])){
             <div class="form-row">
               <div class="form-group col-md-6">
                 <label for="nombreRegistro">Nombre</label><a style="color:red;"> *</a>
-                <input type="text" class="form-control" name="nombreRegistro" id="nombreRegistro">
+                <input type="text" class="form-control" name="nombreRegistro" id="nombreRegistro" value="<?php if(isset($_POST["nombreRegistro"])){echo $_POST["nombreRegistro"];}?>">
               </div>
               <div class="form-group col-md-6">
                 <label for="apellidosRegistro">Apellidos</label><a style="color:red;"> *</a>
-                <input type="text" class="form-control" name="apellidosRegistro" id="apellidosRegistro">
+                <input type="text" class="form-control" name="apellidosRegistro" id="apellidosRegistro" value="<?php if(isset($_POST["apellidosRegistro"])){echo $_POST["apellidosRegistro"];}?>">
               </div>
             </div>
             <div class="form-group">
               <label for="dniRegistro">DNI</label><a style="color:red;"> *</a>
-              <input type="text" class="form-control" name="dniRegistro" id="dniRegistro">
+              <input type="text" class="form-control" name="dniRegistro" id="dniRegistro" value="<?php if(isset($_POST["dniRegistro"])){echo $_POST["dniRegistro"];}?>">
             </div>
             <div class="form-group">
               <label for="correoElectronicoRegistro">Correo electrónico</label><a style="color:red;"> *</a>
-              <input type="text" class="form-control" name="correoElectronicoRegistro" id="correoElectronicoRegistro">
+              <input type="text" class="form-control" name="correoElectronicoRegistro" id="correoElectronicoRegistro" value="<?php if(isset($_POST["correoElectronicoRegistro"])){echo $_POST["correoElectronicoRegistro"];}?>">
             </div>
             <div class="form-group">
               <label for="contraseñaRegistro">Contraseña</label><a style="color:red;"> *</a>
-              <input type="password" class="form-control" name="contraseñaRegistro" id="contraseñaRegistro">
+              <input type="password" class="form-control" name="contraseñaRegistro" id="contraseñaRegistro" value="<?php if(isset($_POST["contraseñaRegistro"])){echo $_POST["contraseñaRegistro"];}?>">
             </div>
             <div class="form-group">
               <label for="confirmaciónContraseñaRegistro">Repetir contraseña</label><a style="color:red;"> *</a>
-              <input type="password" class="form-control" name="confirmaciónContraseñaRegistro" id="confirmaciónContraseñaRegistro">
+              <input type="password" class="form-control" name="confirmaciónContraseñaRegistro" id="confirmaciónContraseñaRegistro" value="<?php if(isset($_POST["confirmaciónContraseñaRegistro"])){echo $_POST["confirmaciónContraseñaRegistro"];}?>">
             </div>
             <a style="color:red; font-size:10px;">Los campos marcados con * son obligatorios</a>
             <input type="hidden" name="triedRegistro" id="triedRegistro" value="true">
@@ -60,7 +60,7 @@ if(isset($_POST['triedRegistro'])  && $_POST['triedRegistro'] == true){
       <div class="row justify-content-center" align="center">
         <div class="col-lg-8 col-xl-4">
           <div class="alert alert-danger alert-dismissible fade show" role="alert">
-            Debes rellenar todos los campos para poder iniciar sesión.
+            Debes rellenar todos los campos para poder registrarte.
             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>

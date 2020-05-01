@@ -17,11 +17,11 @@ if(isset($_SESSION['sesionIniciada'])){
           <form action="./login" method="POST" id="formLogin">
             <div class="form-group">
               <label for="emailLogin">Correo electrónico</label><a style="color:red;"> *</a>
-              <input type="email" class="form-control" name="emailLogin" id="emailLogin" aria-describedby="emailHelp">
+              <input type="email" class="form-control" name="emailLogin" id="emailLogin" aria-describedby="emailHelp" value="<?php if(isset($_POST["emailLogin"])){echo $_POST["emailLogin"];}?>">
             </div>
             <div class="form-group">
               <label for="contraseñaLogin">Contraseña</label><a style="color:red;"> *</a>
-              <input type="password" class="form-control" name="contraseñaLogin" id="contraseñaLogin">
+              <input type="password" class="form-control" name="contraseñaLogin" id="contraseñaLogin" value="<?php if(isset($_POST["contraseñaLogin"])){echo $_POST["contraseñaLogin"];}?>">
             </div>
             <a style="color:red; font-size:10px;">Los campos marcados con * son obligatorios</a>
             <input type="hidden" name="triedLogin" id="triedLogin" value="true">

@@ -299,9 +299,6 @@ if (isset($_SESSION['sesionIniciada'])){
               <div class="contenedorFechaNombre col-5">Inicio pedido:</div> <div class="contenedorFechaDato col-7" id="fechaInicioPedido"></div>
             </div>
             <div class="fechas row w-100">
-              <div class="contenedorFechaNombre col-5">Fin pedido:</div> <div class="contenedorFechaDato col-7" id="fechaFinPedido"></div>
-            </div>
-            <div class="fechas row w-100">
               <div class="contenedorFechaNombre col-5">Inicio etapa:</div> <div class="contenedorFechaDato col-7" id="fechaInicioEtapa"></div>
             </div>
             <div class="fechas row w-100">
