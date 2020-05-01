@@ -119,7 +119,7 @@ if(!isset($_SESSION['sesionIniciada'])){
   } else if ($_SESSION['tipoCuentaSesión'] == "Empleado"){
     echo '
       <div class="row" align="center">
-        <div class="col-sm-12"><h1 class="welcome-title">Bienvenido, ' .$_SESSION['nombreSesión']. '</h1></div>
+        <div class="col-sm-12"><h1 class="welcome-title">Bienvenid@, ' .$_SESSION['nombreSesión']. '</h1></div>
       </div>
       <div class="row" align="center">
         <div class="col-sm-12"><h6 class="welcome-description">Accede a la consulta de pedidos para ver aquellos que tienes asignados.</h6></div>
@@ -141,7 +141,7 @@ if(!isset($_SESSION['sesionIniciada'])){
   } else if ($_SESSION['tipoCuentaSesión'] == "Encargado"){
     echo '
       <div class="row" align="center">
-        <div class="col-sm-12"><h1 class="welcome-title">Bienvenido, ' .$_SESSION['nombreSesión']. '</h1></div>
+        <div class="col-sm-12"><h1 class="welcome-title">Bienvenid@, ' .$_SESSION['nombreSesión']. '</h1></div>
       </div>
       <div class="row" align="center">
         <div class="col-sm-12"><h6 class="welcome-description">Desde aquí puedes realizar distintas tareas administrativas. Realiza una petición de limpieza o consulta los pedidos de los clientes.</h6></div>
