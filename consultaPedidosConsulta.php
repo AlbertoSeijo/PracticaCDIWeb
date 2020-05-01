@@ -199,7 +199,7 @@ function mostrarPedido($resultadoConsulta){
     if($result["esExpress"]){
       echo '
               <div class="col-md-4 col-sm-12 my-auto text-center textoExpress ">
-                <i class="fas fa-star fa-2x estrellaExpress"></i> Pedido expréss
+                <i class="fas fa-star fa-2x estrellaExpress"></i> Pedido exprés
               </div>
       ';
     } else {
