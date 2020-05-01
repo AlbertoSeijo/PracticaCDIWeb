@@ -23,8 +23,14 @@
   border-radius:4px;
 }
 
-.contenedor-tipo-prenda {
-  width: 50%;
+.supercontenedor-tipo-prenda {
+  height: 125px;
+}
+
+@media screen and (min-width: 1200px) {
+ .supercontenedor-tipo-prenda{
+   height: 600px;
+ }
 }
 
 .botonConfirmarPedido {
@@ -35,4 +41,14 @@
 .hidden {
   display: none;
   visibility: hidden;
+}
+
+.etiquetaSubapartados {
+  margin-top: -15px;
+  margin-left: 8px;
+  display: block;
+  padding-left: 4px;
+  padding-right: 4px;
+  position: absolute;
+  background-color: white;
 }

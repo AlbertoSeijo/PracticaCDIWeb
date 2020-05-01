@@ -35,95 +35,99 @@ if(!isset($_POST["peticionRealizada"]) || $_POST["peticionRealizada"] == false){
     <input type="hidden" id="esExpress" name="esExpress" value="">
     <input type="hidden" name="cargadoDesdePagina" value="true">
   </form>
-<div class="container-fluid" style="height:60vh; margin-top: 25px;">
+<div class="container-fluid" style="margin-top: 25px;">
   <div class="row h-100">
-    <div class="col-lg-2 col-md-12 h-100">
-      <a>Tipo de prenda</a>
-      <div class="card bg-light text-center h-100" style="overflow-x: hidden; overflow-y: auto;">
-          <div class="row text-center justify-content-center">
+    <div class="col-xl-2 mb-2 col-lg-12">
+
+      <div class="card bg-light text-center supercontenedor-tipo-prenda" style="margin-top: 25px;">
+      <a class="etiquetaSubapartados">Tipo de prenda</a>
+          <div class="row text-center justify-content-center d-flex h-100 w-100 m-0" style="overflow-x: auto; justify-content: center;
+  align-items: center; ">
             <div class="contenedor-tipo-prenda m-0 p-0">
               <button type="button" class="btn btn-primary seleccion-tipo-prenda" value="Lana">
-                <img src="./img/tipoPrenda/lana.svg" style="width:3vw;"><a>Lana</a>
+                <img src="./img/tipoPrenda/lana.svg" style="width:50px;"><a>Lana</a>
               </button>
             </div>
             <div class="contenedor-tipo-prenda m-0 p-0">
               <button type="button" class="btn btn-primary seleccion-tipo-prenda" value="Seda">
-                <img src="./img/tipoPrenda/seda.svg" style="width:3vw;"><a>Seda</a>
+                <img src="./img/tipoPrenda/seda.svg" style="width:50px;"><a>Seda</a>
               </button>
             </div>
             <div class="contenedor-tipo-prenda m-0 p-0">
               <button type="button" class="btn btn-primary seleccion-tipo-prenda" value="Cuero">
-                <img src="./img/tipoPrenda/cuero.svg" style="width:3vw;"><a>Cuero</a>
+                <img src="./img/tipoPrenda/cuero.svg" style="width:50px;"><a>Cuero</a>
               </button>
             </div>
             <div class="contenedor-tipo-prenda m-0 p-0">
               <button type="button" class="btn btn-primary seleccion-tipo-prenda" value="Bambú">
-                <img src="./img/tipoPrenda/bambu.svg" style="width:3vw;"><a>Bambú</a>
+                <img src="./img/tipoPrenda/bambu.svg" style="width:50px;"><a>Bambú</a>
               </button>
             </div>
             <div class="contenedor-tipo-prenda m-0 p-0">
               <button type="button" class="btn btn-primary seleccion-tipo-prenda" value="Algodón">
-                <img src="./img/tipoPrenda/algodon.svg" style="width:3vw;"><a>Algodón</a>
+                <img src="./img/tipoPrenda/algodon.svg" style="width:50px;"><a>Algodón</a>
               </button>
             </div>
             <div class="contenedor-tipo-prenda m-0 p-0">
               <button type="button" class="btn btn-primary seleccion-tipo-prenda" value="Nailon">
-                <img src="./img/tipoPrenda/nailon.svg" style="width:3vw;"><a>Nailon</a>
+                <img src="./img/tipoPrenda/nailon.svg" style="width:50px;"><a>Nailon</a>
               </button>
             </div>
             <div class="contenedor-tipo-prenda m-0 p-0">
               <button type="button" class="btn btn-primary seleccion-tipo-prenda" value="Traje">
-                <img src="./img/tipoPrenda/traje.svg" style="width:3vw;"><a>Trajes</a>
+                <img src="./img/tipoPrenda/traje.svg" style="width:50px;"><a>Trajes</a>
               </button>
             </div>
             <div class="contenedor-tipo-prenda m-0 p-0">
               <button type="button" class="btn btn-primary seleccion-tipo-prenda" value="Vestido">
-                <img src="./img/tipoPrenda/vestido.svg" style="width:3vw;"><a>Vestidos</a>
+                <img src="./img/tipoPrenda/vestido.svg" style="width:50px;"><a>Vestidos</a>
               </button>
             </div>
         </div>
       </div>
     </div>
-    <div class="col-lg-10 col-md-12 h-100">
-      <div class="row h-75">
-        <div class="col-9" style="height: 100%;">
-          <div class="row" style="height: 58%;">
-            <div class="col-12" style="height: 100%;">
-              <a>Tipo de servicio</a>
+    <div class="col-xl-10 col-lg-12 h-100">
+      <div class="row">
+        <div class="col-12 col-lg-9">
+          <div class="row">
+            <div class="col-12 justify-content-center" style="height: 100%; margin-top: 25px;">
+
               <div class="card bg-light" style="height: 90%;">
+              <a class="etiquetaSubapartados">Tipo de servicio</a>
                 <div class="row text-center">
                   <div class="col-4">
-                    <button type="button" class="btn btn-primary seleccion-tipo-limpieza" style="margin:10px; width: 10vw; height: 20vh;  " onclick="limpiezacompleta()">
-                      <img src="./img/tipoPedido/limpiezacompleta.svg" style="width:7vw;"><a>Limpieza completa</a>
+                    <button type="button" class="btn btn-primary seleccion-tipo-limpieza" style="margin:10px;  width: 190px; height: 190px;" onclick="limpiezacompleta()">
+                      <img src="./img/tipoPedido/limpiezacompleta.svg" style="width:120px;"><a>Limpieza completa</a>
                     </button>
                   </div>
                   <div class="col-4">
-                    <button type="button" class="btn btn-primary seleccion-tipo-limpieza" style="margin:10px; width: 10vw; height: 20vh;" onclick="limpiezaseco()">
-                      <img src="./img/tipoPedido/limpiezaenseco.svg" style="width:7vw;"><a>Limpieza en Seco</a>
+                    <button type="button" class="btn btn-primary seleccion-tipo-limpieza" style="margin:10px; width: 190px; height: 190px;" onclick="limpiezaseco()">
+                      <img src="./img/tipoPedido/limpiezaenseco.svg" style="width:120px;"><a>Limpieza en Seco</a>
                     </button>
                   </div>
                   <div class="col-4">
-                    <button type="button" class="btn btn-primary seleccion-tipo-limpieza" style="margin:10px; width: 10vw; height: 20vh;" onclick="limpiezatintado()">
-                      <img src="./img/tipoPedido/tintado.svg" style="width:7vw;"><a>Tintado</a>
+                    <button type="button" class="btn btn-primary seleccion-tipo-limpieza" style="margin:10px;  width: 190px; height: 190px;" onclick="limpiezatintado()">
+                      <img src="./img/tipoPedido/tintado.svg" style="width:120px;"><a>Tintado</a>
                     </button>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-          <div class="row" style="height: 50%;">
+          <div class="row">
             <div class="col-12" style="height: 100%;">
               <div class="form-group" style="height: 80%; margin-top: 0px;">
-                <label for="TrabajosAdicionales">Trabajos adicionales</label>
-                <textarea class="form-control" form="peticionLimpiezaForm" id="TrabajosAdicionales" name="TrabajosAdicionales" rows="3" style="resize: none; height: 100%"></textarea>
+                <a class="etiquetaSubapartados">Trabajos adicionales</a>
+                <textarea class="mt-3 form-control" form="peticionLimpiezaForm" id="TrabajosAdicionales" name="TrabajosAdicionales" rows="3" style="resize: none; height: 270px"></textarea>
               </div>
             </div>
           </div>
         </div>
-        <div class="col-3" style="height: 100%; margin-top:20px;">
-          <div class="card bg-light" style="height: 17%;"><label class="etiquetaSubapartados" for="">Cliente del Pedido</label>
+        <div class="col-12 col-lg-3" style="height: 100%; margin-top:24px;">
+          <div class="card bg-light" style="height: 17%;">
+          <a class="etiquetaSubapartados">Cliente del Pedido</a>
             <div class="card-body" id="clientePedido" style="height: 20%;">
-              <select name="idCliente" form="peticionLimpiezaForm" class="custom-select" style="margin-top:-5vh;">';
+              <select name="idCliente" form="peticionLimpiezaForm" class="custom-select" style="margin-top:-5px;">';
                 while ($stmt->fetch()) {
                   echo'<option value="'.$idCliente.'">'.$nombreCliente.' '.$apellidoCliente.'</option>';
                 }
@@ -131,16 +135,16 @@ if(!isset($_POST["peticionRealizada"]) || $_POST["peticionRealizada"] == false){
               </select>
             </div>
           </div>
-          <div class="card bg-light" style="height: 80%; margin-top:15px;"><label class="etiquetaSubapartados" for="">Asignación de empleados</label>
+          <div class="card bg-light" style="height: 410px; margin-top:15px;"><a class="etiquetaSubapartados">Asignación de empleados</a>
             <div class="card-body" id="empleadosTipoLimpieza" style="height: 80%; overflow-x: hidden; overflow-y: auto;">
               <!-- Aquí no va nada, ajax hace su magia -->
             </div>
           </div>
         </div>
       </div>
-      <div class="row h-25">
+      <div class="row">
         <div class="col-12">
-          <div class="row justify-md-center" style="height: 100%; margin-top:7vh; margin-left:-25px;">
+          <div class="row justify-md-center" style="height: 120px; margin-left:-25px;">
             <div class="col-8" style="height: 100%">
               <button id="pednormalbot" type="button" disabled class="btn btn-info seleccion-tipo-prenda" onclick="realizarPedido(false)" style="width: 98%; height: 60%;"><b>Pedido normal</b></button>
             </div>
