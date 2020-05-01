@@ -164,6 +164,24 @@ function crearnuevatarjeta(tarjeta,idCuenta,idPedido){
   form.submit();
 }
 
+function tarjetamalcreada(idPedido,malacreacion){
+  form = document.createElement('form');
+  form.setAttribute('method', 'POST');
+  form.setAttribute('action', './canjePuntos');
+  form.setAttribute('style', 'display:none');
+  idpe = document.createElement('input');
+  idpe.setAttribute('name', 'idPedido');
+  idpe.setAttribute('value', idPedido);
+  form.appendChild(idpe);
+  document.body.appendChild(form);
+  mala = document.createElement('input');
+  mala.setAttribute('name', 'malacreacion');
+  mala.setAttribute('value', malacreacion);
+  form.appendChild(mala);
+  document.body.appendChild(form);
+  form.submit();
+}
+
 /* A partir de aquí el código es de canjePuntos2 */
 
 var idDescuentos = false;
