@@ -221,11 +221,11 @@ echo'
               </tr>
               <tr>
                 <td>Servicios adicionales solicitados por el cliente</td>
-                <td class="text-right">+';if($precioServiciosAdicionales==null){echo'0.00';}else{echo $precioServiciosAdicionales;} echo'€</td>
+                <td class="text-right">+';if($precioServiciosAdicionales==null){echo'0.00';}else{echo number_format($precioServiciosAdicionales, 2, ',', '.');} echo'€</td>
               </tr>
               <tr>
                 <td>Desperfectos</td>
-                <td class="text-right">+';if($precioDesperfectos==null){echo'0.00';}else{echo $precioDesperfectos;} echo'€</td>
+                <td class="text-right">+';if($precioDesperfectos==null){echo'0.00';}else{echo number_format($precioDesperfectos, 2, ',', '.');} echo'€</td>
               </tr>
               <tr>
                 <td>Descuentos'; if($descDescuento!=null){echo' "'.$descDescuento.'"';} echo'</td>
