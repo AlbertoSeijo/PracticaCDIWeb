@@ -159,12 +159,12 @@ echo'
         if ($esExpress){
           echo'
           <img src="./img/pedidoExpress.svg" style="width:5vw; height:5vh; margin-top:-15px;" alt="">
-          <a style="font-weight:bold; font-size: 24px; font-style:italic;">Pedido Express</a>
+          <a style="font-weight:bold; font-size: 24px; font-style:italic;">Pedido exprés</a>
           ';
         } else {
           echo'
           <img src="./img/pedidoNormal.svg" style="width:5vw; height:5vh; margin-top:-15px;" alt="">
-          <a style="font-weight:bold; font-size: 24px; font-style:italic;">Pedido Normal</a>
+          <a style="font-weight:bold; font-size: 24px; font-style:italic;">Pedido normal</a>
           ';
         }
         echo'

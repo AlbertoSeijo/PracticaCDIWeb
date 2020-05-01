@@ -61,7 +61,7 @@ include './cabeceraContenido.php';
     <div class="col-xl-2">
       <label class="etiquetaElementosFormulario" for="aaaa">Ordenar por:</label>
       <select id="ordenarPor" name="ordenarPor" class="custom-select" form="consultaPedidosForm" onchange="actualizarConsultaPedidos()">
-        <option selected value="express">Express</option>
+        <option selected value="express">Exprés</option>
         <option value="fechaIniAsc">Fecha de toma de pedido (ascendente)</option>
         <option value="fechaIniDesc">Fecha de toma de pedido (descendente)</option>
         <option value="fechaFinAsc">Fecha de fin de pedido (ascendente)</option>

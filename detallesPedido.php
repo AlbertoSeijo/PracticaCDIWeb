@@ -178,8 +178,8 @@ if (isset($_SESSION['sesionIniciada'])){
       <div id="col1" class="col-12 col-lg-3 order-1 order-lg-1" style="margin-top:20px;">
         <div class="row row d-flex justify-content-center">
           <div class="col-12 text-center">
-            <img src="./img/pedidoExpress.svg" style="width:5vw; height:5vh; margin-top:-15px;" alt="">
-            <a style="font-weight:bold; font-size: 24px; font-style:italic;">Pedido Express</a>
+            <img id="expressImg" src="" style="width:5vw; height:5vh; margin-top:-15px;" alt="">
+            <a id="expressTexto" style="font-weight:bold; font-size: 24px; font-style:italic;"></a>
           </div>
 
           <div class="col-6 col-lg-12">

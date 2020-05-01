@@ -149,7 +149,7 @@ if(!isset($_POST["peticionRealizada"]) || $_POST["peticionRealizada"] == false){
               <button id="pednormalbot" type="button" disabled class="btn btn-info seleccion-tipo-prenda" onclick="realizarPedido(false)" style="width: 98%; height: 60%;"><b>Pedido normal</b></button>
             </div>
             <div class="col-4" style="height: 100%">
-              <button id="pedexpressbot" type="button" disabled class="btn btn-warning seleccion-tipo-prenda" onclick="realizarPedido(true)" style="width: 98%; height: 60%;"><b>Pedido express</b></button>
+              <button id="pedexpressbot" type="button" disabled class="btn btn-warning seleccion-tipo-prenda" onclick="realizarPedido(true)" style="width: 98%; height: 60%;"><b>Pedido exprés</b></button>
             </div>
           </div>
         </div>

@@ -45,6 +45,14 @@ function actualizarDetallesPedido() {
       precioServiciosAdicionales = respuestaDetallesPedido.precioServiciosAdicionales;
       clientePedido = respuestaDetallesPedido.clientePedido;
       idTipoPedido = respuestaDetallesPedido.idTipoPedido;
+      console.log("esExpres?" + respuestaDetallesPedido.esExpress);
+      if(respuestaDetallesPedido.esExpress == 1){
+        $("#expressImg").attr('src','./img/pedidoExpress.svg');
+        $("#expressTexto").html("Pedido exprés");
+      } else {
+        $("#expressImg").attr('src','./img/pedidoNormal.svg');
+        $("#expressTexto").html("Pedido normal");
+      }
 
       if(document.getElementById("inputCosteDesperfectos") != null){
         document.getElementById("inputCosteDesperfectos").value = respuestaDetallesPedido.precioDesperfectos;
