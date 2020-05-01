@@ -84,6 +84,28 @@ if ($stmt = $db->prepare('SELECT ClientePedido FROM pedido WHERE idPedido = ?'))
         </div>
       </div>
     </div>';
+  } else {
+  echo'
+  <div id="error" class="row justify-content-center" align="center" style="visibility:hidden;">
+    <div class="col-lg-8 col-xl-4" style="position:absolute; bottom:95px;">
+      <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        Por favor, introduzca correctamente la tarjeta.
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+    </div>
+  </div>
+  <div id="novalida" class="row justify-content-center" align="center" style="visibility:hidden;">
+    <div class="col-lg-8 col-xl-4" style="position:absolute; bottom:95px;">
+      <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        La tarjeta introducida, no coincide con la asignada al cliente.
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+    </div>
+  </div>';
   }
   echo'
   <div class="row text-center contenedor-botones-continuar">

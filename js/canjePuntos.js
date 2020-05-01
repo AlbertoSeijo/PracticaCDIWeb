@@ -86,8 +86,12 @@ function tarjetavalida(idPedido,boton,numTarjeta,idCuenta){
         } else {
           pasarConDescuentos (idPedido,tarjeta);
         }
+      } else {
+        document.getElementById("novalida").style.visibility = "visible";
       }
     }
+  } else {
+    document.getElementById("error").style.visibility = "visible";
   }
 }
 
